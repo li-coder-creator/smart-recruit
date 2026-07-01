@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: smart-recruit
+  datasource:
+    url: jdbc:mysql://localhost:3306/smart_recruit?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf8
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.recruit.smartrecruit.entity
+  configuration:
+    map-underscore-to-camel-case: true
+
+server:
+  port: 8081
+
+
+
