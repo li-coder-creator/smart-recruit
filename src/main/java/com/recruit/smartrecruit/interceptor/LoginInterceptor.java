@@ -15,7 +15,14 @@ public class LoginInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         //令牌验证
         //获取令牌
-       String token= request.getHeader("Authorization");
+        String token = request.getHeader("Authorization");
+
+        if (token == null || !token.startsWith("Bearer ")) {
+            response.setStatus(401);
+            return false;
+        }
+
+        token = token.substring(7);
        //验证令牌
         try {
             Map<String,Object> claims= JwtUtil.parseToken(token);
