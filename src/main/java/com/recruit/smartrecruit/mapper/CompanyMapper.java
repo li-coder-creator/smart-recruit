@@ -1,7 +1,11 @@
 package com.recruit.smartrecruit.mapper;
 
+import com.recruit.smartrecruit.common.Result;
 import com.recruit.smartrecruit.entity.Company;
+import com.recruit.smartrecruit.entity.enums.CompanyStatus;
 import org.apache.ibatis.annotations.*;
+
+import java.util.List;
 
 @Mapper
 public interface CompanyMapper {
@@ -53,4 +57,18 @@ public interface CompanyMapper {
             WHERE id=#{companyId}
             """)
     void delete(Long companyId);
+    @Select("""
+             SELECT *
+            FROM COMPANY
+            WHERE status=#{status}
+            ORDER BY create_time ASC;
+            """)
+    List<Company> findByStatus(CompanyStatus status);
+    @Update("""
+            UPDATE company
+            SET
+            status=#{status}
+            WHERE id=#{id};
+            """)
+    void updateStatus(Long id,CompanyStatus status);
 }

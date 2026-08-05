@@ -12,7 +12,7 @@ public class JwtUtil {
         //链式编程调用方法
         return  JWT.create()
                 .withClaim("claims",claims)//添加载荷
-                .withExpiresAt(new Date(System.currentTimeMillis()+1000*60*60*24*30*12))//添加过期时间
+                .withExpiresAt(new Date(System.currentTimeMillis()+1000*60*60*4))//添加过期时间
                 .sign(Algorithm.HMAC256(KEY));//指定算法，配置密钥
 
     }

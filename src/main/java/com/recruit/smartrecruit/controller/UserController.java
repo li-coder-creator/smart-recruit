@@ -54,7 +54,6 @@ public class UserController {
                 Map<String, Object>claims=new HashMap<>();
                 claims.put("id",userlogin.getId());
                 claims.put("username", userlogin.getUsername());
-                claims.put("role", userlogin.getRole());
                 String token=JwtUtil.generateToken(claims);
                 return Result.success(token);
             } else {
