@@ -31,7 +31,6 @@ public class JobController {
         jobService.add(job,userId);
         return Result.success();
     }
-
     //查询岗位列表
     @GetMapping()
     public Result<List<Job>> listJob(){
@@ -46,7 +45,6 @@ public class JobController {
         Job job=jobService.findById(id);
         return Result.success(job);
     }
-
     //修改岗位
     @PutMapping
     public Result<Void> updateJob(@RequestBody Job newJob){

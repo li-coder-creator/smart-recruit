@@ -1,7 +1,6 @@
 package com.recruit.smartrecruit.exception;
 
 import com.recruit.smartrecruit.common.Result;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

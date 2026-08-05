@@ -2,6 +2,7 @@ package com.recruit.smartrecruit.service.impl;
 
 import com.recruit.smartrecruit.entity.Company;
 import com.recruit.smartrecruit.entity.Job;
+import com.recruit.smartrecruit.entity.enums.CompanyStatus;
 import com.recruit.smartrecruit.exception.BusinessException;
 import com.recruit.smartrecruit.mapper.CompanyMapper;
 import com.recruit.smartrecruit.mapper.JobMapper;
@@ -25,6 +26,10 @@ public class JobServiceImpl implements JobService {
      Company company=companyMapper.findByUserId(userId);
      if(company==null){
       throw  new BusinessException("企业不存在");
+     }
+     //判断企业认证状态
+     if(company.getStatus()!= CompanyStatus.APPROVED){
+      throw new BusinessException("企业未通过验证");
      }
      Long companyId=company.getId();
      job.setCompanyId(companyId);
@@ -53,6 +58,10 @@ public class JobServiceImpl implements JobService {
      if(company==null){
       throw  new BusinessException("企业不存在");
      }
+     //判断企业认证状态
+     if(company.getStatus()!= CompanyStatus.APPROVED){
+      throw new BusinessException("企业未通过验证");
+     }
      //权限校验
      Job job=jobMapper.findById(newJob.getId());
      if(job == null){
@@ -70,6 +79,10 @@ public class JobServiceImpl implements JobService {
      Company company=companyMapper.findByUserId(userId);
      if(company==null){
       throw  new BusinessException("企业不存在");
+     }
+     //判断企业认证状态
+     if(company.getStatus()!= CompanyStatus.APPROVED){
+      throw new BusinessException("企业未通过验证");
      }
      //权限校验
      Job job=jobMapper.findById(id);

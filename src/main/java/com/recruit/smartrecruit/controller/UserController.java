@@ -2,6 +2,7 @@ package com.recruit.smartrecruit.controller;
 
 import com.recruit.smartrecruit.common.Result;
 import com.recruit.smartrecruit.dto.UserPasswordDTO;
+import com.recruit.smartrecruit.dto.UserUpdateDTO;
 import com.recruit.smartrecruit.entity.User;
 import com.recruit.smartrecruit.service.UserService;
 import com.recruit.smartrecruit.utils.JwtUtil;
@@ -24,7 +25,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    //注册用户
+    //注册求职者用户
     @PostMapping("/register")
     public Result<User> userRegister(@RequestBody  @Valid User user) {
         //查询是否已存在该用户
@@ -53,6 +54,7 @@ public class UserController {
                 Map<String, Object>claims=new HashMap<>();
                 claims.put("id",userlogin.getId());
                 claims.put("username", userlogin.getUsername());
+                claims.put("role", userlogin.getRole());
                 String token=JwtUtil.generateToken(claims);
                 return Result.success(token);
             } else {
@@ -82,15 +84,28 @@ public class UserController {
             return Result.error("用户不存在");
         }
     }
-    //修改当前用户
+    // 修改当前用户资料
     @PutMapping("/info")
-    public Result<Void> updateUser(@RequestBody @Valid User user){
-       //从ThreadLocal获取当前登录用户
-       Map<String,Object> claims=ThreadLocalUtil.get();
-       Long id=((Number) claims.get("id")).longValue();
-       //设置到实体
+    public Result<Void> updateUser(@RequestBody @Valid UserUpdateDTO dto)
+    {
+
+        // 从 ThreadLocal 获取当前登录用户
+        Map<String, Object> claims = ThreadLocalUtil.get();
+
+        Long id = ((Number) claims.get("id")).longValue();
+
+        // DTO 转 Entity
+        User user = new User();
+
         user.setId(id);
+        user.setUsername(dto.getUsername());
+        user.setNickname(dto.getNickname());
+        user.setEmail(dto.getEmail());
+        user.setPhone(dto.getPhone());
+
+        // 修改用户资料
         userService.update(user);
+
         return Result.success();
     }
     //修改密码

@@ -6,6 +6,7 @@ import com.recruit.smartrecruit.entity.Application;
 import com.recruit.smartrecruit.entity.Company;
 import com.recruit.smartrecruit.entity.Job;
 import com.recruit.smartrecruit.entity.Resume;
+import com.recruit.smartrecruit.entity.enums.CompanyStatus;
 import com.recruit.smartrecruit.exception.BusinessException;
 import com.recruit.smartrecruit.mapper.ApplicationMapper;
 import com.recruit.smartrecruit.mapper.CompanyMapper;
@@ -40,8 +41,8 @@ public class ApplicationServiceImpl implements ApplicationService {
             throw new BusinessException("岗位不存在");
         }
         // 3. 判断岗位是否正在招聘
-        if (job.getStatus() == 0) {
-            throw new BusinessException("岗位已停止招聘");
+        if (job.getStatus() == 1) {
+            throw new BusinessException("岗位已暂停招聘，暂不可投递");
         }
         // 4. 查询简历
         Resume resume = resumeMapper.findById(dto.getResumeId());
@@ -75,6 +76,10 @@ public class ApplicationServiceImpl implements ApplicationService {
         if(company==null){
             throw  new BusinessException("企业不存在");
         }
+        //判断企业认证状态
+        if(company.getStatus()!=CompanyStatus.APPROVED){
+            throw new BusinessException("企业未通过认证");
+        }
         List<Application> applications=applicationMapper.findCompanyApplication(company.getId());
         //展示投递
         return applications;
@@ -86,6 +91,10 @@ public class ApplicationServiceImpl implements ApplicationService {
         Company company=companyMapper.findByUserId(userId);
         if(company==null){
             throw  new BusinessException("企业不存在");
+        }
+        //判断企业认证状态
+        if(company.getStatus()!= CompanyStatus.APPROVED){
+            throw new BusinessException("企业未通过验证");
         }
         //判断投递是否存在
         Application application=applicationMapper.findCompanyApplicationById(id);
@@ -110,6 +119,10 @@ public class ApplicationServiceImpl implements ApplicationService {
         Company company=companyMapper.findByUserId(userId);
         if(company==null){
             throw  new BusinessException("企业不存在");
+        }
+        //判断企业认证状态
+        if(company.getStatus()!= CompanyStatus.APPROVED){
+            throw new BusinessException("企业未通过验证");
         }
         //判断投递是否存在
         Application application=applicationMapper.findCompanyApplicationById(id);

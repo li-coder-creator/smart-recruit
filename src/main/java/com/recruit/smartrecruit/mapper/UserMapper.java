@@ -1,6 +1,7 @@
 package com.recruit.smartrecruit.mapper;
 
 import com.recruit.smartrecruit.entity.User;
+import com.recruit.smartrecruit.entity.enums.UserRole;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -16,8 +17,20 @@ public interface UserMapper {
     User findByUsername(String username);
 
     // 注册添加
-    @Insert("INSERT INTO sys_user (username, password) VALUES (#{username}, #{password})")
-    void add(String username, String password);
+    @Insert("""
+        INSERT INTO sys_user (
+            username,
+            password,
+            role
+        )
+        VALUES (
+            #{username},
+            #{password},
+            #{role}
+        )
+        """)
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    void add(User user);
     //显示当前用户信息
     @Select("""
             SELECT
@@ -27,6 +40,7 @@ public interface UserMapper {
                 nickname,
                 email,
                 phone,
+                role,
                 create_time 
             FROM sys_user
             WHERE id = #{id}
@@ -36,6 +50,7 @@ public interface UserMapper {
     @Update("""
             UPDATE sys_user
             SET
+                username=#{username},
                 nickname=#{nickname},
                 email=#{email},
                 phone=#{phone}

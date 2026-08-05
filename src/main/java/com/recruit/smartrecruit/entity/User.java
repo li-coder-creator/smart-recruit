@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 //lomok 在编译阶段，为实体自动生成getter、setter、toString、equals、hashCode方法
 //pom.xml 中添加 lombok 插件，在实体类中添加 @Data 注解
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.recruit.smartrecruit.entity.enums.UserRole;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
@@ -39,6 +40,6 @@ public class User {
     )
     private String phone;
     private LocalDateTime createTime;
-
+    private UserRole role;
 
 }

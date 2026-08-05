@@ -1,5 +1,6 @@
 package com.recruit.smartrecruit.entity;
 
+import com.recruit.smartrecruit.entity.enums.CompanyStatus;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,7 +20,7 @@ public class Company {
     private String logo;
     private String city;
     private String address;
-    private Integer status;
+    private CompanyStatus status;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
 
