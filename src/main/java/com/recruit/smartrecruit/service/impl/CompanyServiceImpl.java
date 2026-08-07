@@ -3,15 +3,21 @@ package com.recruit.smartrecruit.service.impl;
 import com.recruit.smartrecruit.entity.Company;
 import com.recruit.smartrecruit.exception.BusinessException;
 import com.recruit.smartrecruit.mapper.CompanyMapper;
+import com.recruit.smartrecruit.permission.PermissionService;
 import com.recruit.smartrecruit.service.CompanyService;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class CompanyServiceImpl implements CompanyService {
     private final CompanyMapper companyMapper;
+    private final PermissionService permissionService;
 
-    public CompanyServiceImpl(CompanyMapper companyMapper) {
+    public CompanyServiceImpl(CompanyMapper companyMapper, PermissionService permissionService) {
         this.companyMapper = companyMapper;
+        this.permissionService = permissionService;
     }
 
     @Override
@@ -28,11 +34,7 @@ public class CompanyServiceImpl implements CompanyService {
     public void update(Company newCompany) {
         //查询当前用户的企业
         Long userId=newCompany.getUserId();
-        Company company=companyMapper.findByUserId(userId);
-        // 判断是否存在
-        if (company==null){
-            throw new BusinessException("企业不存在");
-        }
+        Company company=permissionService.requireCompany(userId);
         //userId 负责确认“谁有权限”，companyId 负责确认“修改哪条数据”。
         Long companyId=company.getId();
         newCompany.setId(companyId);
@@ -41,10 +43,7 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public void delete(Long userId) {
-        Company company=companyMapper.findByUserId(userId);
-        if(company==null){
-            throw new BusinessException("企业不存在");
-        }
+        Company company=permissionService.requireCompany(userId);
         Long companyId=company.getId();
         companyMapper.delete(companyId);
     }

@@ -13,11 +13,15 @@ import com.recruit.smartrecruit.utils.Md5Util;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 public class UserServiceImpl implements UserService {
 
     private final UserMapper userMapper;
     private final CompanyMapper companyMapper;
+
     public UserServiceImpl(UserMapper userMapper, CompanyMapper companyMapper) {
         this.userMapper = userMapper;
         this.companyMapper = companyMapper;
@@ -43,7 +47,7 @@ public class UserServiceImpl implements UserService {
     //注册企业用户
     @Override
     @Transactional
-    public void registerCompany(CompanyRegisterDTO dto) {
+    public Map<String,Object> registerCompany(CompanyRegisterDTO dto) {
         User existUser = userMapper.findByUsername(dto.getUsername());
         if (existUser != null) {
             throw new BusinessException("用户名已存在");
@@ -69,6 +73,13 @@ public class UserServiceImpl implements UserService {
         company.setStatus(CompanyStatus.PENDING);
         //保存 Company
         companyMapper.add(company);
+
+        Map<String,Object> result = new HashMap<>();
+
+        result.put("companyId", company.getId());
+        result.put("status", company.getStatus());
+
+        return result;
     }
     //显示当前用户信息
     @Override

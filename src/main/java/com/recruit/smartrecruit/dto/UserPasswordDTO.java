@@ -11,8 +11,8 @@ public class UserPasswordDTO {
     private String oldPassword;
     @NotBlank(message = "密码不能为空")
     @Pattern(
-            regexp = "^[a-zA-Z0-9_]{5,16}$",
-            message = "密码名必须5~16位，只能包含数字字母下划线"
+            regexp = "^[a-zA-Z0-9_]{5,26}$",
+            message = "密码名必须5~26位，只能包含数字字母下划线"
     )
     private String newPassword;
     @NotBlank(message = "密码不能为空")

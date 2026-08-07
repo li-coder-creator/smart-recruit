@@ -12,6 +12,7 @@ import com.recruit.smartrecruit.mapper.ApplicationMapper;
 import com.recruit.smartrecruit.mapper.CompanyMapper;
 import com.recruit.smartrecruit.mapper.JobMapper;
 import com.recruit.smartrecruit.mapper.ResumeMapper;
+import com.recruit.smartrecruit.permission.PermissionService;
 import com.recruit.smartrecruit.service.ApplicationService;
 import org.springframework.stereotype.Service;
 
@@ -23,17 +24,18 @@ public class ApplicationServiceImpl implements ApplicationService {
     private final ApplicationMapper applicationMapper;
     private final JobMapper jobMapper;
     private final ResumeMapper resumeMapper;
-    private final CompanyMapper companyMapper;
+    private final PermissionService permissionService;
 
-    public ApplicationServiceImpl(ApplicationMapper applicationMapper, JobMapper jobMapper, ResumeMapper resumeMapper, CompanyMapper companyMapper) {
+    public ApplicationServiceImpl(ApplicationMapper applicationMapper, JobMapper jobMapper, ResumeMapper resumeMapper, PermissionService permissionService) {
         this.applicationMapper = applicationMapper;
         this.jobMapper = jobMapper;
         this.resumeMapper = resumeMapper;
-        this.companyMapper = companyMapper;
+        this.permissionService = permissionService;
     }
 
     @Override
     public void apply(ApplicationApplyDTO dto, Long userId) {
+        permissionService.requireJobSeeker(userId);
         // 1. 查询岗位
         Job job = jobMapper.findById(dto.getJobId());
         // 2. 判断岗位是否存在
@@ -71,15 +73,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
     @Override
     public List<Application> findCompanyApplication(Long userId) {
-        //判断企业是否存在
-        Company company=companyMapper.findByUserId(userId);
-        if(company==null){
-            throw  new BusinessException("企业不存在");
-        }
-        //判断企业认证状态
-        if(company.getStatus()!=CompanyStatus.APPROVED){
-            throw new BusinessException("企业未通过认证");
-        }
+        Company company=permissionService.requireApprovedCompany(userId);
         List<Application> applications=applicationMapper.findCompanyApplication(company.getId());
         //展示投递
         return applications;
@@ -87,15 +81,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public Application findCompanyApplicationById(Long id, Long userId) {
-        //判断企业是否存在
-        Company company=companyMapper.findByUserId(userId);
-        if(company==null){
-            throw  new BusinessException("企业不存在");
-        }
-        //判断企业认证状态
-        if(company.getStatus()!= CompanyStatus.APPROVED){
-            throw new BusinessException("企业未通过验证");
-        }
+        Company company=permissionService.requireApprovedCompany(userId);
         //判断投递是否存在
         Application application=applicationMapper.findCompanyApplicationById(id);
         if(application==null){
@@ -115,15 +101,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public void updateStatus(Long id, Long userId, ApplicationStatusUpdateDTO dto) {
-        //判断企业是否存在
-        Company company=companyMapper.findByUserId(userId);
-        if(company==null){
-            throw  new BusinessException("企业不存在");
-        }
-        //判断企业认证状态
-        if(company.getStatus()!= CompanyStatus.APPROVED){
-            throw new BusinessException("企业未通过验证");
-        }
+        Company company=permissionService.requireApprovedCompany(userId);
         //判断投递是否存在
         Application application=applicationMapper.findCompanyApplicationById(id);
         if(application==null){

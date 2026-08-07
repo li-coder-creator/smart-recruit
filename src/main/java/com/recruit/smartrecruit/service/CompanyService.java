@@ -2,6 +2,8 @@ package com.recruit.smartrecruit.service;
 
 import com.recruit.smartrecruit.entity.Company;
 
+import java.util.Map;
+
 public interface CompanyService {
 
     void add(Company company);

@@ -23,9 +23,9 @@ public class CompanyController {
     }
     //注册企业用户
     @PostMapping("/register")
-    public Result<User> companyRegister(@RequestBody  @Valid CompanyRegisterDTO dto) {
-        userService.registerCompany(dto);
-        return Result.success();
+    public Result<Map<String,Object>> companyRegister(@RequestBody  @Valid CompanyRegisterDTO dto) {
+        Map<String,Object> data=userService.registerCompany(dto);
+        return Result.success(data);
     }
     //创建企业
     @PostMapping()

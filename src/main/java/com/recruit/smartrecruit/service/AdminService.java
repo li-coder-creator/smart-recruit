@@ -7,9 +7,9 @@ import com.recruit.smartrecruit.entity.enums.CompanyStatus;
 import java.util.List;
 
 public interface AdminService {
-    List<Company> findPendingCompanies();
+    List<Company> findPendingCompanies(Long userdId);
 
 
-    void updateCompanyStatus(Long id, CompanyStatus companyStatus);
+    void updateCompanyStatus(Long userdId,Long id, CompanyStatus companyStatus);
 
 }

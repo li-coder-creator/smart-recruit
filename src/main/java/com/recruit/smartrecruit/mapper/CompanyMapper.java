@@ -30,6 +30,7 @@ public interface CompanyMapper {
                 #{status}      
             )
             """)
+    @Options(useGeneratedKeys = true, keyProperty = "id")
     void add(Company company);
 
     @Select("""

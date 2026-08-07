@@ -29,19 +29,25 @@ public class AdminController {
     //查询待审核企业
     @GetMapping("/company/pending")
     public Result<List<Company>> findPendingCompanies(){
-        List<Company> companies=adminService.findPendingCompanies();
+        Map<String,Object> claims=ThreadLocalUtil.get();
+        Long userId=((Number)claims.get("id")).longValue();
+        List<Company> companies=adminService.findPendingCompanies(userId);
         return Result.success(companies);
     }
     //企业审核通过
     @PutMapping("/company/{id}/approve")
     public Result<Void> CompanyApprovedStatus(@PathVariable Long id){
-        adminService.updateCompanyStatus(id, CompanyStatus.APPROVED);
+        Map<String,Object> claims=ThreadLocalUtil.get();
+        Long userId=((Number)claims.get("id")).longValue();
+        adminService.updateCompanyStatus(userId, id, CompanyStatus.APPROVED);
         return Result.success();
     }
     //企业审核拒绝
     @PutMapping("/company/{id}/reject")
     public Result<Void> CompanyRejectedStatus(@PathVariable Long id){
-        adminService.updateCompanyStatus(id, CompanyStatus.REJECTED);
+        Map<String,Object> claims=ThreadLocalUtil.get();
+        Long userId=((Number)claims.get("id")).longValue();
+        adminService.updateCompanyStatus(userId, id, CompanyStatus.REJECTED);
         return Result.success();
     }
 }
