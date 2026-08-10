@@ -1,6 +1,8 @@
 package com.recruit.smartrecruit.service.impl;
 
+import com.recruit.smartrecruit.common.Result;
 import com.recruit.smartrecruit.entity.Company;
+import com.recruit.smartrecruit.entity.User;
 import com.recruit.smartrecruit.exception.BusinessException;
 import com.recruit.smartrecruit.mapper.CompanyMapper;
 import com.recruit.smartrecruit.permission.PermissionService;

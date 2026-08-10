@@ -15,7 +15,6 @@ public interface UserMapper {
             WHERE username = #{username}
             """)
     User findByUsername(String username);
-
     // 注册添加
     @Insert("""
         INSERT INTO sys_user (
@@ -70,5 +69,28 @@ public interface UserMapper {
             @Param("id") Long id,
             @Param("password") String password
     );
+    //查询所有用户
+    @Select("""
+            <script>
+            SELECT
+                id,
+                username,
+                nickname,
+                email,
+                phone,
+                role,
+                create_time 
+            FROM sys_user
+            <where>
+                <if test="userRole != null">
+                    role = #{userRole}
+                </if>
+            </where>
+            ORDER BY create_time DESC
+            </script>
+            """)
+    List<User> findAllUsers(UserRole userRole);
+
+
 
 }

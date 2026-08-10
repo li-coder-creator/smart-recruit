@@ -62,7 +62,7 @@ public interface CompanyMapper {
              SELECT *
             FROM COMPANY
             WHERE status=#{status}
-            ORDER BY create_time ASC;
+            ORDER BY create_time ASC
             """)
     List<Company> findByStatus(CompanyStatus status);
     @Update("""
@@ -72,4 +72,23 @@ public interface CompanyMapper {
             WHERE id=#{id};
             """)
     void updateStatus(Long id,CompanyStatus status);
+    @Select("""
+            SELECT *
+            FROM COMPANY
+            WHERE id=#{companyId}
+            """)
+    Company findCompanyById(Long companyId);
+    @Select("""
+            <script>
+            SELECT *
+            FROM COMPANY
+            <where>
+                <if test="status != null">
+                    status = #{companyStatus}
+                </if>
+            </where>
+            ORDER BY create_time DESC
+            </script>
+            """)
+    List<Company> findAllCompany(CompanyStatus companyStatus);
 }
