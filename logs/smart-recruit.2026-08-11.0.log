@@ -1,0 +1,490 @@
+2026-08-11 11:19:41.361 INFO  [main] com.recruit.smartrecruit.SmartRecruitApplication - Starting SmartRecruitApplication using Java 17.0.12 with PID 17124 (D:\project\smart-recruit\target\classes started by 李 in D:\project\smart-recruit)
+2026-08-11 11:19:41.363 DEBUG [main] com.recruit.smartrecruit.SmartRecruitApplication - Running with Spring Boot v3.5.15, Spring v6.2.19
+2026-08-11 11:19:41.363 INFO  [main] com.recruit.smartrecruit.SmartRecruitApplication - No active profile set, falling back to 1 default profile: "default"
+2026-08-11 11:19:43.134 INFO  [main] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2026-08-11 11:19:43.150 INFO  [main] org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2026-08-11 11:19:43.151 INFO  [main] org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.55]
+2026-08-11 11:19:43.224 INFO  [main] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-08-11 11:19:43.225 INFO  [main] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1811 ms
+2026-08-11 11:19:44.450 INFO  [main] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
+2026-08-11 11:19:44.460 INFO  [main] com.recruit.smartrecruit.SmartRecruitApplication - Started SmartRecruitApplication in 3.693 seconds (process running for 9.491)
+2026-08-11 11:50:04.578 INFO  [SpringApplicationShutdownHook] o.s.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-08-11 11:50:05.004 INFO  [tomcat-shutdown] o.s.boot.web.embedded.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-08-11 11:50:08.526 INFO  [main] com.recruit.smartrecruit.SmartRecruitApplication - Starting SmartRecruitApplication using Java 17.0.12 with PID 24216 (D:\project\smart-recruit\target\classes started by 李 in D:\project\smart-recruit)
+2026-08-11 11:50:08.527 DEBUG [main] com.recruit.smartrecruit.SmartRecruitApplication - Running with Spring Boot v3.5.15, Spring v6.2.19
+2026-08-11 11:50:08.528 INFO  [main] com.recruit.smartrecruit.SmartRecruitApplication - No active profile set, falling back to 1 default profile: "default"
+2026-08-11 11:50:10.047 INFO  [main] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2026-08-11 11:50:10.059 INFO  [main] org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2026-08-11 11:50:10.059 INFO  [main] org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.55]
+2026-08-11 11:50:10.124 INFO  [main] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-08-11 11:50:10.125 INFO  [main] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1549 ms
+2026-08-11 11:50:11.200 INFO  [main] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
+2026-08-11 11:50:11.215 INFO  [main] com.recruit.smartrecruit.SmartRecruitApplication - Started SmartRecruitApplication in 3.214 seconds (process running for 3.582)
+2026-08-11 11:53:00.820 INFO  [http-nio-8081-exec-1] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-08-11 11:53:00.822 INFO  [http-nio-8081-exec-1] org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-08-11 11:53:00.824 INFO  [http-nio-8081-exec-1] org.springframework.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2026-08-11 11:53:01.167 WARN  [http-nio-8081-exec-1] c.r.smartrecruit.exception.GlobalExceptionHandler - 参数校验异常：用户名必须5~26位，只能包含数字字母下划线
+2026-08-11 11:53:11.780 INFO  [http-nio-8081-exec-4] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-08-11 11:53:12.163 INFO  [http-nio-8081-exec-4] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@11faf2a3
+2026-08-11 11:53:12.170 INFO  [http-nio-8081-exec-4] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-08-11 11:53:12.187 DEBUG [http-nio-8081-exec-4] c.r.smartrecruit.mapper.UserMapper.findByUsername - ==>  Preparing: SELECT * FROM sys_user WHERE username = ?
+2026-08-11 11:53:12.236 DEBUG [http-nio-8081-exec-4] c.r.smartrecruit.mapper.UserMapper.findByUsername - ==> Parameters: admin(String)
+2026-08-11 11:53:12.376 DEBUG [http-nio-8081-exec-4] c.r.smartrecruit.mapper.UserMapper.findByUsername - <==      Total: 1
+2026-08-11 12:35:38.982 DEBUG [http-nio-8081-exec-6] c.r.smartrecruit.mapper.UserMapper.findByUsername - ==>  Preparing: SELECT * FROM sys_user WHERE username = ?
+2026-08-11 12:35:38.983 DEBUG [http-nio-8081-exec-6] c.r.smartrecruit.mapper.UserMapper.findByUsername - ==> Parameters: admin(String)
+2026-08-11 12:35:38.987 DEBUG [http-nio-8081-exec-6] c.r.smartrecruit.mapper.UserMapper.findByUsername - <==      Total: 1
+2026-08-11 12:35:43.991 INFO  [SpringApplicationShutdownHook] o.s.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-08-11 12:35:44.419 INFO  [tomcat-shutdown] o.s.boot.web.embedded.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-08-11 12:35:44.423 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-08-11 12:35:44.426 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-08-11 12:35:47.886 INFO  [main][] com.recruit.smartrecruit.SmartRecruitApplication - Starting SmartRecruitApplication using Java 17.0.12 with PID 29820 (D:\project\smart-recruit\target\classes started by 李 in D:\project\smart-recruit)
+2026-08-11 12:35:47.888 DEBUG [main][] com.recruit.smartrecruit.SmartRecruitApplication - Running with Spring Boot v3.5.15, Spring v6.2.19
+2026-08-11 12:35:47.889 INFO  [main][] com.recruit.smartrecruit.SmartRecruitApplication - No active profile set, falling back to 1 default profile: "default"
+2026-08-11 12:35:49.406 INFO  [main][] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2026-08-11 12:35:49.420 INFO  [main][] org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2026-08-11 12:35:49.421 INFO  [main][] org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.55]
+2026-08-11 12:35:49.483 INFO  [main][] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-08-11 12:35:49.483 INFO  [main][] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1540 ms
+2026-08-11 12:35:49.534 DEBUG [main][] c.recruit.smartrecruit.filter.RequestTraceFilter - Filter 'requestTraceFilter' configured for use
+2026-08-11 12:35:50.673 INFO  [main][] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
+2026-08-11 12:35:50.690 INFO  [main][] com.recruit.smartrecruit.SmartRecruitApplication - Started SmartRecruitApplication in 3.352 seconds (process running for 3.684)
+2026-08-11 12:35:50.992 INFO  [http-nio-8081-exec-1][] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-08-11 12:35:50.992 INFO  [http-nio-8081-exec-1][] org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-08-11 12:35:50.993 INFO  [http-nio-8081-exec-1][] org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2026-08-11 12:35:51.136 INFO  [http-nio-8081-exec-1][647e905a04fc49a882d705d677790215] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-08-11 12:35:51.333 INFO  [http-nio-8081-exec-1][647e905a04fc49a882d705d677790215] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6c588e96
+2026-08-11 12:35:51.335 INFO  [http-nio-8081-exec-1][647e905a04fc49a882d705d677790215] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-08-11 12:35:51.340 DEBUG [http-nio-8081-exec-1][647e905a04fc49a882d705d677790215] c.r.smartrecruit.mapper.UserMapper.findByUsername - ==>  Preparing: SELECT * FROM sys_user WHERE username = ?
+2026-08-11 12:35:51.362 DEBUG [http-nio-8081-exec-1][647e905a04fc49a882d705d677790215] c.r.smartrecruit.mapper.UserMapper.findByUsername - ==> Parameters: admin(String)
+2026-08-11 12:35:51.386 DEBUG [http-nio-8081-exec-1][647e905a04fc49a882d705d677790215] c.r.smartrecruit.mapper.UserMapper.findByUsername - <==      Total: 1
+2026-08-11 12:35:58.168 DEBUG [http-nio-8081-exec-3][3a0916f8958b477fb7d19f4a136061a2] c.recruit.smartrecruit.mapper.UserMapper.findById - ==>  Preparing: SELECT id, username, password, nickname, email, phone, role, create_time FROM sys_user WHERE id = ?
+2026-08-11 12:35:58.169 DEBUG [http-nio-8081-exec-3][3a0916f8958b477fb7d19f4a136061a2] c.recruit.smartrecruit.mapper.UserMapper.findById - ==> Parameters: 17(Long)
+2026-08-11 12:35:58.174 DEBUG [http-nio-8081-exec-3][3a0916f8958b477fb7d19f4a136061a2] c.recruit.smartrecruit.mapper.UserMapper.findById - <==      Total: 1
+2026-08-11 13:04:17.965 WARN  [HikariPool-1:housekeeper][] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=10m43s497ms724µs).
+2026-08-11 13:04:37.557 INFO  [SpringApplicationShutdownHook][] o.s.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-08-11 13:04:39.013 INFO  [tomcat-shutdown][] o.s.boot.web.embedded.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-08-11 13:04:39.025 INFO  [SpringApplicationShutdownHook][] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-08-11 13:04:39.034 INFO  [SpringApplicationShutdownHook][] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-08-11 13:04:53.334 INFO  [main][] com.recruit.smartrecruit.SmartRecruitApplication - Starting SmartRecruitApplication using Java 17.0.12 with PID 25620 (D:\project\smart-recruit\target\classes started by 李 in D:\project\smart-recruit)
+2026-08-11 13:04:53.336 DEBUG [main][] com.recruit.smartrecruit.SmartRecruitApplication - Running with Spring Boot v3.5.15, Spring v6.2.19
+2026-08-11 13:04:53.337 INFO  [main][] com.recruit.smartrecruit.SmartRecruitApplication - No active profile set, falling back to 1 default profile: "default"
+2026-08-11 13:04:55.046 INFO  [main][] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2026-08-11 13:04:55.059 INFO  [main][] org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2026-08-11 13:04:55.059 INFO  [main][] org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.55]
+2026-08-11 13:04:55.121 INFO  [main][] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-08-11 13:04:55.123 INFO  [main][] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1722 ms
+2026-08-11 13:04:55.173 DEBUG [main][] c.recruit.smartrecruit.filter.RequestTraceFilter - Filter 'requestTraceFilter' configured for use
+2026-08-11 13:04:56.229 INFO  [main][] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
+2026-08-11 13:04:56.239 INFO  [main][] com.recruit.smartrecruit.SmartRecruitApplication - Started SmartRecruitApplication in 3.441 seconds (process running for 3.925)
+2026-08-11 13:05:00.111 INFO  [http-nio-8081-exec-2][] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-08-11 13:05:00.112 INFO  [http-nio-8081-exec-2][] org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-08-11 13:05:00.114 INFO  [http-nio-8081-exec-2][] org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2026-08-11 13:05:00.126 INFO  [http-nio-8081-exec-2][82e8a32d0dc14cc087f88a78cb304ccd] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=GET uri=/user/info
+2026-08-11 13:05:00.367 INFO  [http-nio-8081-exec-2][82e8a32d0dc14cc087f88a78cb304ccd] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-08-11 13:05:00.777 INFO  [http-nio-8081-exec-2][82e8a32d0dc14cc087f88a78cb304ccd] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@22b79d33
+2026-08-11 13:05:00.781 INFO  [http-nio-8081-exec-2][82e8a32d0dc14cc087f88a78cb304ccd] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-08-11 13:05:00.796 DEBUG [http-nio-8081-exec-2][82e8a32d0dc14cc087f88a78cb304ccd] c.recruit.smartrecruit.mapper.UserMapper.findById - ==>  Preparing: SELECT id, username, password, nickname, email, phone, role, create_time FROM sys_user WHERE id = ?
+2026-08-11 13:05:00.903 DEBUG [http-nio-8081-exec-2][82e8a32d0dc14cc087f88a78cb304ccd] c.recruit.smartrecruit.mapper.UserMapper.findById - ==> Parameters: 17(Long)
+2026-08-11 13:05:00.989 DEBUG [http-nio-8081-exec-2][82e8a32d0dc14cc087f88a78cb304ccd] c.recruit.smartrecruit.mapper.UserMapper.findById - <==      Total: 1
+2026-08-11 13:05:01.154 INFO  [http-nio-8081-exec-2][82e8a32d0dc14cc087f88a78cb304ccd] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=GET uri=/user/info status=200 cost=1028ms
+2026-08-11 13:17:47.989 WARN  [HikariPool-1:housekeeper][] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m46s975ms224µs800ns).
+2026-08-11 13:18:52.022 INFO  [http-nio-8081-exec-5][f768c2d64fbf4bc491d2d06e3c8b0377] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=POST uri=/user/login
+2026-08-11 13:18:52.142 DEBUG [http-nio-8081-exec-5][f768c2d64fbf4bc491d2d06e3c8b0377] c.r.smartrecruit.mapper.UserMapper.findByUsername - ==>  Preparing: SELECT * FROM sys_user WHERE username = ?
+2026-08-11 13:18:52.142 DEBUG [http-nio-8081-exec-5][f768c2d64fbf4bc491d2d06e3c8b0377] c.r.smartrecruit.mapper.UserMapper.findByUsername - ==> Parameters: admin(String)
+2026-08-11 13:18:52.146 DEBUG [http-nio-8081-exec-5][f768c2d64fbf4bc491d2d06e3c8b0377] c.r.smartrecruit.mapper.UserMapper.findByUsername - <==      Total: 1
+2026-08-11 13:18:52.150 INFO  [http-nio-8081-exec-5][f768c2d64fbf4bc491d2d06e3c8b0377] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=POST uri=/user/login status=200 cost=128ms
+2026-08-11 13:23:37.477 INFO  [http-nio-8081-exec-8][f19ccaa2be3f4d50beb1f4c556411abd] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=POST uri=/user/login
+2026-08-11 13:23:37.479 DEBUG [http-nio-8081-exec-8][f19ccaa2be3f4d50beb1f4c556411abd] c.r.smartrecruit.mapper.UserMapper.findByUsername - ==>  Preparing: SELECT * FROM sys_user WHERE username = ?
+2026-08-11 13:23:37.480 DEBUG [http-nio-8081-exec-8][f19ccaa2be3f4d50beb1f4c556411abd] c.r.smartrecruit.mapper.UserMapper.findByUsername - ==> Parameters: admin(String)
+2026-08-11 13:23:37.481 DEBUG [http-nio-8081-exec-8][f19ccaa2be3f4d50beb1f4c556411abd] c.r.smartrecruit.mapper.UserMapper.findByUsername - <==      Total: 1
+2026-08-11 13:23:37.482 INFO  [http-nio-8081-exec-8][f19ccaa2be3f4d50beb1f4c556411abd] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=POST uri=/user/login status=200 cost=5ms
+2026-08-11 13:35:40.016 INFO  [http-nio-8081-exec-1][ed885d828c6440b59f9fc98d71f1acd4] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=POST uri=/user/login
+2026-08-11 13:35:40.018 DEBUG [http-nio-8081-exec-1][ed885d828c6440b59f9fc98d71f1acd4] c.r.smartrecruit.mapper.UserMapper.findByUsername - ==>  Preparing: SELECT * FROM sys_user WHERE username = ?
+2026-08-11 13:35:40.018 DEBUG [http-nio-8081-exec-1][ed885d828c6440b59f9fc98d71f1acd4] c.r.smartrecruit.mapper.UserMapper.findByUsername - ==> Parameters: admin(String)
+2026-08-11 13:35:40.020 DEBUG [http-nio-8081-exec-1][ed885d828c6440b59f9fc98d71f1acd4] c.r.smartrecruit.mapper.UserMapper.findByUsername - <==      Total: 1
+2026-08-11 13:35:40.021 INFO  [http-nio-8081-exec-1][ed885d828c6440b59f9fc98d71f1acd4] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=POST uri=/user/login status=200 cost=5ms
+2026-08-11 13:36:03.393 INFO  [http-nio-8081-exec-2][3dc9bc9ea3d344dd87e6563227c7f507] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=GET uri=/admin/user/1
+2026-08-11 13:36:03.394 INFO  [http-nio-8081-exec-2][3dc9bc9ea3d344dd87e6563227c7f507] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=GET uri=/admin/user/1 status=401 cost=1ms
+2026-08-11 13:36:16.360 INFO  [http-nio-8081-exec-3][2fdb2c3ecce147fbbcbde415a59192b3] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=POST uri=/user/login
+2026-08-11 13:36:16.362 DEBUG [http-nio-8081-exec-3][2fdb2c3ecce147fbbcbde415a59192b3] c.r.smartrecruit.mapper.UserMapper.findByUsername - ==>  Preparing: SELECT * FROM sys_user WHERE username = ?
+2026-08-11 13:36:16.363 DEBUG [http-nio-8081-exec-3][2fdb2c3ecce147fbbcbde415a59192b3] c.r.smartrecruit.mapper.UserMapper.findByUsername - ==> Parameters: admin(String)
+2026-08-11 13:36:16.364 DEBUG [http-nio-8081-exec-3][2fdb2c3ecce147fbbcbde415a59192b3] c.r.smartrecruit.mapper.UserMapper.findByUsername - <==      Total: 1
+2026-08-11 13:36:16.378 INFO  [http-nio-8081-exec-3][2fdb2c3ecce147fbbcbde415a59192b3] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=POST uri=/user/login status=200 cost=18ms
+2026-08-11 13:36:23.049 INFO  [http-nio-8081-exec-4][99468ec338c643eb8a47c307d027a4d8] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=GET uri=/admin/user/1
+2026-08-11 13:36:23.053 DEBUG [http-nio-8081-exec-4][99468ec338c643eb8a47c307d027a4d8] c.recruit.smartrecruit.mapper.UserMapper.findById - ==>  Preparing: SELECT id, username, password, nickname, email, phone, role, create_time FROM sys_user WHERE id = ?
+2026-08-11 13:36:23.054 DEBUG [http-nio-8081-exec-4][99468ec338c643eb8a47c307d027a4d8] c.recruit.smartrecruit.mapper.UserMapper.findById - ==> Parameters: 17(Long)
+2026-08-11 13:36:23.055 DEBUG [http-nio-8081-exec-4][99468ec338c643eb8a47c307d027a4d8] c.recruit.smartrecruit.mapper.UserMapper.findById - <==      Total: 1
+2026-08-11 13:36:23.056 DEBUG [http-nio-8081-exec-4][99468ec338c643eb8a47c307d027a4d8] c.recruit.smartrecruit.mapper.UserMapper.findById - ==>  Preparing: SELECT id, username, password, nickname, email, phone, role, create_time FROM sys_user WHERE id = ?
+2026-08-11 13:36:23.056 DEBUG [http-nio-8081-exec-4][99468ec338c643eb8a47c307d027a4d8] c.recruit.smartrecruit.mapper.UserMapper.findById - ==> Parameters: 1(Long)
+2026-08-11 13:36:23.057 DEBUG [http-nio-8081-exec-4][99468ec338c643eb8a47c307d027a4d8] c.recruit.smartrecruit.mapper.UserMapper.findById - <==      Total: 0
+2026-08-11 13:36:23.061 WARN  [http-nio-8081-exec-4][99468ec338c643eb8a47c307d027a4d8] c.r.smartrecruit.exception.GlobalExceptionHandler - 业务异常：用户不存在
+2026-08-11 13:36:23.063 INFO  [http-nio-8081-exec-4][99468ec338c643eb8a47c307d027a4d8] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=GET uri=/admin/user/1 status=200 cost=14ms
+2026-08-11 13:49:51.096 INFO  [SpringApplicationShutdownHook][] o.s.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-08-11 13:49:51.560 INFO  [tomcat-shutdown][] o.s.boot.web.embedded.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-08-11 13:49:51.563 INFO  [SpringApplicationShutdownHook][] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-08-11 13:49:51.566 INFO  [SpringApplicationShutdownHook][] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-08-11 13:49:55.079 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - Starting SmartRecruitApplication using Java 17.0.12 with PID 7484 (D:\project\smart-recruit\target\classes started by 李 in D:\project\smart-recruit)
+2026-08-11 13:49:55.086 DEBUG [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - Running with Spring Boot v3.5.15, Spring v6.2.19
+2026-08-11 13:49:55.087 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - No active profile set, falling back to 1 default profile: "default"
+2026-08-11 13:49:56.607 INFO  [main][][userId=] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2026-08-11 13:49:56.619 INFO  [main][][userId=] org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2026-08-11 13:49:56.619 INFO  [main][][userId=] org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.55]
+2026-08-11 13:49:56.675 INFO  [main][][userId=] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-08-11 13:49:56.676 INFO  [main][][userId=] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1536 ms
+2026-08-11 13:49:56.727 DEBUG [main][][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - Filter 'requestTraceFilter' configured for use
+2026-08-11 13:49:57.889 INFO  [main][][userId=] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
+2026-08-11 13:49:57.905 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - Started SmartRecruitApplication in 3.385 seconds (process running for 3.741)
+2026-08-11 13:49:58.167 INFO  [http-nio-8081-exec-2][][userId=] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-08-11 13:49:58.167 INFO  [http-nio-8081-exec-2][][userId=] org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-08-11 13:49:58.168 INFO  [http-nio-8081-exec-2][][userId=] org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2026-08-11 13:49:58.172 INFO  [http-nio-8081-exec-2][8de8e5c4dc554380bc001371fca7dbe7][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=GET uri=/admin/user/1
+2026-08-11 13:49:58.264 INFO  [http-nio-8081-exec-2][8de8e5c4dc554380bc001371fca7dbe7][userId=17] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-08-11 13:49:58.416 INFO  [http-nio-8081-exec-2][8de8e5c4dc554380bc001371fca7dbe7][userId=17] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6c26289a
+2026-08-11 13:49:58.418 INFO  [http-nio-8081-exec-2][8de8e5c4dc554380bc001371fca7dbe7][userId=17] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-08-11 13:49:58.425 DEBUG [http-nio-8081-exec-2][8de8e5c4dc554380bc001371fca7dbe7][userId=17] c.recruit.smartrecruit.mapper.UserMapper.findById - ==>  Preparing: SELECT id, username, password, nickname, email, phone, role, create_time FROM sys_user WHERE id = ?
+2026-08-11 13:49:58.446 DEBUG [http-nio-8081-exec-2][8de8e5c4dc554380bc001371fca7dbe7][userId=17] c.recruit.smartrecruit.mapper.UserMapper.findById - ==> Parameters: 17(Long)
+2026-08-11 13:49:58.468 DEBUG [http-nio-8081-exec-2][8de8e5c4dc554380bc001371fca7dbe7][userId=17] c.recruit.smartrecruit.mapper.UserMapper.findById - <==      Total: 1
+2026-08-11 13:49:58.473 DEBUG [http-nio-8081-exec-2][8de8e5c4dc554380bc001371fca7dbe7][userId=17] c.recruit.smartrecruit.mapper.UserMapper.findById - ==>  Preparing: SELECT id, username, password, nickname, email, phone, role, create_time FROM sys_user WHERE id = ?
+2026-08-11 13:49:58.473 DEBUG [http-nio-8081-exec-2][8de8e5c4dc554380bc001371fca7dbe7][userId=17] c.recruit.smartrecruit.mapper.UserMapper.findById - ==> Parameters: 1(Long)
+2026-08-11 13:49:58.474 DEBUG [http-nio-8081-exec-2][8de8e5c4dc554380bc001371fca7dbe7][userId=17] c.recruit.smartrecruit.mapper.UserMapper.findById - <==      Total: 0
+2026-08-11 13:49:58.476 WARN  [http-nio-8081-exec-2][8de8e5c4dc554380bc001371fca7dbe7][userId=17] c.r.smartrecruit.exception.GlobalExceptionHandler - 业务异常：用户不存在
+2026-08-11 13:49:58.512 INFO  [http-nio-8081-exec-2][8de8e5c4dc554380bc001371fca7dbe7][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=GET uri=/admin/user/1 status=200 cost=340ms
+2026-08-11 14:20:08.455 WARN  [HikariPool-1:housekeeper][][userId=] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m39s455ms207µs200ns).
+2026-08-11 16:01:23.247 WARN  [HikariPool-1:housekeeper][][userId=] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h11m44s285ms599µs300ns).
+2026-08-11 16:33:55.172 INFO  [SpringApplicationShutdownHook][][userId=] o.s.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-08-11 16:33:56.109 INFO  [tomcat-shutdown][][userId=] o.s.boot.web.embedded.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-08-11 16:33:56.113 INFO  [SpringApplicationShutdownHook][][userId=] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-08-11 16:33:56.118 INFO  [SpringApplicationShutdownHook][][userId=] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-08-11 16:33:58.278 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - Starting SmartRecruitApplication using Java 17.0.12 with PID 35116 (D:\project\smart-recruit\target\classes started by 李 in D:\project\smart-recruit)
+2026-08-11 16:33:58.280 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - No active profile set, falling back to 1 default profile: "default"
+2026-08-11 16:33:59.867 INFO  [main][][userId=] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2026-08-11 16:33:59.883 INFO  [main][][userId=] org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2026-08-11 16:33:59.883 INFO  [main][][userId=] org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.55]
+2026-08-11 16:33:59.995 INFO  [main][][userId=] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-08-11 16:33:59.996 INFO  [main][][userId=] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1668 ms
+2026-08-11 16:34:01.188 INFO  [main][][userId=] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
+2026-08-11 16:34:01.201 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - Started SmartRecruitApplication in 3.46 seconds (process running for 3.826)
+2026-08-11 16:34:13.112 INFO  [http-nio-8081-exec-2][][userId=] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-08-11 16:34:13.113 INFO  [http-nio-8081-exec-2][][userId=] org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-08-11 16:34:13.113 INFO  [http-nio-8081-exec-2][][userId=] org.springframework.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2026-08-11 16:34:13.117 INFO  [http-nio-8081-exec-2][a64425dc25b3434ea071e1084941cf05][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=GET uri=/admin/user/1
+2026-08-11 16:34:13.210 INFO  [http-nio-8081-exec-2][a64425dc25b3434ea071e1084941cf05][userId=17] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-08-11 16:34:13.366 INFO  [http-nio-8081-exec-2][a64425dc25b3434ea071e1084941cf05][userId=17] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@39dc9c1
+2026-08-11 16:34:13.368 INFO  [http-nio-8081-exec-2][a64425dc25b3434ea071e1084941cf05][userId=17] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-08-11 16:34:13.408 WARN  [http-nio-8081-exec-2][a64425dc25b3434ea071e1084941cf05][userId=17] c.r.smartrecruit.exception.GlobalExceptionHandler - 业务异常：用户不存在
+2026-08-11 16:34:13.446 INFO  [http-nio-8081-exec-2][a64425dc25b3434ea071e1084941cf05][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=GET uri=/admin/user/1 status=200 cost=330ms
+2026-08-11 16:36:26.856 INFO  [http-nio-8081-exec-5][a919591c5032448e850e32f06f8b668c][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=GET uri=/admin/user/1
+2026-08-11 16:36:26.861 WARN  [http-nio-8081-exec-5][a919591c5032448e850e32f06f8b668c][userId=17] c.r.smartrecruit.exception.GlobalExceptionHandler - 业务异常：用户不存在
+2026-08-11 16:36:26.862 INFO  [http-nio-8081-exec-5][a919591c5032448e850e32f06f8b668c][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=GET uri=/admin/user/1 status=200 cost=6ms
+2026-08-11 16:38:18.351 INFO  [http-nio-8081-exec-8][111d9d48b3a94b179d46b18c5c07f157][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=GET uri=/admin/company/7
+2026-08-11 16:38:18.413 INFO  [http-nio-8081-exec-8][111d9d48b3a94b179d46b18c5c07f157][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=GET uri=/admin/company/7 status=200 cost=62ms
+2026-08-11 16:40:10.208 INFO  [http-nio-8081-exec-10][02619aa08cc649dd81f83407b82c2d84][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=GET uri=/user/info
+2026-08-11 16:40:10.234 INFO  [http-nio-8081-exec-10][02619aa08cc649dd81f83407b82c2d84][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=GET uri=/user/info status=200 cost=26ms
+2026-08-11 16:42:44.423 INFO  [SpringApplicationShutdownHook][][userId=] o.s.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-08-11 16:42:44.849 INFO  [tomcat-shutdown][][userId=] o.s.boot.web.embedded.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-08-11 16:42:44.852 INFO  [SpringApplicationShutdownHook][][userId=] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-08-11 16:42:44.858 INFO  [SpringApplicationShutdownHook][][userId=] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-08-11 16:42:46.804 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - Starting SmartRecruitApplication using Java 17.0.12 with PID 28132 (D:\project\smart-recruit\target\classes started by 李 in D:\project\smart-recruit)
+2026-08-11 16:42:46.806 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - No active profile set, falling back to 1 default profile: "default"
+2026-08-11 16:42:48.245 INFO  [main][][userId=] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2026-08-11 16:42:48.257 INFO  [main][][userId=] org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2026-08-11 16:42:48.258 INFO  [main][][userId=] org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.55]
+2026-08-11 16:42:48.315 INFO  [main][][userId=] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-08-11 16:42:48.315 INFO  [main][][userId=] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1466 ms
+2026-08-11 16:42:49.457 INFO  [main][][userId=] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
+2026-08-11 16:42:49.470 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - Started SmartRecruitApplication in 3.18 seconds (process running for 3.503)
+2026-08-11 16:42:54.175 INFO  [http-nio-8081-exec-2][][userId=] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-08-11 16:42:54.175 INFO  [http-nio-8081-exec-2][][userId=] org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-08-11 16:42:54.176 INFO  [http-nio-8081-exec-2][][userId=] org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2026-08-11 16:42:54.181 INFO  [http-nio-8081-exec-2][b4a43caa5c084879a1307937e3c2ce02][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=GET uri=/user/info
+2026-08-11 16:42:54.284 INFO  [http-nio-8081-exec-2][b4a43caa5c084879a1307937e3c2ce02][userId=17] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-08-11 16:42:54.448 INFO  [http-nio-8081-exec-2][b4a43caa5c084879a1307937e3c2ce02][userId=17] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@238418a4
+2026-08-11 16:42:54.450 INFO  [http-nio-8081-exec-2][b4a43caa5c084879a1307937e3c2ce02][userId=17] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-08-11 16:42:54.514 INFO  [http-nio-8081-exec-2][b4a43caa5c084879a1307937e3c2ce02][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=GET uri=/user/info status=200 cost=333ms
+2026-08-11 16:43:55.797 INFO  [http-nio-8081-exec-5][d00cbd3fa4744504b5f31a405819c769][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=GET uri=/user/info
+2026-08-11 16:43:55.804 INFO  [http-nio-8081-exec-5][d00cbd3fa4744504b5f31a405819c769][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=GET uri=/user/info status=200 cost=7ms
+2026-08-11 16:44:07.043 INFO  [http-nio-8081-exec-6][3d95ea3a18e24d1a9c2ae0a6a9833217][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=GET uri=/user/info
+2026-08-11 16:44:07.046 INFO  [http-nio-8081-exec-6][3d95ea3a18e24d1a9c2ae0a6a9833217][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=GET uri=/user/info status=200 cost=4ms
+2026-08-11 16:44:11.219 INFO  [SpringApplicationShutdownHook][][userId=] o.s.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-08-11 16:44:11.641 INFO  [tomcat-shutdown][][userId=] o.s.boot.web.embedded.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-08-11 16:44:11.644 INFO  [SpringApplicationShutdownHook][][userId=] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-08-11 16:44:11.649 INFO  [SpringApplicationShutdownHook][][userId=] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-08-11 16:44:13.487 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - Starting SmartRecruitApplication using Java 17.0.12 with PID 18848 (D:\project\smart-recruit\target\classes started by 李 in D:\project\smart-recruit)
+2026-08-11 16:44:13.490 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - No active profile set, falling back to 1 default profile: "default"
+2026-08-11 16:44:14.984 INFO  [main][][userId=] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2026-08-11 16:44:14.995 INFO  [main][][userId=] org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2026-08-11 16:44:14.996 INFO  [main][][userId=] org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.55]
+2026-08-11 16:44:15.057 INFO  [main][][userId=] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-08-11 16:44:15.058 INFO  [main][][userId=] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1502 ms
+2026-08-11 16:44:16.156 INFO  [main][][userId=] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
+2026-08-11 16:44:16.168 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - Started SmartRecruitApplication in 3.227 seconds (process running for 3.658)
+2026-08-11 16:44:36.853 INFO  [http-nio-8081-exec-2][][userId=] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-08-11 16:44:36.854 INFO  [http-nio-8081-exec-2][][userId=] org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-08-11 16:44:36.854 INFO  [http-nio-8081-exec-2][][userId=] org.springframework.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2026-08-11 16:44:36.859 INFO  [http-nio-8081-exec-2][479805ea90124e2097b87c3c325558fb][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=GET uri=/user/info
+2026-08-11 16:44:36.957 INFO  [http-nio-8081-exec-2][479805ea90124e2097b87c3c325558fb][userId=17] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-08-11 16:44:37.108 INFO  [http-nio-8081-exec-2][479805ea90124e2097b87c3c325558fb][userId=17] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@20be041d
+2026-08-11 16:44:37.110 INFO  [http-nio-8081-exec-2][479805ea90124e2097b87c3c325558fb][userId=17] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-08-11 16:44:37.195 INFO  [http-nio-8081-exec-2][479805ea90124e2097b87c3c325558fb][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=GET uri=/user/info status=200 cost=337ms
+2026-08-11 16:46:35.097 INFO  [SpringApplicationShutdownHook][][userId=] o.s.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-08-11 16:46:35.535 INFO  [tomcat-shutdown][][userId=] o.s.boot.web.embedded.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-08-11 16:46:35.537 INFO  [SpringApplicationShutdownHook][][userId=] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-08-11 16:46:35.544 INFO  [SpringApplicationShutdownHook][][userId=] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-08-11 16:46:37.430 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - Starting SmartRecruitApplication using Java 17.0.12 with PID 22196 (D:\project\smart-recruit\target\classes started by 李 in D:\project\smart-recruit)
+2026-08-11 16:46:37.432 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - No active profile set, falling back to 1 default profile: "default"
+2026-08-11 16:46:38.854 INFO  [main][][userId=] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2026-08-11 16:46:38.866 INFO  [main][][userId=] org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2026-08-11 16:46:38.866 INFO  [main][][userId=] org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.55]
+2026-08-11 16:46:38.927 INFO  [main][][userId=] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-08-11 16:46:38.927 INFO  [main][][userId=] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1425 ms
+2026-08-11 16:46:39.992 INFO  [main][][userId=] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
+2026-08-11 16:46:40.004 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - Started SmartRecruitApplication in 3.187 seconds (process running for 3.513)
+2026-08-11 16:46:43.984 INFO  [http-nio-8081-exec-2][][userId=] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-08-11 16:46:43.984 INFO  [http-nio-8081-exec-2][][userId=] org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-08-11 16:46:43.985 INFO  [http-nio-8081-exec-2][][userId=] org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2026-08-11 16:46:43.990 INFO  [http-nio-8081-exec-2][85ac09d7c4df47e6b5ba1c1ce57e3f3c][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=GET uri=/user/info
+2026-08-11 16:46:44.082 INFO  [http-nio-8081-exec-2][85ac09d7c4df47e6b5ba1c1ce57e3f3c][userId=17] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-08-11 16:46:44.252 INFO  [http-nio-8081-exec-2][85ac09d7c4df47e6b5ba1c1ce57e3f3c][userId=17] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5851ac4e
+2026-08-11 16:46:44.254 INFO  [http-nio-8081-exec-2][85ac09d7c4df47e6b5ba1c1ce57e3f3c][userId=17] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-08-11 16:46:44.332 INFO  [http-nio-8081-exec-2][85ac09d7c4df47e6b5ba1c1ce57e3f3c][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=GET uri=/user/info status=200 cost=342ms
+2026-08-11 16:47:06.535 INFO  [SpringApplicationShutdownHook][][userId=] o.s.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-08-11 16:47:06.978 INFO  [tomcat-shutdown][][userId=] o.s.boot.web.embedded.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-08-11 16:47:06.980 INFO  [SpringApplicationShutdownHook][][userId=] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-08-11 16:47:06.986 INFO  [SpringApplicationShutdownHook][][userId=] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-08-11 16:47:08.693 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - Starting SmartRecruitApplication using Java 17.0.12 with PID 34612 (D:\project\smart-recruit\target\classes started by 李 in D:\project\smart-recruit)
+2026-08-11 16:47:08.695 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - No active profile set, falling back to 1 default profile: "default"
+2026-08-11 16:47:10.395 INFO  [main][][userId=] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2026-08-11 16:47:10.405 INFO  [main][][userId=] org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2026-08-11 16:47:10.405 INFO  [main][][userId=] org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.55]
+2026-08-11 16:47:10.463 INFO  [main][][userId=] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-08-11 16:47:10.463 INFO  [main][][userId=] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1708 ms
+2026-08-11 16:47:11.655 INFO  [main][][userId=] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
+2026-08-11 16:47:11.671 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - Started SmartRecruitApplication in 3.581 seconds (process running for 3.93)
+2026-08-11 16:47:12.941 INFO  [http-nio-8081-exec-2][][userId=] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-08-11 16:47:12.942 INFO  [http-nio-8081-exec-2][][userId=] org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-08-11 16:47:12.944 INFO  [http-nio-8081-exec-2][][userId=] org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2026-08-11 16:47:12.949 INFO  [http-nio-8081-exec-2][802e04865abf4ed5b568ce950e623b43][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=GET uri=/user/info
+2026-08-11 16:47:13.020 INFO  [http-nio-8081-exec-2][802e04865abf4ed5b568ce950e623b43][userId=17] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-08-11 16:47:13.157 INFO  [http-nio-8081-exec-2][802e04865abf4ed5b568ce950e623b43][userId=17] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@3fc521cc
+2026-08-11 16:47:13.160 INFO  [http-nio-8081-exec-2][802e04865abf4ed5b568ce950e623b43][userId=17] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-08-11 16:47:13.244 INFO  [http-nio-8081-exec-2][802e04865abf4ed5b568ce950e623b43][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=GET uri=/user/info status=200 cost=295ms
+2026-08-11 16:50:58.766 INFO  [SpringApplicationShutdownHook][][userId=] o.s.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-08-11 16:50:59.217 INFO  [tomcat-shutdown][][userId=] o.s.boot.web.embedded.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-08-11 16:50:59.220 INFO  [SpringApplicationShutdownHook][][userId=] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-08-11 16:50:59.227 INFO  [SpringApplicationShutdownHook][][userId=] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-08-11 16:51:01.065 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - Starting SmartRecruitApplication using Java 17.0.12 with PID 15368 (D:\project\smart-recruit\target\classes started by 李 in D:\project\smart-recruit)
+2026-08-11 16:51:01.067 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - No active profile set, falling back to 1 default profile: "default"
+2026-08-11 16:51:02.654 INFO  [main][][userId=] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2026-08-11 16:51:02.666 INFO  [main][][userId=] org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2026-08-11 16:51:02.666 INFO  [main][][userId=] org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.55]
+2026-08-11 16:51:02.726 INFO  [main][][userId=] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-08-11 16:51:02.726 INFO  [main][][userId=] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1606 ms
+2026-08-11 16:51:03.913 INFO  [main][][userId=] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
+2026-08-11 16:51:03.927 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - Started SmartRecruitApplication in 3.445 seconds (process running for 3.775)
+2026-08-11 16:51:12.133 INFO  [http-nio-8081-exec-2][][userId=] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-08-11 16:51:12.133 INFO  [http-nio-8081-exec-2][][userId=] org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-08-11 16:51:12.134 INFO  [http-nio-8081-exec-2][][userId=] org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2026-08-11 16:51:12.138 INFO  [http-nio-8081-exec-2][f1867a5b80e340fc964549c090e1fab6][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=GET uri=/user/info
+2026-08-11 16:51:12.218 INFO  [http-nio-8081-exec-2][f1867a5b80e340fc964549c090e1fab6][userId=17] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-08-11 16:51:12.373 INFO  [http-nio-8081-exec-2][f1867a5b80e340fc964549c090e1fab6][userId=17] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6ad13fd1
+2026-08-11 16:51:12.375 INFO  [http-nio-8081-exec-2][f1867a5b80e340fc964549c090e1fab6][userId=17] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-08-11 16:51:12.452 INFO  [http-nio-8081-exec-2][f1867a5b80e340fc964549c090e1fab6][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=GET uri=/user/info status=200 cost=314ms
+2026-08-11 16:53:20.516 INFO  [SpringApplicationShutdownHook][][userId=] o.s.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-08-11 16:53:20.954 INFO  [tomcat-shutdown][][userId=] o.s.boot.web.embedded.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-08-11 16:53:20.956 INFO  [SpringApplicationShutdownHook][][userId=] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-08-11 16:53:20.961 INFO  [SpringApplicationShutdownHook][][userId=] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-08-11 16:53:24.283 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - Starting SmartRecruitApplication using Java 17.0.12 with PID 21952 (D:\project\smart-recruit\target\classes started by 李 in D:\project\smart-recruit)
+2026-08-11 16:53:24.286 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - No active profile set, falling back to 1 default profile: "default"
+2026-08-11 16:53:25.765 INFO  [main][][userId=] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2026-08-11 16:53:25.778 INFO  [main][][userId=] org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2026-08-11 16:53:25.779 INFO  [main][][userId=] org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.55]
+2026-08-11 16:53:25.835 INFO  [main][][userId=] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-08-11 16:53:25.836 INFO  [main][][userId=] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1498 ms
+2026-08-11 16:53:27.102 INFO  [main][][userId=] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
+2026-08-11 16:53:27.114 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - Started SmartRecruitApplication in 3.344 seconds (process running for 3.649)
+2026-08-11 16:53:30.104 INFO  [http-nio-8081-exec-2][][userId=] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-08-11 16:53:30.105 INFO  [http-nio-8081-exec-2][][userId=] org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-08-11 16:53:30.105 INFO  [http-nio-8081-exec-2][][userId=] org.springframework.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2026-08-11 16:53:30.111 INFO  [http-nio-8081-exec-2][3c16a532a0fb4c8a9a7a73c59ab5d390][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=GET uri=/user/info
+2026-08-11 16:53:30.198 INFO  [http-nio-8081-exec-2][3c16a532a0fb4c8a9a7a73c59ab5d390][userId=17] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-08-11 16:53:30.339 INFO  [http-nio-8081-exec-2][3c16a532a0fb4c8a9a7a73c59ab5d390][userId=17] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5fb99896
+2026-08-11 16:53:30.341 INFO  [http-nio-8081-exec-2][3c16a532a0fb4c8a9a7a73c59ab5d390][userId=17] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-08-11 16:53:30.413 INFO  [http-nio-8081-exec-2][3c16a532a0fb4c8a9a7a73c59ab5d390][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=GET uri=/user/info status=200 cost=302ms
+2026-08-11 16:58:15.654 INFO  [SpringApplicationShutdownHook][][userId=] o.s.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-08-11 16:58:16.051 INFO  [tomcat-shutdown][][userId=] o.s.boot.web.embedded.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-08-11 16:58:16.054 INFO  [SpringApplicationShutdownHook][][userId=] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-08-11 16:58:16.060 INFO  [SpringApplicationShutdownHook][][userId=] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-08-11 16:58:19.558 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - Starting SmartRecruitApplication using Java 17.0.12 with PID 35868 (D:\project\smart-recruit\target\classes started by 李 in D:\project\smart-recruit)
+2026-08-11 16:58:19.560 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - No active profile set, falling back to 1 default profile: "default"
+2026-08-11 16:58:21.001 INFO  [main][][userId=] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2026-08-11 16:58:21.011 INFO  [main][][userId=] org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2026-08-11 16:58:21.012 INFO  [main][][userId=] org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.55]
+2026-08-11 16:58:21.065 INFO  [main][][userId=] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-08-11 16:58:21.065 INFO  [main][][userId=] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1455 ms
+2026-08-11 16:58:22.260 INFO  [main][][userId=] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
+2026-08-11 16:58:22.272 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - Started SmartRecruitApplication in 3.209 seconds (process running for 3.529)
+2026-08-11 16:58:30.757 INFO  [http-nio-8081-exec-2][][userId=] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-08-11 16:58:30.758 INFO  [http-nio-8081-exec-2][][userId=] org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-08-11 16:58:30.758 INFO  [http-nio-8081-exec-2][][userId=] org.springframework.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2026-08-11 16:58:30.762 INFO  [http-nio-8081-exec-2][cf4f60eca4fc44718e1eaa65852948af][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=GET uri=/user/info
+2026-08-11 16:58:30.842 INFO  [http-nio-8081-exec-2][cf4f60eca4fc44718e1eaa65852948af][userId=17] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-08-11 16:58:31.003 INFO  [http-nio-8081-exec-2][cf4f60eca4fc44718e1eaa65852948af][userId=17] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@3ace4e95
+2026-08-11 16:58:31.004 INFO  [http-nio-8081-exec-2][cf4f60eca4fc44718e1eaa65852948af][userId=17] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-08-11 16:58:31.088 INFO  [http-nio-8081-exec-2][cf4f60eca4fc44718e1eaa65852948af][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=GET uri=/user/info status=200 cost=326ms
+2026-08-11 17:04:15.115 INFO  [SpringApplicationShutdownHook][][userId=] o.s.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-08-11 17:04:15.531 INFO  [tomcat-shutdown][][userId=] o.s.boot.web.embedded.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-08-11 17:04:15.533 INFO  [SpringApplicationShutdownHook][][userId=] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-08-11 17:04:15.539 INFO  [SpringApplicationShutdownHook][][userId=] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-08-11 17:04:17.242 ERROR [main][][userId=] o.s.b.diagnostics.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Failed to bind properties under 'logging.level.log-impl' to org.springframework.boot.logging.LogLevel:
+
+    Property: logging.level.log-impl
+    Value: "org.apache.ibatis.logging.slf4j.Slf4jImpl"
+    Origin: class path resource [application.yml] - 26:17
+    Reason: failed to convert java.lang.String to org.springframework.boot.logging.LogLevel (caused by java.lang.IllegalArgumentException: No enum constant org.springframework.boot.logging.LogLevel.org.apache.ibatis.logging.slf4j.Slf4jImpl)
+
+Action:
+
+Update your application's configuration. The following values are valid:
+
+    DEBUG
+    ERROR
+    FATAL
+    INFO
+    OFF
+    TRACE
+    WARN
+
+2026-08-11 17:04:28.630 ERROR [main][][userId=] o.s.b.diagnostics.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Failed to bind properties under 'logging.level.log-impl' to org.springframework.boot.logging.LogLevel:
+
+    Property: logging.level.log-impl
+    Value: "org.apache.ibatis.logging.slf4j.Slf4jImpl"
+    Origin: class path resource [application.yml] - 26:17
+    Reason: failed to convert java.lang.String to org.springframework.boot.logging.LogLevel (caused by java.lang.IllegalArgumentException: No enum constant org.springframework.boot.logging.LogLevel.org.apache.ibatis.logging.slf4j.Slf4jImpl)
+
+Action:
+
+Update your application's configuration. The following values are valid:
+
+    DEBUG
+    ERROR
+    FATAL
+    INFO
+    OFF
+    TRACE
+    WARN
+
+2026-08-11 17:04:53.377 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - Starting SmartRecruitApplication using Java 17.0.12 with PID 25508 (D:\project\smart-recruit\target\classes started by 李 in D:\project\smart-recruit)
+2026-08-11 17:04:53.381 DEBUG [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - Running with Spring Boot v3.5.15, Spring v6.2.19
+2026-08-11 17:04:53.381 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - No active profile set, falling back to 1 default profile: "default"
+2026-08-11 17:04:55.075 INFO  [main][][userId=] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2026-08-11 17:04:55.091 INFO  [main][][userId=] org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2026-08-11 17:04:55.092 INFO  [main][][userId=] org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.55]
+2026-08-11 17:04:55.149 INFO  [main][][userId=] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-08-11 17:04:55.149 INFO  [main][][userId=] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1700 ms
+2026-08-11 17:04:55.189 DEBUG [main][][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - Filter 'requestTraceFilter' configured for use
+2026-08-11 17:04:56.224 INFO  [main][][userId=] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
+2026-08-11 17:04:56.235 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - Started SmartRecruitApplication in 3.394 seconds (process running for 3.72)
+2026-08-11 17:05:01.335 INFO  [http-nio-8081-exec-2][][userId=] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-08-11 17:05:01.336 INFO  [http-nio-8081-exec-2][][userId=] org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-08-11 17:05:01.336 INFO  [http-nio-8081-exec-2][][userId=] org.springframework.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2026-08-11 17:05:01.342 INFO  [http-nio-8081-exec-2][a246c7ab6de1462e952741fa282c6ff5][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=GET uri=/user/info
+2026-08-11 17:05:01.431 INFO  [http-nio-8081-exec-2][a246c7ab6de1462e952741fa282c6ff5][userId=17] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-08-11 17:05:01.586 INFO  [http-nio-8081-exec-2][a246c7ab6de1462e952741fa282c6ff5][userId=17] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@786a6c76
+2026-08-11 17:05:01.587 INFO  [http-nio-8081-exec-2][a246c7ab6de1462e952741fa282c6ff5][userId=17] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-08-11 17:05:01.593 DEBUG [http-nio-8081-exec-2][a246c7ab6de1462e952741fa282c6ff5][userId=17] c.recruit.smartrecruit.mapper.UserMapper.findById - ==>  Preparing: SELECT id, username, password, nickname, email, phone, role, create_time FROM sys_user WHERE id = ?
+2026-08-11 17:05:01.617 DEBUG [http-nio-8081-exec-2][a246c7ab6de1462e952741fa282c6ff5][userId=17] c.recruit.smartrecruit.mapper.UserMapper.findById - ==> Parameters: 17(Long)
+2026-08-11 17:05:01.640 DEBUG [http-nio-8081-exec-2][a246c7ab6de1462e952741fa282c6ff5][userId=17] c.recruit.smartrecruit.mapper.UserMapper.findById - <==      Total: 1
+2026-08-11 17:05:01.704 INFO  [http-nio-8081-exec-2][a246c7ab6de1462e952741fa282c6ff5][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=GET uri=/user/info status=200 cost=362ms
+2026-08-11 17:06:05.558 INFO  [SpringApplicationShutdownHook][][userId=] o.s.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-08-11 17:06:06.040 INFO  [tomcat-shutdown][][userId=] o.s.boot.web.embedded.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-08-11 17:06:06.042 INFO  [SpringApplicationShutdownHook][][userId=] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-08-11 17:06:06.047 INFO  [SpringApplicationShutdownHook][][userId=] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-08-11 17:06:09.514 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - Starting SmartRecruitApplication using Java 17.0.12 with PID 14344 (D:\project\smart-recruit\target\classes started by 李 in D:\project\smart-recruit)
+2026-08-11 17:06:09.516 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - No active profile set, falling back to 1 default profile: "default"
+2026-08-11 17:06:10.808 INFO  [main][][userId=] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2026-08-11 17:06:10.820 INFO  [main][][userId=] org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2026-08-11 17:06:10.821 INFO  [main][][userId=] org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.55]
+2026-08-11 17:06:10.881 INFO  [main][][userId=] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-08-11 17:06:10.882 INFO  [main][][userId=] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1324 ms
+2026-08-11 17:06:12.148 INFO  [main][][userId=] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
+2026-08-11 17:06:12.159 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - Started SmartRecruitApplication in 3.156 seconds (process running for 3.469)
+2026-08-11 17:06:16.429 INFO  [http-nio-8081-exec-2][][userId=] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-08-11 17:06:16.430 INFO  [http-nio-8081-exec-2][][userId=] org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-08-11 17:06:16.430 INFO  [http-nio-8081-exec-2][][userId=] org.springframework.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2026-08-11 17:06:16.434 INFO  [http-nio-8081-exec-2][3198dbd17f0b4a78a7135c5d21f58aea][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=GET uri=/user/info
+2026-08-11 17:06:16.512 INFO  [http-nio-8081-exec-2][3198dbd17f0b4a78a7135c5d21f58aea][userId=17] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-08-11 17:06:16.665 INFO  [http-nio-8081-exec-2][3198dbd17f0b4a78a7135c5d21f58aea][userId=17] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@7008e13e
+2026-08-11 17:06:16.667 INFO  [http-nio-8081-exec-2][3198dbd17f0b4a78a7135c5d21f58aea][userId=17] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-08-11 17:06:16.677 DEBUG [http-nio-8081-exec-2][3198dbd17f0b4a78a7135c5d21f58aea][userId=17] c.recruit.smartrecruit.mapper.UserMapper.findById - ==>  Preparing: SELECT id, username, password, nickname, email, phone, role, create_time FROM sys_user WHERE id = ?
+2026-08-11 17:06:16.705 DEBUG [http-nio-8081-exec-2][3198dbd17f0b4a78a7135c5d21f58aea][userId=17] c.recruit.smartrecruit.mapper.UserMapper.findById - ==> Parameters: 17(Long)
+2026-08-11 17:06:16.728 DEBUG [http-nio-8081-exec-2][3198dbd17f0b4a78a7135c5d21f58aea][userId=17] c.recruit.smartrecruit.mapper.UserMapper.findById - <==      Total: 1
+2026-08-11 17:06:16.787 INFO  [http-nio-8081-exec-2][3198dbd17f0b4a78a7135c5d21f58aea][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=GET uri=/user/info status=200 cost=353ms
+2026-08-11 17:07:43.711 INFO  [http-nio-8081-exec-5][dd1c849e40674a288c22fb25d6e7f2c2][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=GET uri=/user/info
+2026-08-11 17:07:43.715 DEBUG [http-nio-8081-exec-5][dd1c849e40674a288c22fb25d6e7f2c2][userId=17] c.recruit.smartrecruit.mapper.UserMapper.findById - ==>  Preparing: SELECT id, username, password, nickname, email, phone, role, create_time FROM sys_user WHERE id = ?
+2026-08-11 17:07:43.716 DEBUG [http-nio-8081-exec-5][dd1c849e40674a288c22fb25d6e7f2c2][userId=17] c.recruit.smartrecruit.mapper.UserMapper.findById - ==> Parameters: 17(Long)
+2026-08-11 17:07:43.719 DEBUG [http-nio-8081-exec-5][dd1c849e40674a288c22fb25d6e7f2c2][userId=17] c.recruit.smartrecruit.mapper.UserMapper.findById - <==      Total: 1
+2026-08-11 17:07:43.720 INFO  [http-nio-8081-exec-5][dd1c849e40674a288c22fb25d6e7f2c2][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=GET uri=/user/info status=200 cost=9ms
+2026-08-11 17:26:11.422 WARN  [HikariPool-1:housekeeper][][userId=] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=7m24s447ms581µs).
+2026-08-11 17:33:36.738 INFO  [SpringApplicationShutdownHook][][userId=] o.s.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-08-11 17:33:37.164 INFO  [tomcat-shutdown][][userId=] o.s.boot.web.embedded.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-08-11 17:33:37.168 INFO  [SpringApplicationShutdownHook][][userId=] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-08-11 17:33:37.170 INFO  [SpringApplicationShutdownHook][][userId=] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-08-11 17:53:21.219 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - Starting SmartRecruitApplication using Java 17.0.12 with PID 1448 (D:\project\smart-recruit\target\classes started by 李 in D:\project\smart-recruit)
+2026-08-11 17:53:21.222 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - No active profile set, falling back to 1 default profile: "default"
+2026-08-11 17:53:22.636 INFO  [main][][userId=] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2026-08-11 17:53:22.648 INFO  [main][][userId=] org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2026-08-11 17:53:22.649 INFO  [main][][userId=] org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.55]
+2026-08-11 17:53:22.708 INFO  [main][][userId=] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-08-11 17:53:22.709 INFO  [main][][userId=] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1427 ms
+2026-08-11 17:53:23.774 INFO  [main][][userId=] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
+2026-08-11 17:53:23.785 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - Started SmartRecruitApplication in 3.141 seconds (process running for 3.511)
+2026-08-11 17:53:38.334 INFO  [http-nio-8081-exec-2][][userId=] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-08-11 17:53:38.335 INFO  [http-nio-8081-exec-2][][userId=] org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-08-11 17:53:38.336 INFO  [http-nio-8081-exec-2][][userId=] org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2026-08-11 17:53:38.339 INFO  [http-nio-8081-exec-2][f6c71165811a4d4d98c25af36d385289][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=POST uri=/user/login
+2026-08-11 17:53:38.485 INFO  [http-nio-8081-exec-2][f6c71165811a4d4d98c25af36d385289][userId=] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-08-11 17:53:38.650 INFO  [http-nio-8081-exec-2][f6c71165811a4d4d98c25af36d385289][userId=] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2b43b7
+2026-08-11 17:53:38.651 INFO  [http-nio-8081-exec-2][f6c71165811a4d4d98c25af36d385289][userId=] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-08-11 17:53:38.656 DEBUG [http-nio-8081-exec-2][f6c71165811a4d4d98c25af36d385289][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - ==>  Preparing: SELECT * FROM sys_user WHERE username = ?
+2026-08-11 17:53:38.687 DEBUG [http-nio-8081-exec-2][f6c71165811a4d4d98c25af36d385289][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - ==> Parameters: admin(String)
+2026-08-11 17:53:38.719 DEBUG [http-nio-8081-exec-2][f6c71165811a4d4d98c25af36d385289][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - <==      Total: 1
+2026-08-11 17:53:38.751 INFO  [http-nio-8081-exec-2][f6c71165811a4d4d98c25af36d385289][userId=] c.recruit.smartrecruit.controller.UserController - 用户登录成功 userId=17 username=admin
+2026-08-11 17:53:38.773 INFO  [http-nio-8081-exec-2][f6c71165811a4d4d98c25af36d385289][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=POST uri=/user/login status=200 cost=434ms
+2026-08-11 17:54:05.778 INFO  [http-nio-8081-exec-5][1b2be91d39c843869f7c8953d81a3075][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=POST uri=/user/login
+2026-08-11 17:54:05.780 DEBUG [http-nio-8081-exec-5][1b2be91d39c843869f7c8953d81a3075][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - ==>  Preparing: SELECT * FROM sys_user WHERE username = ?
+2026-08-11 17:54:05.781 DEBUG [http-nio-8081-exec-5][1b2be91d39c843869f7c8953d81a3075][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - ==> Parameters: admin(String)
+2026-08-11 17:54:05.786 DEBUG [http-nio-8081-exec-5][1b2be91d39c843869f7c8953d81a3075][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - <==      Total: 1
+2026-08-11 17:54:05.787 WARN  [http-nio-8081-exec-5][1b2be91d39c843869f7c8953d81a3075][userId=] c.recruit.smartrecruit.controller.UserController - 用户登录失败：密码错误 userId=17 username=admin
+2026-08-11 17:54:05.788 INFO  [http-nio-8081-exec-5][1b2be91d39c843869f7c8953d81a3075][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=POST uri=/user/login status=200 cost=10ms
+2026-08-11 17:54:32.572 INFO  [http-nio-8081-exec-4][18d052385da44aa8b7bc299483f6a9a3][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=POST uri=/user/login
+2026-08-11 17:54:32.576 DEBUG [http-nio-8081-exec-4][18d052385da44aa8b7bc299483f6a9a3][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - ==>  Preparing: SELECT * FROM sys_user WHERE username = ?
+2026-08-11 17:54:32.576 DEBUG [http-nio-8081-exec-4][18d052385da44aa8b7bc299483f6a9a3][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - ==> Parameters: admin1(String)
+2026-08-11 17:54:32.581 DEBUG [http-nio-8081-exec-4][18d052385da44aa8b7bc299483f6a9a3][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - <==      Total: 0
+2026-08-11 17:54:32.582 WARN  [http-nio-8081-exec-4][18d052385da44aa8b7bc299483f6a9a3][userId=] c.recruit.smartrecruit.controller.UserController - 用户登录失败：用户不存在 username=admin1
+2026-08-11 17:54:32.585 INFO  [http-nio-8081-exec-4][18d052385da44aa8b7bc299483f6a9a3][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=POST uri=/user/login status=200 cost=13ms
+2026-08-11 18:56:52.839 WARN  [HikariPool-1:housekeeper][][userId=] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=27m43s451ms271µs300ns).
+2026-08-11 19:40:58.262 WARN  [HikariPool-1:housekeeper][][userId=] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=23m5s56ms357µs400ns).
+2026-08-11 20:38:54.629 WARN  [HikariPool-1:housekeeper][][userId=] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=27m55s909ms887µs500ns).
+2026-08-11 21:25:21.880 WARN  [HikariPool-1:housekeeper][][userId=] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=56s507ms7µs300ns).
+2026-08-11 22:52:47.433 WARN  [HikariPool-1:housekeeper][][userId=] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=3m45s553ms726µs200ns).
+2026-08-11 23:53:32.430 WARN  [HikariPool-1:housekeeper][][userId=] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m39s716ms489µs).
+2026-08-11 23:56:09.421 INFO  [SpringApplicationShutdownHook][][userId=] o.s.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-08-11 23:56:09.854 INFO  [tomcat-shutdown][][userId=] o.s.boot.web.embedded.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-08-11 23:56:09.871 INFO  [SpringApplicationShutdownHook][][userId=] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-08-11 23:56:09.890 INFO  [SpringApplicationShutdownHook][][userId=] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

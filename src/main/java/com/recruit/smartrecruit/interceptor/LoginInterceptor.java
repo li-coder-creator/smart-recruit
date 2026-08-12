@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.slf4j.MDC;
 
 import java.util.Map;
 
@@ -28,6 +29,8 @@ public class LoginInterceptor implements HandlerInterceptor {
             Map<String,Object> claims= JwtUtil.parseToken(token);
             //保存到ThreadLocal
             ThreadLocalUtil.set(claims);
+            // 保存 userId 到 MDC
+            MDC.put("userId", String.valueOf(claims.get("id")));
            //放行
             return true;
         } catch (Exception e) {
@@ -44,7 +47,8 @@ public class LoginInterceptor implements HandlerInterceptor {
                                 HttpServletResponse response,
                                 Object handler,
                                 Exception ex) throws Exception {
-
+        // 清除 MDC 中的 userId
+        MDC.remove("userId");
         // 请求结束，清除 ThreadLocal
         ThreadLocalUtil.remove();
     }

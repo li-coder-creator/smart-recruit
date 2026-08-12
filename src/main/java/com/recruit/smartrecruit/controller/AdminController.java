@@ -1,5 +1,6 @@
 package com.recruit.smartrecruit.controller;
 
+import com.recruit.smartrecruit.annotation.OperationLog;
 import com.recruit.smartrecruit.common.PageResult;
 import com.recruit.smartrecruit.common.Result;
 import com.recruit.smartrecruit.entity.Company;
@@ -25,6 +26,7 @@ public class AdminController {
     }
 
     //查询待审核企业
+    @OperationLog("查询待审核企业")
     @GetMapping("/company/pending")
     public Result<PageResult<Company>> findPendingCompanies(@RequestParam(defaultValue = "1") Integer page,
                                                             @RequestParam(defaultValue = "10") Integer pageSize){
@@ -34,6 +36,7 @@ public class AdminController {
         return Result.success(pageResult);
     }
     //查询所有公司（分页＋条件查询）
+    @OperationLog("查询公司列表")
     @GetMapping("/company")
     public Result<PageResult<Company>> findAllCompany(@RequestParam(defaultValue = "1") Integer page,
                                                       @RequestParam(defaultValue = "10") Integer pageSize,
@@ -44,6 +47,7 @@ public class AdminController {
         return Result.success(pageResult);
     }
     //企业详情
+    @OperationLog("查看企业详情")
     @GetMapping("/company/{id}")
     public Result<Company> findCompanyById(@PathVariable("id") Long companyId){
         Map<String,Object> claims=ThreadLocalUtil.get();
@@ -52,6 +56,7 @@ public class AdminController {
         return Result.success(company);
     }
     //企业审核通过
+    @OperationLog("企业审核通过")
     @PutMapping("/company/{id}/approve")
     public Result<Void> CompanyApprovedStatus(@PathVariable Long id){
         Map<String,Object> claims=ThreadLocalUtil.get();
@@ -60,6 +65,7 @@ public class AdminController {
         return Result.success();
     }
     //企业审核拒绝
+    @OperationLog("企业审核拒绝")
     @PutMapping("/company/{id}/reject")
     public Result<Void> CompanyRejectedStatus(@PathVariable Long id){
         Map<String,Object> claims=ThreadLocalUtil.get();
@@ -68,6 +74,7 @@ public class AdminController {
         return Result.success();
     }
     //查询用户列表（分页＋条件查询）
+    @OperationLog("查询用户列表")
     @GetMapping("/user")
     public Result<PageResult<User>> findAllUsers(@RequestParam(defaultValue = "1")Integer page,
                                                 @RequestParam(defaultValue = "10")Integer pageSize,
@@ -79,6 +86,7 @@ public class AdminController {
         return Result.success(pageResult);
     }
     //查询用户详情
+    @OperationLog("查看用户详情")
     @GetMapping("user/{id}")
     public Result<User> findUserDetailById(@PathVariable("id")Long id){
         Map<String,Object> claims=ThreadLocalUtil.get();

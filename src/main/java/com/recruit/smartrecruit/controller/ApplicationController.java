@@ -1,5 +1,6 @@
 package com.recruit.smartrecruit.controller;
 
+import com.recruit.smartrecruit.annotation.OperationLog;
 import com.recruit.smartrecruit.common.Result;
 import com.recruit.smartrecruit.dto.ApplicationApplyDTO;
 import com.recruit.smartrecruit.dto.ApplicationStatusUpdateDTO;
@@ -22,6 +23,7 @@ public class ApplicationController {
     }
     //求职者端
     //投递岗位
+    @OperationLog("投递简历")
     @PostMapping
     public Result<Void> apply(@RequestBody@Valid ApplicationApplyDTO dto){
         Map<String,Object> claims= ThreadLocalUtil.get();
@@ -31,6 +33,7 @@ public class ApplicationController {
     }
     //企业端
     //查看收到的投递
+    @OperationLog("查看投递列表")
     @GetMapping("/my")
     public Result<List<Application>> findCompanyApplication(){
         Map<String,Object> claims=ThreadLocalUtil.get();
@@ -40,6 +43,7 @@ public class ApplicationController {
 
     }
     //查看投递详情
+    @OperationLog("查看投递详情")
     @GetMapping("/{id}")
     public Result<Application> findCompanyApplicationById(@PathVariable ("id")Long id){
         Map<String,Object> claims=ThreadLocalUtil.get();
@@ -48,6 +52,7 @@ public class ApplicationController {
         return Result.success(application);
     }
     //修改投递状态
+    @OperationLog("修改投递状态")
     @PutMapping("/{id}/status")
     public Result<Void> updateStatus(@PathVariable("id")Long id ,@RequestBody@Valid ApplicationStatusUpdateDTO dto){
         Map<String,Object> claims=ThreadLocalUtil.get();

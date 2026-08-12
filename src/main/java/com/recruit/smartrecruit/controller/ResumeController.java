@@ -1,5 +1,6 @@
 package com.recruit.smartrecruit.controller;
 
+import com.recruit.smartrecruit.annotation.OperationLog;
 import com.recruit.smartrecruit.common.Result;
 import com.recruit.smartrecruit.entity.Resume;
 import com.recruit.smartrecruit.service.ResumeService;
@@ -18,6 +19,7 @@ public class ResumeController {
         this.resumeService = resumeService;
     }
     //添加简历
+    @OperationLog("添加简历")
     @PostMapping()
     public Result<Void> addResume(@RequestBody @Valid Resume resume) {
         //获取当前登录用户
@@ -46,6 +48,7 @@ public class ResumeController {
         return Result.success(resume);
     }
     //修改简历
+    @OperationLog("修改简历")
     @PutMapping()
     public Result<Void> updateResume(@RequestBody @Valid Resume newResume){
         //获取当前登录用户
@@ -57,6 +60,7 @@ public class ResumeController {
         return Result.success();
     }
     //删除简历
+    @OperationLog("删除简历")
     @DeleteMapping("{id}")
     public Result<Void> deleteResume(@PathVariable("id") Long id){
         //获取用户id

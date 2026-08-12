@@ -1,0 +1,210 @@
+2026-08-12 21:41:07.613 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - Starting SmartRecruitApplication using Java 17.0.12 with PID 30356 (D:\project\smart-recruit\target\classes started by 李 in D:\project\smart-recruit)
+2026-08-12 21:41:07.625 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - No active profile set, falling back to 1 default profile: "default"
+2026-08-12 21:41:09.499 INFO  [main][][userId=] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2026-08-12 21:41:09.509 INFO  [main][][userId=] org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2026-08-12 21:41:09.509 INFO  [main][][userId=] org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.55]
+2026-08-12 21:41:09.580 INFO  [main][][userId=] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-08-12 21:41:09.581 INFO  [main][][userId=] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1904 ms
+2026-08-12 21:41:11.118 INFO  [main][][userId=] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
+2026-08-12 21:41:11.132 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - Started SmartRecruitApplication in 4.126 seconds (process running for 4.615)
+2026-08-12 21:41:47.196 INFO  [http-nio-8081-exec-1][][userId=] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-08-12 21:41:47.197 INFO  [http-nio-8081-exec-1][][userId=] org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-08-12 21:41:47.200 INFO  [http-nio-8081-exec-1][][userId=] org.springframework.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2026-08-12 21:41:47.208 INFO  [http-nio-8081-exec-1][b599ffd8da5f4a52ae6d91d5a4c8c2a7][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=POST uri=/user/register
+2026-08-12 21:41:47.569 WARN  [http-nio-8081-exec-1][b599ffd8da5f4a52ae6d91d5a4c8c2a7][userId=] c.r.smartrecruit.exception.GlobalExceptionHandler - 参数校验异常：密码名必须5~26位，只能包含数字字母下划线
+2026-08-12 21:41:47.638 INFO  [http-nio-8081-exec-1][b599ffd8da5f4a52ae6d91d5a4c8c2a7][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=POST uri=/user/register status=200 cost=430ms
+2026-08-12 21:42:43.510 INFO  [http-nio-8081-exec-3][cd04349a154540f1855c54def99a22c0][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=POST uri=/user/register
+2026-08-12 21:42:43.561 INFO  [http-nio-8081-exec-3][cd04349a154540f1855c54def99a22c0][userId=] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-08-12 21:42:43.941 INFO  [http-nio-8081-exec-3][cd04349a154540f1855c54def99a22c0][userId=] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@494dd752
+2026-08-12 21:42:43.941 INFO  [http-nio-8081-exec-3][cd04349a154540f1855c54def99a22c0][userId=] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-08-12 21:42:43.955 DEBUG [http-nio-8081-exec-3][cd04349a154540f1855c54def99a22c0][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - ==>  Preparing: SELECT * FROM sys_user WHERE username = ?
+2026-08-12 21:42:44.031 DEBUG [http-nio-8081-exec-3][cd04349a154540f1855c54def99a22c0][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - ==> Parameters: company4(String)
+2026-08-12 21:42:44.131 DEBUG [http-nio-8081-exec-3][cd04349a154540f1855c54def99a22c0][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - <==      Total: 1
+2026-08-12 21:42:44.142 WARN  [http-nio-8081-exec-3][cd04349a154540f1855c54def99a22c0][userId=] c.recruit.smartrecruit.controller.UserController - 用户注册失败：用户名已存在 username=company4
+2026-08-12 21:42:44.150 INFO  [http-nio-8081-exec-3][cd04349a154540f1855c54def99a22c0][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=POST uri=/user/register status=200 cost=640ms
+2026-08-12 21:43:15.406 INFO  [http-nio-8081-exec-4][a3e069216f3c4a34ac3a96f5d13214d3][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=POST uri=/user/register
+2026-08-12 21:43:15.409 DEBUG [http-nio-8081-exec-4][a3e069216f3c4a34ac3a96f5d13214d3][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - ==>  Preparing: SELECT * FROM sys_user WHERE username = ?
+2026-08-12 21:43:15.410 DEBUG [http-nio-8081-exec-4][a3e069216f3c4a34ac3a96f5d13214d3][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - ==> Parameters: company14(String)
+2026-08-12 21:43:15.411 DEBUG [http-nio-8081-exec-4][a3e069216f3c4a34ac3a96f5d13214d3][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - <==      Total: 0
+2026-08-12 21:43:15.417 DEBUG [http-nio-8081-exec-4][a3e069216f3c4a34ac3a96f5d13214d3][userId=] com.recruit.smartrecruit.mapper.UserMapper.add - ==>  Preparing: INSERT INTO sys_user ( username, password, role ) VALUES ( ?, ?, ? )
+2026-08-12 21:43:15.418 DEBUG [http-nio-8081-exec-4][a3e069216f3c4a34ac3a96f5d13214d3][userId=] com.recruit.smartrecruit.mapper.UserMapper.add - ==> Parameters: company14(String), e10adc3949ba59abbe56e057f20f883e(String), JOB_SEEKER(String)
+2026-08-12 21:43:15.524 DEBUG [http-nio-8081-exec-4][a3e069216f3c4a34ac3a96f5d13214d3][userId=] com.recruit.smartrecruit.mapper.UserMapper.add - <==    Updates: 1
+2026-08-12 21:43:15.526 INFO  [http-nio-8081-exec-4][a3e069216f3c4a34ac3a96f5d13214d3][userId=] c.recruit.smartrecruit.controller.UserController - 用户注册成功 username=company14
+2026-08-12 21:43:15.528 INFO  [http-nio-8081-exec-4][a3e069216f3c4a34ac3a96f5d13214d3][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=POST uri=/user/register status=200 cost=122ms
+2026-08-12 22:02:29.853 WARN  [HikariPool-1:housekeeper][][userId=] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m15s538ms334µs700ns).
+2026-08-12 22:03:53.929 INFO  [SpringApplicationShutdownHook][][userId=] o.s.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-08-12 22:03:54.364 INFO  [tomcat-shutdown][][userId=] o.s.boot.web.embedded.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-08-12 22:03:54.371 INFO  [SpringApplicationShutdownHook][][userId=] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-08-12 22:03:54.381 INFO  [SpringApplicationShutdownHook][][userId=] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-08-12 22:03:56.234 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - Starting SmartRecruitApplication using Java 17.0.12 with PID 28636 (D:\project\smart-recruit\target\classes started by 李 in D:\project\smart-recruit)
+2026-08-12 22:03:56.237 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - No active profile set, falling back to 1 default profile: "default"
+2026-08-12 22:03:57.658 INFO  [main][][userId=] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2026-08-12 22:03:57.672 INFO  [main][][userId=] org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2026-08-12 22:03:57.673 INFO  [main][][userId=] org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.55]
+2026-08-12 22:03:57.729 INFO  [main][][userId=] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-08-12 22:03:57.730 INFO  [main][][userId=] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1438 ms
+2026-08-12 22:03:58.927 INFO  [main][][userId=] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
+2026-08-12 22:03:58.937 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - Started SmartRecruitApplication in 3.323 seconds (process running for 3.635)
+2026-08-12 22:11:11.564 INFO  [SpringApplicationShutdownHook][][userId=] o.s.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-08-12 22:11:12.982 INFO  [tomcat-shutdown][][userId=] o.s.boot.web.embedded.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-08-12 22:11:19.594 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - Starting SmartRecruitApplication using Java 17.0.12 with PID 26960 (D:\project\smart-recruit\target\classes started by 李 in D:\project\smart-recruit)
+2026-08-12 22:11:19.597 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - No active profile set, falling back to 1 default profile: "default"
+2026-08-12 22:11:21.361 INFO  [main][][userId=] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2026-08-12 22:11:21.375 INFO  [main][][userId=] org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2026-08-12 22:11:21.375 INFO  [main][][userId=] org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.55]
+2026-08-12 22:11:21.439 INFO  [main][][userId=] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-08-12 22:11:21.439 INFO  [main][][userId=] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1798 ms
+2026-08-12 22:11:22.716 INFO  [main][][userId=] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
+2026-08-12 22:11:22.726 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - Started SmartRecruitApplication in 3.693 seconds (process running for 4.006)
+2026-08-12 22:17:26.559 INFO  [SpringApplicationShutdownHook][][userId=] o.s.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-08-12 22:17:27.017 INFO  [tomcat-shutdown][][userId=] o.s.boot.web.embedded.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-08-12 22:17:28.946 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - Starting SmartRecruitApplication using Java 17.0.12 with PID 31888 (D:\project\smart-recruit\target\classes started by 李 in D:\project\smart-recruit)
+2026-08-12 22:17:28.949 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - No active profile set, falling back to 1 default profile: "default"
+2026-08-12 22:17:30.606 INFO  [main][][userId=] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2026-08-12 22:17:30.619 INFO  [main][][userId=] org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2026-08-12 22:17:30.620 INFO  [main][][userId=] org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.55]
+2026-08-12 22:17:30.677 INFO  [main][][userId=] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-08-12 22:17:30.677 INFO  [main][][userId=] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1657 ms
+2026-08-12 22:17:32.093 INFO  [main][][userId=] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
+2026-08-12 22:17:32.107 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - Started SmartRecruitApplication in 3.859 seconds (process running for 4.205)
+2026-08-12 22:17:47.927 INFO  [http-nio-8081-exec-2][][userId=] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-08-12 22:17:47.927 INFO  [http-nio-8081-exec-2][][userId=] org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-08-12 22:17:47.928 INFO  [http-nio-8081-exec-2][][userId=] org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2026-08-12 22:17:47.937 INFO  [http-nio-8081-exec-2][cb3ae13cf6bf4a8397b2c180e1b0fe32][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=POST uri=/user/register
+2026-08-12 22:17:48.287 INFO  [http-nio-8081-exec-2][cb3ae13cf6bf4a8397b2c180e1b0fe32][userId=] c.recruit.smartrecruit.aspect.OperationLogAspect - 操作开始 operation=用户注册
+2026-08-12 22:17:48.326 INFO  [http-nio-8081-exec-2][cb3ae13cf6bf4a8397b2c180e1b0fe32][userId=] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-08-12 22:17:48.671 INFO  [http-nio-8081-exec-2][cb3ae13cf6bf4a8397b2c180e1b0fe32][userId=] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1b72933a
+2026-08-12 22:17:48.676 INFO  [http-nio-8081-exec-2][cb3ae13cf6bf4a8397b2c180e1b0fe32][userId=] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-08-12 22:17:48.690 DEBUG [http-nio-8081-exec-2][cb3ae13cf6bf4a8397b2c180e1b0fe32][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - ==>  Preparing: SELECT * FROM sys_user WHERE username = ?
+2026-08-12 22:17:48.745 DEBUG [http-nio-8081-exec-2][cb3ae13cf6bf4a8397b2c180e1b0fe32][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - ==> Parameters: company14(String)
+2026-08-12 22:17:48.803 DEBUG [http-nio-8081-exec-2][cb3ae13cf6bf4a8397b2c180e1b0fe32][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - <==      Total: 1
+2026-08-12 22:17:48.811 WARN  [http-nio-8081-exec-2][cb3ae13cf6bf4a8397b2c180e1b0fe32][userId=] c.recruit.smartrecruit.controller.UserController - 用户注册失败：用户名已存在 username=company14
+2026-08-12 22:17:48.812 INFO  [http-nio-8081-exec-2][cb3ae13cf6bf4a8397b2c180e1b0fe32][userId=] c.recruit.smartrecruit.aspect.OperationLogAspect - 操作成功 operation=用户注册 cost=527ms
+2026-08-12 22:17:48.868 INFO  [http-nio-8081-exec-2][cb3ae13cf6bf4a8397b2c180e1b0fe32][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=POST uri=/user/register status=200 cost=931ms
+2026-08-12 22:17:56.966 INFO  [http-nio-8081-exec-3][8ba7292afcf7491c8439e4c64ea454de][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=POST uri=/user/register
+2026-08-12 22:17:56.968 INFO  [http-nio-8081-exec-3][8ba7292afcf7491c8439e4c64ea454de][userId=] c.recruit.smartrecruit.aspect.OperationLogAspect - 操作开始 operation=用户注册
+2026-08-12 22:17:56.969 DEBUG [http-nio-8081-exec-3][8ba7292afcf7491c8439e4c64ea454de][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - ==>  Preparing: SELECT * FROM sys_user WHERE username = ?
+2026-08-12 22:17:56.969 DEBUG [http-nio-8081-exec-3][8ba7292afcf7491c8439e4c64ea454de][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - ==> Parameters: company13(String)
+2026-08-12 22:17:56.971 DEBUG [http-nio-8081-exec-3][8ba7292afcf7491c8439e4c64ea454de][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - <==      Total: 0
+2026-08-12 22:17:56.973 DEBUG [http-nio-8081-exec-3][8ba7292afcf7491c8439e4c64ea454de][userId=] com.recruit.smartrecruit.mapper.UserMapper.add - ==>  Preparing: INSERT INTO sys_user ( username, password, role ) VALUES ( ?, ?, ? )
+2026-08-12 22:17:56.975 DEBUG [http-nio-8081-exec-3][8ba7292afcf7491c8439e4c64ea454de][userId=] com.recruit.smartrecruit.mapper.UserMapper.add - ==> Parameters: company13(String), e10adc3949ba59abbe56e057f20f883e(String), JOB_SEEKER(String)
+2026-08-12 22:17:57.012 DEBUG [http-nio-8081-exec-3][8ba7292afcf7491c8439e4c64ea454de][userId=] com.recruit.smartrecruit.mapper.UserMapper.add - <==    Updates: 1
+2026-08-12 22:17:57.016 INFO  [http-nio-8081-exec-3][8ba7292afcf7491c8439e4c64ea454de][userId=] c.recruit.smartrecruit.controller.UserController - 用户注册成功 username=company13
+2026-08-12 22:17:57.016 INFO  [http-nio-8081-exec-3][8ba7292afcf7491c8439e4c64ea454de][userId=] c.recruit.smartrecruit.aspect.OperationLogAspect - 操作成功 operation=用户注册 cost=48ms
+2026-08-12 22:17:57.016 INFO  [http-nio-8081-exec-3][8ba7292afcf7491c8439e4c64ea454de][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=POST uri=/user/register status=200 cost=50ms
+2026-08-12 22:22:22.095 INFO  [http-nio-8081-exec-5][6630f78594b24bf2aa8115cd7abe359f][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=POST uri=/user/register
+2026-08-12 22:22:22.100 INFO  [http-nio-8081-exec-5][6630f78594b24bf2aa8115cd7abe359f][userId=] c.recruit.smartrecruit.aspect.OperationLogAspect - 操作开始 operation=用户注册
+2026-08-12 22:22:22.105 DEBUG [http-nio-8081-exec-5][6630f78594b24bf2aa8115cd7abe359f][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - ==>  Preparing: SELECT * FROM sys_user WHERE username = ?
+2026-08-12 22:22:22.106 DEBUG [http-nio-8081-exec-5][6630f78594b24bf2aa8115cd7abe359f][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - ==> Parameters: company13(String)
+2026-08-12 22:22:22.111 DEBUG [http-nio-8081-exec-5][6630f78594b24bf2aa8115cd7abe359f][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - <==      Total: 1
+2026-08-12 22:22:22.112 WARN  [http-nio-8081-exec-5][6630f78594b24bf2aa8115cd7abe359f][userId=] c.recruit.smartrecruit.controller.UserController - 用户注册失败：用户名已存在 username=company13
+2026-08-12 22:22:22.112 INFO  [http-nio-8081-exec-5][6630f78594b24bf2aa8115cd7abe359f][userId=] c.recruit.smartrecruit.aspect.OperationLogAspect - 操作成功 operation=用户注册 cost=12ms
+2026-08-12 22:22:22.114 INFO  [http-nio-8081-exec-5][6630f78594b24bf2aa8115cd7abe359f][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=POST uri=/user/register status=200 cost=19ms
+2026-08-12 22:22:59.404 INFO  [SpringApplicationShutdownHook][][userId=] o.s.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-08-12 22:22:59.824 INFO  [tomcat-shutdown][][userId=] o.s.boot.web.embedded.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-08-12 22:22:59.827 INFO  [SpringApplicationShutdownHook][][userId=] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-08-12 22:22:59.833 INFO  [SpringApplicationShutdownHook][][userId=] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-08-12 22:23:03.246 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - Starting SmartRecruitApplication using Java 17.0.12 with PID 7916 (D:\project\smart-recruit\target\classes started by 李 in D:\project\smart-recruit)
+2026-08-12 22:23:03.249 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - No active profile set, falling back to 1 default profile: "default"
+2026-08-12 22:23:04.872 INFO  [main][][userId=] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2026-08-12 22:23:04.883 INFO  [main][][userId=] org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2026-08-12 22:23:04.883 INFO  [main][][userId=] org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.55]
+2026-08-12 22:23:04.940 INFO  [main][][userId=] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-08-12 22:23:04.941 INFO  [main][][userId=] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1644 ms
+2026-08-12 22:23:06.318 INFO  [main][][userId=] o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path '/'
+2026-08-12 22:23:06.332 INFO  [main][][userId=] com.recruit.smartrecruit.SmartRecruitApplication - Started SmartRecruitApplication in 3.622 seconds (process running for 3.959)
+2026-08-12 22:23:16.042 INFO  [http-nio-8081-exec-1][][userId=] o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-08-12 22:23:16.042 INFO  [http-nio-8081-exec-1][][userId=] org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-08-12 22:23:16.042 INFO  [http-nio-8081-exec-1][][userId=] org.springframework.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2026-08-12 22:23:16.046 INFO  [http-nio-8081-exec-1][baa2ea65b9894bd1923342a963ae8367][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=POST uri=/user/register
+2026-08-12 22:23:16.176 INFO  [http-nio-8081-exec-1][baa2ea65b9894bd1923342a963ae8367][userId=] c.recruit.smartrecruit.aspect.OperationLogAspect - 操作开始 operation=用户注册
+2026-08-12 22:23:16.188 INFO  [http-nio-8081-exec-1][baa2ea65b9894bd1923342a963ae8367][userId=] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-08-12 22:23:16.337 INFO  [http-nio-8081-exec-1][baa2ea65b9894bd1923342a963ae8367][userId=] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@4d39983d
+2026-08-12 22:23:16.337 INFO  [http-nio-8081-exec-1][baa2ea65b9894bd1923342a963ae8367][userId=] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-08-12 22:23:16.342 DEBUG [http-nio-8081-exec-1][baa2ea65b9894bd1923342a963ae8367][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - ==>  Preparing: SELECT * FROM sys_user WHERE username = ?
+2026-08-12 22:23:16.364 DEBUG [http-nio-8081-exec-1][baa2ea65b9894bd1923342a963ae8367][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - ==> Parameters: company13(String)
+2026-08-12 22:23:16.389 DEBUG [http-nio-8081-exec-1][baa2ea65b9894bd1923342a963ae8367][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - <==      Total: 1
+2026-08-12 22:23:16.395 WARN  [http-nio-8081-exec-1][baa2ea65b9894bd1923342a963ae8367][userId=] c.recruit.smartrecruit.controller.UserController - 用户注册失败：用户名已存在 username=company13
+2026-08-12 22:23:16.395 WARN  [http-nio-8081-exec-1][baa2ea65b9894bd1923342a963ae8367][userId=] c.recruit.smartrecruit.aspect.OperationLogAspect - 操作失败 operation=用户注册 code=500 message=用户名已存在 cost=220ms
+2026-08-12 22:23:16.418 INFO  [http-nio-8081-exec-1][baa2ea65b9894bd1923342a963ae8367][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=POST uri=/user/register status=200 cost=372ms
+2026-08-12 22:27:08.319 INFO  [http-nio-8081-exec-5][f2239595b1d14380a3d86cf0a8bf9fcd][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=POST uri=/user/register
+2026-08-12 22:27:08.321 INFO  [http-nio-8081-exec-5][f2239595b1d14380a3d86cf0a8bf9fcd][userId=] c.recruit.smartrecruit.aspect.OperationLogAspect - 操作开始 operation=用户注册
+2026-08-12 22:27:08.321 DEBUG [http-nio-8081-exec-5][f2239595b1d14380a3d86cf0a8bf9fcd][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - ==>  Preparing: SELECT * FROM sys_user WHERE username = ?
+2026-08-12 22:27:08.321 DEBUG [http-nio-8081-exec-5][f2239595b1d14380a3d86cf0a8bf9fcd][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - ==> Parameters: company15(String)
+2026-08-12 22:27:08.321 DEBUG [http-nio-8081-exec-5][f2239595b1d14380a3d86cf0a8bf9fcd][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - <==      Total: 0
+2026-08-12 22:27:08.321 DEBUG [http-nio-8081-exec-5][f2239595b1d14380a3d86cf0a8bf9fcd][userId=] com.recruit.smartrecruit.mapper.UserMapper.add - ==>  Preparing: INSERT INTO sys_user ( username, password, role ) VALUES ( ?, ?, ? )
+2026-08-12 22:27:08.321 DEBUG [http-nio-8081-exec-5][f2239595b1d14380a3d86cf0a8bf9fcd][userId=] com.recruit.smartrecruit.mapper.UserMapper.add - ==> Parameters: company15(String), e10adc3949ba59abbe56e057f20f883e(String), JOB_SEEKER(String)
+2026-08-12 22:27:08.411 DEBUG [http-nio-8081-exec-5][f2239595b1d14380a3d86cf0a8bf9fcd][userId=] com.recruit.smartrecruit.mapper.UserMapper.add - <==    Updates: 1
+2026-08-12 22:27:08.413 INFO  [http-nio-8081-exec-5][f2239595b1d14380a3d86cf0a8bf9fcd][userId=] c.recruit.smartrecruit.controller.UserController - 用户注册成功 username=company15
+2026-08-12 22:27:08.413 INFO  [http-nio-8081-exec-5][f2239595b1d14380a3d86cf0a8bf9fcd][userId=] c.recruit.smartrecruit.aspect.OperationLogAspect - 操作成功 operation=用户注册 cost=92ms
+2026-08-12 22:27:08.417 INFO  [http-nio-8081-exec-5][f2239595b1d14380a3d86cf0a8bf9fcd][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=POST uri=/user/register status=200 cost=98ms
+2026-08-12 22:27:10.264 INFO  [http-nio-8081-exec-6][b8be6b3c601d41bcbeda02a904969e58][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=POST uri=/user/register
+2026-08-12 22:27:10.266 INFO  [http-nio-8081-exec-6][b8be6b3c601d41bcbeda02a904969e58][userId=] c.recruit.smartrecruit.aspect.OperationLogAspect - 操作开始 operation=用户注册
+2026-08-12 22:27:10.267 DEBUG [http-nio-8081-exec-6][b8be6b3c601d41bcbeda02a904969e58][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - ==>  Preparing: SELECT * FROM sys_user WHERE username = ?
+2026-08-12 22:27:10.268 DEBUG [http-nio-8081-exec-6][b8be6b3c601d41bcbeda02a904969e58][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - ==> Parameters: company15(String)
+2026-08-12 22:27:10.271 DEBUG [http-nio-8081-exec-6][b8be6b3c601d41bcbeda02a904969e58][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - <==      Total: 1
+2026-08-12 22:27:10.271 WARN  [http-nio-8081-exec-6][b8be6b3c601d41bcbeda02a904969e58][userId=] c.recruit.smartrecruit.controller.UserController - 用户注册失败：用户名已存在 username=company15
+2026-08-12 22:27:10.271 WARN  [http-nio-8081-exec-6][b8be6b3c601d41bcbeda02a904969e58][userId=] c.recruit.smartrecruit.aspect.OperationLogAspect - 操作失败 operation=用户注册 code=500 message=用户名已存在 cost=5ms
+2026-08-12 22:27:10.272 INFO  [http-nio-8081-exec-6][b8be6b3c601d41bcbeda02a904969e58][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=POST uri=/user/register status=200 cost=8ms
+2026-08-12 22:28:51.132 INFO  [http-nio-8081-exec-9][08ccbb4b46344ed383d0714851193aae][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=POST uri=/user/login
+2026-08-12 22:28:51.134 DEBUG [http-nio-8081-exec-9][08ccbb4b46344ed383d0714851193aae][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - ==>  Preparing: SELECT * FROM sys_user WHERE username = ?
+2026-08-12 22:28:51.135 DEBUG [http-nio-8081-exec-9][08ccbb4b46344ed383d0714851193aae][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - ==> Parameters: admin(String)
+2026-08-12 22:28:51.136 DEBUG [http-nio-8081-exec-9][08ccbb4b46344ed383d0714851193aae][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - <==      Total: 1
+2026-08-12 22:28:51.184 INFO  [http-nio-8081-exec-9][08ccbb4b46344ed383d0714851193aae][userId=] c.recruit.smartrecruit.controller.UserController - 用户登录成功 userId=17 username=admin
+2026-08-12 22:28:51.188 INFO  [http-nio-8081-exec-9][08ccbb4b46344ed383d0714851193aae][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=POST uri=/user/login status=200 cost=56ms
+2026-08-12 22:29:11.510 INFO  [http-nio-8081-exec-10][3feb1299ab874422a65e720984a70a4e][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=PATCH uri=/user/password
+2026-08-12 22:29:11.525 INFO  [http-nio-8081-exec-10][3feb1299ab874422a65e720984a70a4e][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=PATCH uri=/user/password status=401 cost=15ms
+2026-08-12 22:30:28.077 INFO  [http-nio-8081-exec-3][6a73fb7e8af846b7bd512070a33cf4cb][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=GET uri=/admin/user/100
+2026-08-12 22:30:28.077 INFO  [http-nio-8081-exec-3][6a73fb7e8af846b7bd512070a33cf4cb][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=GET uri=/admin/user/100 status=401 cost=0ms
+2026-08-12 22:30:34.693 INFO  [http-nio-8081-exec-4][4f89fe262a434524b2f7a24ab89c9f09][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=POST uri=/user/login
+2026-08-12 22:30:34.696 DEBUG [http-nio-8081-exec-4][4f89fe262a434524b2f7a24ab89c9f09][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - ==>  Preparing: SELECT * FROM sys_user WHERE username = ?
+2026-08-12 22:30:34.696 DEBUG [http-nio-8081-exec-4][4f89fe262a434524b2f7a24ab89c9f09][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - ==> Parameters: admin(String)
+2026-08-12 22:30:34.697 DEBUG [http-nio-8081-exec-4][4f89fe262a434524b2f7a24ab89c9f09][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - <==      Total: 1
+2026-08-12 22:30:34.698 INFO  [http-nio-8081-exec-4][4f89fe262a434524b2f7a24ab89c9f09][userId=] c.recruit.smartrecruit.controller.UserController - 用户登录成功 userId=17 username=admin
+2026-08-12 22:30:34.700 INFO  [http-nio-8081-exec-4][4f89fe262a434524b2f7a24ab89c9f09][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=POST uri=/user/login status=200 cost=7ms
+2026-08-12 22:30:40.372 INFO  [http-nio-8081-exec-5][9d188e73c0a442d39131f1956b7ffe35][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=GET uri=/admin/user/100
+2026-08-12 22:30:40.393 DEBUG [http-nio-8081-exec-5][9d188e73c0a442d39131f1956b7ffe35][userId=17] c.recruit.smartrecruit.mapper.UserMapper.findById - ==>  Preparing: SELECT id, username, password, nickname, email, phone, role, create_time FROM sys_user WHERE id = ?
+2026-08-12 22:30:40.395 DEBUG [http-nio-8081-exec-5][9d188e73c0a442d39131f1956b7ffe35][userId=17] c.recruit.smartrecruit.mapper.UserMapper.findById - ==> Parameters: 17(Long)
+2026-08-12 22:30:40.395 DEBUG [http-nio-8081-exec-5][9d188e73c0a442d39131f1956b7ffe35][userId=17] c.recruit.smartrecruit.mapper.UserMapper.findById - <==      Total: 1
+2026-08-12 22:30:40.398 DEBUG [http-nio-8081-exec-5][9d188e73c0a442d39131f1956b7ffe35][userId=17] c.recruit.smartrecruit.mapper.UserMapper.findById - ==>  Preparing: SELECT id, username, password, nickname, email, phone, role, create_time FROM sys_user WHERE id = ?
+2026-08-12 22:30:40.399 DEBUG [http-nio-8081-exec-5][9d188e73c0a442d39131f1956b7ffe35][userId=17] c.recruit.smartrecruit.mapper.UserMapper.findById - ==> Parameters: 100(Long)
+2026-08-12 22:30:40.400 DEBUG [http-nio-8081-exec-5][9d188e73c0a442d39131f1956b7ffe35][userId=17] c.recruit.smartrecruit.mapper.UserMapper.findById - <==      Total: 0
+2026-08-12 22:30:40.404 WARN  [http-nio-8081-exec-5][9d188e73c0a442d39131f1956b7ffe35][userId=17] c.r.smartrecruit.exception.GlobalExceptionHandler - 业务异常：用户不存在
+2026-08-12 22:30:40.406 INFO  [http-nio-8081-exec-5][9d188e73c0a442d39131f1956b7ffe35][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=GET uri=/admin/user/100 status=200 cost=34ms
+2026-08-12 22:30:54.211 INFO  [http-nio-8081-exec-6][986a00aec66146d29d840cae11133078][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=POST uri=/user/register
+2026-08-12 22:30:54.212 INFO  [http-nio-8081-exec-6][986a00aec66146d29d840cae11133078][userId=] c.recruit.smartrecruit.aspect.OperationLogAspect - 操作开始 operation=用户注册
+2026-08-12 22:30:54.213 DEBUG [http-nio-8081-exec-6][986a00aec66146d29d840cae11133078][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - ==>  Preparing: SELECT * FROM sys_user WHERE username = ?
+2026-08-12 22:30:54.214 DEBUG [http-nio-8081-exec-6][986a00aec66146d29d840cae11133078][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - ==> Parameters: company15(String)
+2026-08-12 22:30:54.216 DEBUG [http-nio-8081-exec-6][986a00aec66146d29d840cae11133078][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - <==      Total: 1
+2026-08-12 22:30:54.216 WARN  [http-nio-8081-exec-6][986a00aec66146d29d840cae11133078][userId=] c.recruit.smartrecruit.controller.UserController - 用户注册失败：用户名已存在 username=company15
+2026-08-12 22:30:54.216 WARN  [http-nio-8081-exec-6][986a00aec66146d29d840cae11133078][userId=] c.recruit.smartrecruit.aspect.OperationLogAspect - 操作失败 operation=用户注册 code=500 message=用户名已存在 cost=4ms
+2026-08-12 22:30:54.218 INFO  [http-nio-8081-exec-6][986a00aec66146d29d840cae11133078][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=POST uri=/user/register status=200 cost=7ms
+2026-08-12 22:30:59.549 INFO  [http-nio-8081-exec-7][e0c4bf122b704affaa909ec7c82aa550][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=POST uri=/user/register
+2026-08-12 22:30:59.551 INFO  [http-nio-8081-exec-7][e0c4bf122b704affaa909ec7c82aa550][userId=] c.recruit.smartrecruit.aspect.OperationLogAspect - 操作开始 operation=用户注册
+2026-08-12 22:30:59.552 DEBUG [http-nio-8081-exec-7][e0c4bf122b704affaa909ec7c82aa550][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - ==>  Preparing: SELECT * FROM sys_user WHERE username = ?
+2026-08-12 22:30:59.552 DEBUG [http-nio-8081-exec-7][e0c4bf122b704affaa909ec7c82aa550][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - ==> Parameters: company17(String)
+2026-08-12 22:30:59.553 DEBUG [http-nio-8081-exec-7][e0c4bf122b704affaa909ec7c82aa550][userId=] c.r.smartrecruit.mapper.UserMapper.findByUsername - <==      Total: 0
+2026-08-12 22:30:59.554 DEBUG [http-nio-8081-exec-7][e0c4bf122b704affaa909ec7c82aa550][userId=] com.recruit.smartrecruit.mapper.UserMapper.add - ==>  Preparing: INSERT INTO sys_user ( username, password, role ) VALUES ( ?, ?, ? )
+2026-08-12 22:30:59.554 DEBUG [http-nio-8081-exec-7][e0c4bf122b704affaa909ec7c82aa550][userId=] com.recruit.smartrecruit.mapper.UserMapper.add - ==> Parameters: company17(String), e10adc3949ba59abbe56e057f20f883e(String), JOB_SEEKER(String)
+2026-08-12 22:30:59.590 DEBUG [http-nio-8081-exec-7][e0c4bf122b704affaa909ec7c82aa550][userId=] com.recruit.smartrecruit.mapper.UserMapper.add - <==    Updates: 1
+2026-08-12 22:30:59.590 INFO  [http-nio-8081-exec-7][e0c4bf122b704affaa909ec7c82aa550][userId=] c.recruit.smartrecruit.controller.UserController - 用户注册成功 username=company17
+2026-08-12 22:30:59.591 INFO  [http-nio-8081-exec-7][e0c4bf122b704affaa909ec7c82aa550][userId=] c.recruit.smartrecruit.aspect.OperationLogAspect - 操作成功 operation=用户注册 cost=40ms
+2026-08-12 22:30:59.592 INFO  [http-nio-8081-exec-7][e0c4bf122b704affaa909ec7c82aa550][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=POST uri=/user/register status=200 cost=43ms
+2026-08-12 22:31:04.598 INFO  [http-nio-8081-exec-8][e4a3994113a14bc69ca7dd2f715209b9][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=GET uri=/admin/user/100
+2026-08-12 22:31:04.599 DEBUG [http-nio-8081-exec-8][e4a3994113a14bc69ca7dd2f715209b9][userId=17] c.recruit.smartrecruit.mapper.UserMapper.findById - ==>  Preparing: SELECT id, username, password, nickname, email, phone, role, create_time FROM sys_user WHERE id = ?
+2026-08-12 22:31:04.599 DEBUG [http-nio-8081-exec-8][e4a3994113a14bc69ca7dd2f715209b9][userId=17] c.recruit.smartrecruit.mapper.UserMapper.findById - ==> Parameters: 17(Long)
+2026-08-12 22:31:04.604 DEBUG [http-nio-8081-exec-8][e4a3994113a14bc69ca7dd2f715209b9][userId=17] c.recruit.smartrecruit.mapper.UserMapper.findById - <==      Total: 1
+2026-08-12 22:31:04.604 DEBUG [http-nio-8081-exec-8][e4a3994113a14bc69ca7dd2f715209b9][userId=17] c.recruit.smartrecruit.mapper.UserMapper.findById - ==>  Preparing: SELECT id, username, password, nickname, email, phone, role, create_time FROM sys_user WHERE id = ?
+2026-08-12 22:31:04.604 DEBUG [http-nio-8081-exec-8][e4a3994113a14bc69ca7dd2f715209b9][userId=17] c.recruit.smartrecruit.mapper.UserMapper.findById - ==> Parameters: 100(Long)
+2026-08-12 22:31:04.604 DEBUG [http-nio-8081-exec-8][e4a3994113a14bc69ca7dd2f715209b9][userId=17] c.recruit.smartrecruit.mapper.UserMapper.findById - <==      Total: 0
+2026-08-12 22:31:04.604 WARN  [http-nio-8081-exec-8][e4a3994113a14bc69ca7dd2f715209b9][userId=17] c.r.smartrecruit.exception.GlobalExceptionHandler - 业务异常：用户不存在
+2026-08-12 22:31:04.608 INFO  [http-nio-8081-exec-8][e4a3994113a14bc69ca7dd2f715209b9][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=GET uri=/admin/user/100 status=200 cost=10ms
+2026-08-12 22:55:47.578 INFO  [http-nio-8081-exec-2][8eae64bb5f02431685bd559405ac930e][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求开始 method=GET uri=/admin/user/100
+2026-08-12 22:55:47.578 DEBUG [http-nio-8081-exec-2][8eae64bb5f02431685bd559405ac930e][userId=17] c.recruit.smartrecruit.mapper.UserMapper.findById - ==>  Preparing: SELECT id, username, password, nickname, email, phone, role, create_time FROM sys_user WHERE id = ?
+2026-08-12 22:55:47.578 DEBUG [http-nio-8081-exec-2][8eae64bb5f02431685bd559405ac930e][userId=17] c.recruit.smartrecruit.mapper.UserMapper.findById - ==> Parameters: 17(Long)
+2026-08-12 22:55:47.578 DEBUG [http-nio-8081-exec-2][8eae64bb5f02431685bd559405ac930e][userId=17] c.recruit.smartrecruit.mapper.UserMapper.findById - <==      Total: 1
+2026-08-12 22:55:47.588 DEBUG [http-nio-8081-exec-2][8eae64bb5f02431685bd559405ac930e][userId=17] c.recruit.smartrecruit.mapper.UserMapper.findById - ==>  Preparing: SELECT id, username, password, nickname, email, phone, role, create_time FROM sys_user WHERE id = ?
+2026-08-12 22:55:47.588 DEBUG [http-nio-8081-exec-2][8eae64bb5f02431685bd559405ac930e][userId=17] c.recruit.smartrecruit.mapper.UserMapper.findById - ==> Parameters: 100(Long)
+2026-08-12 22:55:47.588 DEBUG [http-nio-8081-exec-2][8eae64bb5f02431685bd559405ac930e][userId=17] c.recruit.smartrecruit.mapper.UserMapper.findById - <==      Total: 0
+2026-08-12 22:55:47.591 WARN  [http-nio-8081-exec-2][8eae64bb5f02431685bd559405ac930e][userId=17] c.r.smartrecruit.exception.GlobalExceptionHandler - 业务异常：用户不存在
+2026-08-12 22:55:47.593 INFO  [http-nio-8081-exec-2][8eae64bb5f02431685bd559405ac930e][userId=] c.recruit.smartrecruit.filter.RequestTraceFilter - 请求结束 method=GET uri=/admin/user/100 status=200 cost=15ms

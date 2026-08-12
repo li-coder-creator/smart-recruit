@@ -10,12 +10,13 @@ import com.recruit.smartrecruit.mapper.CompanyMapper;
 import com.recruit.smartrecruit.mapper.UserMapper;
 import com.recruit.smartrecruit.service.UserService;
 import com.recruit.smartrecruit.utils.Md5Util;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Map;
-
+@Slf4j
 @Service
 public class UserServiceImpl implements UserService {
 
