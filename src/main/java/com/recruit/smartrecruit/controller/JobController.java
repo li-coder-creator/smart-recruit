@@ -44,8 +44,6 @@ public class JobController {
     @OperationLog("查询岗位详情")
     @GetMapping("{id}")
     public Result<Job> infoJob(@PathVariable("id") long id){
-        Map<String,Object> claims=ThreadLocalUtil.get();
-        Long userId=((Number)claims.get("id")).longValue();
         Job job=jobService.findById(id);
         return Result.success(job);
     }
