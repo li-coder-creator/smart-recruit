@@ -34,8 +34,7 @@ public class GlobalExceptionHandler {
     //处理其他异常
     @ExceptionHandler(Exception.class)
     public Result<Void> handleException(Exception e) {
-        e.printStackTrace();
-        log.error("系统发生未知异常",e);
+        log.error("系统发生未知异常", e);
         return Result.error("系统异常，请联系管理员");
     }
 

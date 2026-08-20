@@ -20,8 +20,6 @@ public class Resume {
 
     private String fileUrl;
 
-    private Integer status;
-
     private LocalDateTime createTime;
 
     private LocalDateTime updateTime;

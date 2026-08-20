@@ -29,7 +29,7 @@ public class UserController {
     //注册求职者用户
     @OperationLog("用户注册")
     @PostMapping("/register")
-    public Result<User> userRegister(@RequestBody @Valid User user) {
+    public Result<Void> userRegister(@RequestBody @Valid User user) {
         // 查询用户名是否已存在
         if (userService.findByUsername(user.getUsername()) != null) {
             return Result.error("用户名已存在");
@@ -39,6 +39,7 @@ public class UserController {
         return Result.success();
     }
     //用户登录
+    @OperationLog("用户登录")
     @PostMapping("/login")
     public Result<String> loginUser(@RequestBody @Valid User user) {
 
@@ -46,7 +47,7 @@ public class UserController {
         User userlogin = userService.findByUsername(user.getUsername());
         // 用户不存在
         if (userlogin == null) {
-            return Result.error("用户不存在在，请注册用户");
+            return Result.error("用户不存在，请先注册");
         }
         // 验证密码
         String encryptPassword = Md5Util.encrypt(user.getPassword());
@@ -64,13 +65,7 @@ public class UserController {
     //显示当前用户信息
     @GetMapping("/info")
     public Result<User> infoUser() {
-        // 从 ThreadLocal 中获取用户信息（拦截器已解析并存储）
-        Map<String, Object> claims = ThreadLocalUtil.get();
-        if (claims == null || claims.isEmpty()) {
-            return Result.error("未登录或token无效");
-        }
-        // 获取用户ID
-        Long id = ((Number) claims.get("id")).longValue();
+        Long id = ThreadLocalUtil.getUserId();
         // 根据用户ID查询用户信息
         User userinfo = userService.findById(id);
         if (userinfo != null) {
@@ -84,11 +79,7 @@ public class UserController {
     @PutMapping("/info")
     public Result<Void> updateUser(@RequestBody @Valid UserUpdateDTO dto)
     {
-
-        // 从 ThreadLocal 获取当前登录用户
-        Map<String, Object> claims = ThreadLocalUtil.get();
-
-        Long id = ((Number) claims.get("id")).longValue();
+        Long id = ThreadLocalUtil.getUserId();
 
         // DTO 转 Entity
         User user = new User();
@@ -108,9 +99,7 @@ public class UserController {
     @OperationLog("修改用户密码")
     @PatchMapping("/password")
     public Result<Void> updatePassword(@RequestBody @Valid UserPasswordDTO dto){
-        //从ThreadLocal获取当前登录用户
-        Map<String,Object> claims=ThreadLocalUtil.get();
-        Long id=((Number) claims.get("id")).longValue();
+        Long id = ThreadLocalUtil.getUserId();
         //判断两次密码
         if(!dto.getNewPassword().equals(dto.getRePassword())){
             return Result.error("两次密码不一致");

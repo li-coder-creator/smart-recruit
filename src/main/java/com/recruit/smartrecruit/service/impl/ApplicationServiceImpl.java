@@ -2,18 +2,15 @@ package com.recruit.smartrecruit.service.impl;
 
 import com.recruit.smartrecruit.dto.ApplicationApplyDTO;
 import com.recruit.smartrecruit.dto.ApplicationStatusUpdateDTO;
-import com.recruit.smartrecruit.entity.Application;
-import com.recruit.smartrecruit.entity.Company;
-import com.recruit.smartrecruit.entity.Job;
-import com.recruit.smartrecruit.entity.Resume;
-import com.recruit.smartrecruit.entity.enums.CompanyStatus;
+import com.recruit.smartrecruit.entity.*;
+import com.recruit.smartrecruit.entity.enums.ApplicationStatus;
+import com.recruit.smartrecruit.entity.enums.UserRole;
 import com.recruit.smartrecruit.exception.BusinessException;
-import com.recruit.smartrecruit.mapper.ApplicationMapper;
-import com.recruit.smartrecruit.mapper.CompanyMapper;
-import com.recruit.smartrecruit.mapper.JobMapper;
-import com.recruit.smartrecruit.mapper.ResumeMapper;
+import com.recruit.smartrecruit.mapper.*;
 import com.recruit.smartrecruit.permission.PermissionService;
 import com.recruit.smartrecruit.service.ApplicationService;
+import com.recruit.smartrecruit.utils.JobStatus;
+import com.recruit.smartrecruit.vo.ApplicationVO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,12 +22,14 @@ public class ApplicationServiceImpl implements ApplicationService {
     private final JobMapper jobMapper;
     private final ResumeMapper resumeMapper;
     private final PermissionService permissionService;
+    private final UserMapper userMapper;
 
-    public ApplicationServiceImpl(ApplicationMapper applicationMapper, JobMapper jobMapper, ResumeMapper resumeMapper, PermissionService permissionService) {
+    public ApplicationServiceImpl(ApplicationMapper applicationMapper, JobMapper jobMapper, ResumeMapper resumeMapper, PermissionService permissionService, UserMapper userMapper) {
         this.applicationMapper = applicationMapper;
         this.jobMapper = jobMapper;
         this.resumeMapper = resumeMapper;
         this.permissionService = permissionService;
+        this.userMapper = userMapper;
     }
 
     @Override
@@ -43,7 +42,7 @@ public class ApplicationServiceImpl implements ApplicationService {
             throw new BusinessException("岗位不存在");
         }
         // 3. 判断岗位是否正在招聘
-        if (job.getStatus() == 1) {
+        if (job.getStatus() == JobStatus.PAUSED.getCode()) {
             throw new BusinessException("岗位已暂停招聘，暂不可投递");
         }
         // 4. 查询简历
@@ -66,36 +65,94 @@ public class ApplicationServiceImpl implements ApplicationService {
         newApplication.setUserId(userId);
         newApplication.setJobId(dto.getJobId());
         newApplication.setResumeId(dto.getResumeId());
-        // 0 = 待处理
-        newApplication.setStatus(0);
+        newApplication.setStatus(
+                ApplicationStatus.PENDING.getCode()
+        );
         // 9. 保存投递记录
         applicationMapper.apply(newApplication);
     }
     @Override
-    public List<Application> findCompanyApplication(Long userId) {
+    public List<ApplicationVO> findCompanyApplication(Long userId) {
         Company company=permissionService.requireApprovedCompany(userId);
-        List<Application> applications=applicationMapper.findCompanyApplication(company.getId());
+        List<ApplicationVO> applications=applicationMapper.findCompanyApplication(company.getId());
+        //遍历每条申请记录，做一个**枚举翻译**：
+        applications.forEach(application ->
+                application.setStatusText(
+                        ApplicationStatus
+                                .fromCode(application.getStatus())
+                                .getDescription()
+                )
+        );
         //展示投递
         return applications;
     }
-
     @Override
-    public Application findCompanyApplicationById(Long id, Long userId) {
-        Company company=permissionService.requireApprovedCompany(userId);
-        //判断投递是否存在
-        Application application=applicationMapper.findCompanyApplicationById(id);
-        if(application==null){
-            throw  new BusinessException("该投递不存在");
+    public List<ApplicationVO> findJobseekerApplication(Long userId) {
+        List<ApplicationVO> applications=applicationMapper.findJobseekerApplication(userId);
+        //遍历每条申请记录，做一个**枚举翻译**：
+        applications.forEach(application ->
+                application.setStatusText(
+                        ApplicationStatus
+                                .fromCode(application.getStatus())
+                                .getDescription()
+                )
+        );
+
+        //展示投递
+        return applications;
+    }
+    @Override
+    public ApplicationVO findApplicationDetail(Long id, Long userId) {
+
+        ApplicationVO application =
+                applicationMapper.findApplicationDetail(id);
+
+        if (application == null) {
+            throw new BusinessException("该投递不存在");
         }
-        Job job=jobMapper.findById(application.getJobId());
-        //判断岗位是否存在
-        if(job==null){
-            throw  new BusinessException("该岗位不存在");
+        User user = userMapper.findById(userId);
+
+        if (user == null) {
+            throw new BusinessException("用户不存在");
         }
-        //判断查看的岗位是否属于该公司
-        if(!job.getCompanyId().equals(company.getId())){
-            throw  new BusinessException("无权访问该投递");
+        // 求职者：只能查看自己的投递
+        if (user.getRole() == UserRole.JOB_SEEKER) {
+
+            permissionService.requireJobSeeker(userId);
+
+            if (!application.getUserId().equals(userId)) {
+                throw new BusinessException("无权访问该投递");
+            }
+
         }
+        // 企业：只能查看自己企业收到的投递
+        else if (user.getRole() == UserRole.COMPANY) {
+
+            Company company =
+                    permissionService.requireApprovedCompany(userId);
+
+            Job job = jobMapper.findById(application.getJobId());
+
+            if (job == null) {
+                throw new BusinessException("该岗位不存在");
+            }
+
+            if (!job.getCompanyId().equals(company.getId())) {
+                throw new BusinessException("无权访问该投递");
+            }
+
+        }
+        else {
+
+            throw new BusinessException("无权访问该投递");
+
+        }
+        // 状态枚举翻译
+        application.setStatusText(
+                ApplicationStatus
+                        .fromCode(application.getStatus())
+                        .getDescription()
+        );
         return application;
     }
 
@@ -103,7 +160,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     public void updateStatus(Long id, Long userId, ApplicationStatusUpdateDTO dto) {
         Company company=permissionService.requireApprovedCompany(userId);
         //判断投递是否存在
-        Application application=applicationMapper.findCompanyApplicationById(id);
+        ApplicationVO application=applicationMapper.findApplicationDetail(id);
         if(application==null){
             throw  new BusinessException("该投递不存在");
         }
@@ -116,8 +173,13 @@ public class ApplicationServiceImpl implements ApplicationService {
         if(!job.getCompanyId().equals(company.getId())){
             throw  new BusinessException("无权修改该投递");
         }
-        Integer status=dto.getStatus();
-        applicationMapper.updateStatus(id,status);
+        ApplicationStatus applicationStatus =
+                ApplicationStatus.fromCode(dto.getStatus());
+
+        applicationMapper.updateStatus(
+                id,
+                applicationStatus.getCode()
+        );
     }
 
 }

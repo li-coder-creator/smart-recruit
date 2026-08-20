@@ -9,7 +9,6 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/resume")
@@ -23,8 +22,7 @@ public class ResumeController {
     @PostMapping()
     public Result<Void> addResume(@RequestBody @Valid Resume resume) {
         //获取当前登录用户
-        Map<String, Object> claims = ThreadLocalUtil.get();
-        Long userId = ((Number) claims.get("id")).longValue();
+        Long userId = ThreadLocalUtil.getUserId();
         resume.setUserId(userId);
         resumeService.add(resume);
         return Result.success();
@@ -33,18 +31,15 @@ public class ResumeController {
     @GetMapping()
     public Result<List<Resume>> list(){
         //获取当前登录用户
-        Map<String, Object> claims = ThreadLocalUtil.get();
-        Long userId = ((Number) claims.get("id")).longValue();
+        Long userId = ThreadLocalUtil.getUserId();
         List<Resume> resumes=resumeService.findByUserId(userId);
         return Result.success(resumes);
     }
     //查询简历详情
     @GetMapping("{id}")
-    public Result<Resume> info(@PathVariable("id") Long Id){
-        //获取当前登录用户
-        Map<String,Object> claims=ThreadLocalUtil.get();
-        Long userId=((Number)claims.get("id")).longValue();
-        Resume resume=resumeService.findById(Id,userId);
+    public Result<Resume> info(@PathVariable("id") Long id){
+        Long userId = ThreadLocalUtil.getUserId();
+        Resume resume=resumeService.findById(id,userId);
         return Result.success(resume);
     }
     //修改简历
@@ -52,8 +47,7 @@ public class ResumeController {
     @PutMapping()
     public Result<Void> updateResume(@RequestBody @Valid Resume newResume){
         //获取当前登录用户
-        Map<String,Object> claims=ThreadLocalUtil.get();
-        Long userId=((Number)claims.get("id")).longValue();
+        Long userId = ThreadLocalUtil.getUserId();
         //设置用户ID用于权限校验
         newResume.setUserId(userId);
         resumeService.update(newResume);
@@ -64,8 +58,7 @@ public class ResumeController {
     @DeleteMapping("{id}")
     public Result<Void> deleteResume(@PathVariable("id") Long id){
         //获取用户id
-        Map<String,Object> claims=ThreadLocalUtil.get();
-        Long userId=((Number)claims.get("id")).longValue();
+        Long userId = ThreadLocalUtil.getUserId();
         resumeService.delete(id,userId);
         return Result.success();
 

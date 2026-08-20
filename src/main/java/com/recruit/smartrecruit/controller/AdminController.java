@@ -12,14 +12,11 @@ import com.recruit.smartrecruit.service.CompanyService;
 import com.recruit.smartrecruit.utils.ThreadLocalUtil;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-
 @RestController
 @RequestMapping("admin")
 public class AdminController {
-    //注入
-    public final AdminService adminService;
-    public final CompanyService companyService;
+    private final AdminService adminService;
+    private final CompanyService companyService;
     public AdminController(AdminService adminService, CompanyService companyService) {
         this.adminService = adminService;
         this.companyService = companyService;
@@ -30,8 +27,7 @@ public class AdminController {
     @GetMapping("/company/pending")
     public Result<PageResult<Company>> findPendingCompanies(@RequestParam(defaultValue = "1") Integer page,
                                                             @RequestParam(defaultValue = "10") Integer pageSize){
-        Map<String,Object> claims=ThreadLocalUtil.get();
-        Long userId=((Number)claims.get("id")).longValue();
+        Long userId = ThreadLocalUtil.getUserId();
         PageResult<Company> pageResult=adminService.findPendingCompanies(userId,page,pageSize);
         return Result.success(pageResult);
     }
@@ -41,8 +37,7 @@ public class AdminController {
     public Result<PageResult<Company>> findAllCompany(@RequestParam(defaultValue = "1") Integer page,
                                                       @RequestParam(defaultValue = "10") Integer pageSize,
                                                       @RequestParam(required = false)CompanyStatus companyStatus){
-        Map<String,Object> claims=ThreadLocalUtil.get();
-        Long userId=((Number)claims.get("id")).longValue();
+        Long userId = ThreadLocalUtil.getUserId();
         PageResult<Company> pageResult=adminService.findAllCompany(userId,companyStatus,page,pageSize);
         return Result.success(pageResult);
     }
@@ -50,26 +45,23 @@ public class AdminController {
     @OperationLog("查看企业详情")
     @GetMapping("/company/{id}")
     public Result<Company> findCompanyById(@PathVariable("id") Long companyId){
-        Map<String,Object> claims=ThreadLocalUtil.get();
-        Long userId=((Number)claims.get("id")).longValue();
+        Long userId = ThreadLocalUtil.getUserId();
         Company company=adminService.findCompanyById(userId,companyId);
         return Result.success(company);
     }
     //企业审核通过
     @OperationLog("企业审核通过")
     @PutMapping("/company/{id}/approve")
-    public Result<Void> CompanyApprovedStatus(@PathVariable Long id){
-        Map<String,Object> claims=ThreadLocalUtil.get();
-        Long userId=((Number)claims.get("id")).longValue();
+    public Result<Void> companyApprovedStatus(@PathVariable Long id){
+        Long userId = ThreadLocalUtil.getUserId();
         adminService.updateCompanyStatus(userId, id, CompanyStatus.APPROVED);
         return Result.success();
     }
     //企业审核拒绝
     @OperationLog("企业审核拒绝")
     @PutMapping("/company/{id}/reject")
-    public Result<Void> CompanyRejectedStatus(@PathVariable Long id){
-        Map<String,Object> claims=ThreadLocalUtil.get();
-        Long userId=((Number)claims.get("id")).longValue();
+    public Result<Void> companyRejectedStatus(@PathVariable Long id){
+        Long userId = ThreadLocalUtil.getUserId();
         adminService.updateCompanyStatus(userId, id, CompanyStatus.REJECTED);
         return Result.success();
     }
@@ -80,8 +72,7 @@ public class AdminController {
                                                 @RequestParam(defaultValue = "10")Integer pageSize,
                                                 @RequestParam(required = false)UserRole userRole
                                                 ){
-        Map<String,Object> claims=ThreadLocalUtil.get();
-        Long userId=((Number)claims.get("id")).longValue();
+        Long userId = ThreadLocalUtil.getUserId();
         PageResult<User> pageResult=adminService.findAllUsers(userId,userRole,page,pageSize);
         return Result.success(pageResult);
     }
@@ -89,8 +80,7 @@ public class AdminController {
     @OperationLog("查看用户详情")
     @GetMapping("user/{id}")
     public Result<User> findUserDetailById(@PathVariable("id")Long id){
-        Map<String,Object> claims=ThreadLocalUtil.get();
-        Long userId=((Number)claims.get("id")).longValue();
+        Long userId = ThreadLocalUtil.getUserId();
         User user=adminService.findUserDetailById(userId,id);
         return Result.success(user);
     }

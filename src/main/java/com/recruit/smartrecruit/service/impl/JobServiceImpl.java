@@ -2,7 +2,6 @@ package com.recruit.smartrecruit.service.impl;
 
 import com.recruit.smartrecruit.entity.Company;
 import com.recruit.smartrecruit.entity.Job;
-import com.recruit.smartrecruit.entity.enums.CompanyStatus;
 import com.recruit.smartrecruit.exception.BusinessException;
 import com.recruit.smartrecruit.mapper.CompanyMapper;
 import com.recruit.smartrecruit.mapper.JobMapper;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
@@ -27,13 +25,15 @@ public class JobServiceImpl implements JobService {
     private final PermissionService permissionService;
     private final RedisTemplate<String, Object> redisTemplate;
     private final ScheduledExecutorService cacheDelayExecutor;
+    private final CompanyMapper companyMapper;
     private final String CACHE_NULL = "NOT_FOUND";
 
-    public JobServiceImpl(JobMapper jobMapper, PermissionService permissionService, RedisTemplate<String, Object> redisTemplate, ScheduledExecutorService cacheDelayExecutor) {
+    public JobServiceImpl(JobMapper jobMapper, PermissionService permissionService, RedisTemplate<String, Object> redisTemplate, ScheduledExecutorService cacheDelayExecutor, CompanyMapper companyMapper) {
         this.jobMapper = jobMapper;
         this.permissionService = permissionService;
         this.redisTemplate = redisTemplate;
         this.cacheDelayExecutor = cacheDelayExecutor;
+        this.companyMapper = companyMapper;
     }
 
     @Override
@@ -155,6 +155,12 @@ public class JobServiceImpl implements JobService {
 
 
     @Override
+    public List<Job> findCompanyJob(Long userId) {
+     Company company=permissionService.requireCompany(userId);
+     return jobMapper.findByCompanyId(company.getId());
+    }
+
+    @Override
     public void update(Job newJob, Long userId) {
      Company company=permissionService.requireApprovedCompany(userId);
      //权限校验
@@ -182,7 +188,6 @@ public class JobServiceImpl implements JobService {
              TimeUnit.MILLISECONDS
      );
 
-     redisTemplate.delete(key);
     }
 
     @Override

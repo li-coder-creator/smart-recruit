@@ -1,6 +1,5 @@
 package com.recruit.smartrecruit.mapper;
 
-import com.recruit.smartrecruit.common.Result;
 import com.recruit.smartrecruit.entity.Company;
 import com.recruit.smartrecruit.entity.enums.CompanyStatus;
 import org.apache.ibatis.annotations.*;
@@ -83,7 +82,7 @@ public interface CompanyMapper {
             SELECT *
             FROM COMPANY
             <where>
-                <if test="status != null">
+                <if test="companyStatus != null">
                     status = #{companyStatus}
                 </if>
             </where>

@@ -57,7 +57,11 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public void updateCompanyStatus(Long userId, Long id, CompanyStatus companyStatus) {
         permissionService.requireAdmin(userId);
-        companyMapper.updateStatus(id,companyStatus);
+        Company company = companyMapper.findCompanyById(id);
+        if (company == null) {
+            throw new BusinessException("企业不存在");
+        }
+        companyMapper.updateStatus(id, companyStatus);
     }
 
     @Override

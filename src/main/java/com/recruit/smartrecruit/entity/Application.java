@@ -13,11 +13,11 @@ import java.time.LocalDateTime;
 @Data
 public class Application {
     private Long id;
-    @NotBlank(message = "用户ID不能为空")
+    @NotNull(message = "用户ID不能为空")
     private Long userId;
-    @NotBlank(message = "岗位ID不能为空")
+    @NotNull(message = "岗位ID不能为空")
     private Long jobId;
-    @NotBlank(message = "简历ID不能为空")
+    @NotNull(message = "简历ID不能为空")
     private Long resumeId;
     @NotNull(message="投递状态不能为空")
     private Integer status;

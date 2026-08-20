@@ -35,7 +35,7 @@ public interface ResumeMapper {
     @Select("""
             SELECT *
             FROM resume
-            WHERE id= #{Id}
+            WHERE id= #{id}
             """)
     Resume findById(Long id);
     //修改简历

@@ -33,12 +33,12 @@ public interface JobMapper {
     void add(Job job);
     @Select("""
             SELECT *
-            FROM job;
+            FROM job
             """)
     List<Job> findAllJob();
     @Select("""
             SELECT *
-            FROM job WHERE id=#{id};
+            FROM job WHERE id=#{id}
             """)
     Job findById(Long id);
     @Update("""
@@ -52,7 +52,7 @@ public interface JobMapper {
             experience=#{experience},
             education= #{education},
             status=#{status}
-            WHERE id=#{id};
+            WHERE id=#{id}
             """)
     void update(Job newJob);
     @Delete("""
@@ -61,4 +61,10 @@ public interface JobMapper {
             WHERE id=#{id}
             """)
     void delete(Long id);
+    @Select("""
+            SELECT *
+            FROM job
+            WHERE company_id=#{companyId};
+            """)
+    List<Job> findByCompanyId(Long companyId);
 }

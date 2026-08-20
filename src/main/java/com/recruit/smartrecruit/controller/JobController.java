@@ -10,7 +10,6 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/job")
@@ -28,9 +27,8 @@ public class JobController {
     @OperationLog("发布岗位")
     @PostMapping
     public Result<Void> addJob(@RequestBody @Valid Job job){
-        Map<String,Object> claims=ThreadLocalUtil.get();
-        Long userId=((Number)claims.get("id")).longValue();
-        jobService.add(job,userId);
+        Long userId = ThreadLocalUtil.getUserId();
+        jobService.add(job, userId);
         return Result.success();
     }
     //查询岗位列表
@@ -38,6 +36,14 @@ public class JobController {
     @GetMapping()
     public Result<List<Job>> listJob(){
         List<Job> jobs=jobService.findAllJob();
+        return Result.success(jobs);
+    }
+    //公司查询发布的岗位
+    @OperationLog("公司查询发布的岗位")
+    @GetMapping("/company")
+    public Result<List<Job>> listCompanyJob(){
+        Long userId = ThreadLocalUtil.getUserId();
+        List<Job> jobs = jobService.findCompanyJob(userId);
         return Result.success(jobs);
     }
     //查询岗位详情
@@ -50,19 +56,17 @@ public class JobController {
     //修改岗位
     @OperationLog("修改岗位信息")
     @PutMapping
-    public Result<Void> updateJob(@RequestBody Job newJob){
-        Map<String,Object> claims=ThreadLocalUtil.get();
-        Long userId=((Number)claims.get("id")).longValue();
-        jobService.update(newJob,userId);
-        return  Result.success();
+    public Result<Void> updateJob(@RequestBody @Valid Job newJob){
+        Long userId = ThreadLocalUtil.getUserId();
+        jobService.update(newJob, userId);
+        return Result.success();
     }
     //删除岗位
     @OperationLog("删除岗位")
     @DeleteMapping("{id}")
     public Result<Void> deleteJob(@PathVariable("id") long id){
-        Map<String,Object> claims=ThreadLocalUtil.get();
-        Long userId=((Number)claims.get("id")).longValue();
-        jobService.delete(id,userId);
+        Long userId = ThreadLocalUtil.getUserId();
+        jobService.delete(id, userId);
         return Result.success();
     }
 }

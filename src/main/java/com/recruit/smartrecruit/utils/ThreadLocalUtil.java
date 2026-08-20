@@ -24,7 +24,16 @@ public class ThreadLocalUtil {
     public static Map<String, Object> get() {
         return THREAD_LOCAL.get();
     }
-
+    /**
+     *
+     */
+    public static Long getUserId() {
+        Map<String, Object> claims = THREAD_LOCAL.get();
+        if (claims == null) {
+            throw new IllegalStateException("未登录");
+        }
+        return ((Number) claims.get("id")).longValue();
+    }
     /**
      * 删除数据
      */

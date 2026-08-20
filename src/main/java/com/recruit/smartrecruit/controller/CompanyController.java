@@ -31,8 +31,7 @@ public class CompanyController {
     @PostMapping()
     public Result<Void> addCompany(@RequestBody @Valid Company company){
         //获取当前登录用户
-        Map<String,Object> claims= ThreadLocalUtil.get();
-        Long userId=((Number)claims.get("id")).longValue();
+        Long userId = ThreadLocalUtil.getUserId();
         company.setUserId(userId);
         companyService.add(company);
         return Result.success();
@@ -40,16 +39,14 @@ public class CompanyController {
     //查询当前用户企业
     @GetMapping()
     public Result<Company> getMyCompany(){
-        Map<String,Object>claims=ThreadLocalUtil.get();
-        Long userId=((Number)claims.get("id")).longValue();
+        Long userId = ThreadLocalUtil.getUserId();
         Company company=companyService.findByUserId(userId);
         return Result.success(company);
     }
     //修改企业
     @PutMapping()
     public Result<Void> updateCompany(@RequestBody Company newCompany){
-        Map<String,Object> claims=ThreadLocalUtil.get();
-        Long userId=((Number)claims.get("id")).longValue();
+        Long userId = ThreadLocalUtil.getUserId();
         newCompany.setUserId(userId);
         companyService.update(newCompany);
         return Result.success();
@@ -57,8 +54,7 @@ public class CompanyController {
     //删除企业
     @DeleteMapping()
     public Result<Void> deleteCompany(){
-        Map<String,Object>claims=ThreadLocalUtil.get();
-        Long userId=((Number)claims.get("id")).longValue();
+        Long userId = ThreadLocalUtil.getUserId();
         companyService.delete(userId);
         return Result.success();
     }

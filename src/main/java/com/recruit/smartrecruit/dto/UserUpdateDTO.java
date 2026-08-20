@@ -14,8 +14,8 @@ public class UserUpdateDTO {
 
     @NotBlank(message = "用户名不能为空")
     @Pattern(
-            regexp = "^[a-zA-Z0-9_]{5,16}$",
-            message = "用户名必须5~16位，只能包含数字字母下划线"
+            regexp = "^[a-zA-Z0-9_]{5,26}$",
+            message = "用户名必须5~26位，只能包含数字字母下划线"
     )
     private String username;
 

@@ -18,7 +18,7 @@ public class CompanyRegisterDTO {
             regexp = "^[a-zA-Z0-9_]{5,26}$",
             message = "密码名必须5~26位，只能包含数字字母下划线"
     )
-    private String Password;
+    private String password;
     @NotBlank(message = "企业名称不能为空")
     private String companyName;
 
