@@ -1,4 +1,4 @@
-package com.recruit.smartrecruit.utils;
+package com.recruit.smartrecruit.entity.enums;
 
 import lombok.Getter;
 

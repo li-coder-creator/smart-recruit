@@ -45,9 +45,8 @@ public interface CompanyMapper {
             description=#{description},
             logo=#{logo},
             city=#{city},
-            address=#{address},
-            status=#{status}
-            WHERE id=#{id};
+            address=#{address}
+            WHERE id=#{id}
             """)
     void update(Company newCompany);
 
@@ -68,9 +67,9 @@ public interface CompanyMapper {
             UPDATE company
             SET
             status=#{status}
-            WHERE id=#{id};
+            WHERE id=#{id}
             """)
-    void updateStatus(Long id,CompanyStatus status);
+    void updateStatus(@Param("id") Long id, @Param("status") CompanyStatus status);
     @Select("""
             SELECT *
             FROM COMPANY

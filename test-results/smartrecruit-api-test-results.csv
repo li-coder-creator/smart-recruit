@@ -1,0 +1,49 @@
+﻿caseId,name,method,path,type,priority,status,httpStatus,code,message,detail
+AUTH-015,protected endpoint without token,GET,/user/info,auth,P0,PASSED,401,,,OK
+AUTH-001,register applicant,POST,/user/register,normal,P0,PASSED,200,200,success,OK
+AUTH-010,duplicate applicant username,POST,/user/register,business-error,P0,PASSED,200,500,用户名已存在,OK
+AUTH-004,username too short,POST,/user/register,boundary,P0,PASSED,200,500,用户名必须5~26位，只能包含数字字母下划线,OK
+AUTH-011,login applicant,POST,/user/login,normal,P0,PASSED,200,200,success,OK
+AUTH-013,login wrong password,POST,/user/login,error,P0,PASSED,200,500,用户名或密码错误,OK
+USER-001,get applicant info,GET,/user/info,normal,P0,PASSED,200,200,success,OK
+USER-003,update applicant profile,PUT,/user/info,normal,P0,PASSED,200,200,success,OK
+USER-004,update invalid email,PUT,/user/info,format-error,P0,PASSED,200,500,邮箱格式不正确,OK
+COMP-001,register company,POST,/company/register,normal,P0,PASSED,200,200,success,OK
+AUTH-COMP,login company,POST,/user/login,normal,P0,PASSED,200,200,success,OK
+COMP-008,get company before approval,GET,/company,normal,P1,PASSED,200,200,success,OK
+JOB-002,pending company cannot publish job,POST,/job,business-error,P0,PASSED,200,500,企业未通过验证,OK
+AUTH-ADMIN,login admin,POST,/user/login,normal,P0,PASSED,200,200,success,OK
+ADMIN-001,pending company list,GET,/admin/company/pending?page=1&pageSize=10,normal,P0,PASSED,200,200,success,OK
+ADMIN-008,company detail,GET,/admin/company/25,normal,P0,PASSED,200,200,success,OK
+ADMIN-010,approve generated company,PUT,/admin/company/25/approve,state-change,P0,PASSED,200,200,success,OK
+JOB-001,approved company publishes job,POST,/job,normal,P0,PASSED,200,200,success,OK
+JOB-009,company job list,GET,/job/company,normal,P0,PASSED,200,200,success,OK
+JOB-007A,job list requires auth,GET,/job,auth,P0,PASSED,401,,,OK
+JOB-007,job list with applicant token,GET,/job,normal,P0,PASSED,200,200,success,OK
+JOB-011,job detail,GET,/job/13,normal,P0,PASSED,200,200,success,OK
+JOB-012,missing job detail,GET,/job/99999999,error,P0,PASSED,200,500,岗位不存在,OK
+RES-001,create resume,POST,/resume,normal,P0,PASSED,200,200,success,OK
+RES-005,resume list,GET,/resume,normal,P0,PASSED,200,200,success,OK
+RES-007,resume detail,GET,/resume/13,normal,P0,PASSED,200,200,success,OK
+EDU-001,create education,POST,/resume/13/education,normal,P0,PASSED,200,200,success,OK
+EDU-006,education list,GET,/resume/13/education,normal,P0,PASSED,200,200,success,OK
+RES-002,company cannot create resume,POST,/resume,permission,P0,PASSED,200,500,仅求职者可访问,OK
+APP-001,apply job,POST,/application,normal,P0,PASSED,200,200,success,OK
+APP-009,duplicate apply,POST,/application,duplicate,P0,PASSED,200,500,请勿重复投递同一岗位,OK
+APP-010,applicant application list,GET,/application/mine,normal,P0,PASSED,200,200,success,OK
+APP-012,company application list,GET,/application/my,normal,P0,PASSED,200,200,success,OK
+APP-014,application detail as applicant,GET,/application/11,normal,P0,PASSED,200,200,success,OK
+APP-019,update application status to interview,PUT,/application/11/status,state-change,P0,PASSED,200,200,success,OK
+APP-020,application status out of range,PUT,/application/11/status,boundary,P0,PASSED,200,500,投递状态不能大于4,OK
+APP-013,applicant cannot view company applications,GET,/application/my,permission,P0,PASSED,200,500,仅企业用户可访问,OK
+ADMIN-004,applicant cannot query pending companies,GET,/admin/company/pending,permission,P0,PASSED,200,500,仅管理员可访问,OK
+ADMIN-005,admin company list,GET,/admin/company?page=1&pageSize=10,normal,P0,PASSED,200,200,success,OK
+ADMIN-006,admin company filter approved,GET,/admin/company?page=1&pageSize=10&companyStatus=APPROVED,filter,P0,PASSED,200,200,success,OK
+ADMIN-007,admin company invalid status,GET,/admin/company?companyStatus=UNKNOWN,format-error,P1,PASSED,200,500,系统异常，请联系管理员,OK
+ADMIN-015,admin user list,GET,/admin/user?page=1&pageSize=10,normal,P0,PASSED,200,200,success,OK
+ADMIN-016,admin user filter company,GET,/admin/user?page=1&pageSize=10&userRole=COMPANY,filter,P0,PASSED,200,200,success,OK
+ADMIN-017,admin user invalid role,GET,/admin/user?userRole=USER,format-error,P1,PASSED,200,500,系统异常，请联系管理员,OK
+USER-007,change password,PATCH,/user/password,high-risk,P0,SKIPPED,,,Skipped to avoid changing credentials,Skipped to avoid changing credentials
+JOB-017,delete job,DELETE,/job/{{jobId}},high-risk,P1,SKIPPED,,,Skipped to preserve generated audit data,Skipped to preserve generated audit data
+RES-013,delete resume,DELETE,/resume/{{resumeId}},high-risk,P1,SKIPPED,,,Skipped to preserve generated audit data,Skipped to preserve generated audit data
+COMP-012,delete company,DELETE,/company,high-risk,P1,SKIPPED,,,Skipped to preserve generated audit data,Skipped to preserve generated audit data

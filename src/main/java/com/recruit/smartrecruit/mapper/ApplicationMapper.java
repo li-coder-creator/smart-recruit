@@ -4,6 +4,7 @@ import com.recruit.smartrecruit.entity.Application;
 import com.recruit.smartrecruit.vo.ApplicationVO;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
@@ -17,7 +18,7 @@ public interface ApplicationMapper {
             WHERE user_id=#{userId} AND
             job_id=#{jobId}
             """)
-    Application findByUserIdAndJobId(Long userId, Long jobId);
+    Application findByUserIdAndJobId(@Param("userId") Long userId, @Param("jobId") Long jobId);
     @Insert("""
             INSERT INTO job_application
             (
@@ -66,7 +67,7 @@ public interface ApplicationMapper {
             status=#{status}
             WHERE id=#{id}
             """)
-    void updateStatus(Long id, Integer status);
+    void updateStatus(@Param("id") Long id, @Param("status") Integer status);
     @Select("""
         SELECT
             ja.id,

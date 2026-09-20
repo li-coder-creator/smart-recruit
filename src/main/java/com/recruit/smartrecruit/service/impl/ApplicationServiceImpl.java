@@ -9,7 +9,7 @@ import com.recruit.smartrecruit.exception.BusinessException;
 import com.recruit.smartrecruit.mapper.*;
 import com.recruit.smartrecruit.permission.PermissionService;
 import com.recruit.smartrecruit.service.ApplicationService;
-import com.recruit.smartrecruit.utils.JobStatus;
+import com.recruit.smartrecruit.entity.enums.JobStatus;
 import com.recruit.smartrecruit.vo.ApplicationVO;
 import org.springframework.stereotype.Service;
 
@@ -46,7 +46,7 @@ public class ApplicationServiceImpl implements ApplicationService {
             throw new BusinessException("岗位已暂停招聘，暂不可投递");
         }
         // 4. 查询简历
-        Resume resume = resumeMapper.findById(dto.getResumeId());
+        Resumebasic resume = resumeMapper.findById(dto.getResumeId());
         // 5. 判断简历是否存在
         if (resume == null) {
             throw new BusinessException("简历不存在");
