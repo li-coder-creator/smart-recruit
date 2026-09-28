@@ -12,7 +12,7 @@ public final class ResumeValidationConstants {
     public static final int DEGREE_MAX_LENGTH = 30;
     public static final int GPA_MAX_LENGTH = 20;
     public static final int TECH_STACK_MAX_LENGTH = 500;
-    public static final int DESCRIPTION_MAX_LENGTH = 1000;
+    public static final int DESCRIPTION_MAX_LENGTH = 500;
     public static final int DETAIL_DESCRIPTION_MAX_LENGTH = 2000;
     public static final int URL_MAX_LENGTH = 2048;
     public static final int SORT_ORDER_MIN = 0;

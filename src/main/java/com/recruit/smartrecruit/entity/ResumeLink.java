@@ -27,7 +27,7 @@ public class ResumeLink {
     @Size(max = ResumeValidationConstants.URL_MAX_LENGTH, message = "链接地址长度不能超过2048个字符")
     private String url;
 
-    @Size(max = ResumeValidationConstants.DESCRIPTION_MAX_LENGTH, message = "链接描述长度不能超过1000个字")
+    @Size(max = ResumeValidationConstants.DESCRIPTION_MAX_LENGTH, message = "链接描述长度不能超过500个字")
     private String description;
 
     @PositiveOrZero(message = "排序值不能小于0")

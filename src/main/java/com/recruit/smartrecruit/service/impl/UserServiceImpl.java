@@ -90,6 +90,19 @@ public class UserServiceImpl implements UserService {
     //修改当前用户
     @Override
     public void update(User user) {
+        //查询当前用户是否存在
+        User exist = userMapper.findById(user.getId());
+        if (exist == null) {
+            throw new BusinessException("用户不存在");
+        }
+        //若修改了用户名，需校验新用户名是否已被占用
+        String newUsername = user.getUsername();
+        if (newUsername != null && !newUsername.equals(exist.getUsername())) {
+            User sameNameUser = userMapper.findByUsername(newUsername);
+            if (sameNameUser != null) {
+                throw new BusinessException("用户名已存在");
+            }
+        }
         userMapper.update(user);
     }
     //修改密码

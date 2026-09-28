@@ -27,7 +27,7 @@ public class JobPreference {
     @Size(max = ResumeValidationConstants.SHORT_TEXT_MAX_LENGTH, message = "期望薪资说明长度不能超过50个字")
     private String salaryText;
     private LocalDate availableDate;
-    @Size(max = ResumeValidationConstants.DESCRIPTION_MAX_LENGTH, message = "求职意向描述长度不能超过1000个字")
+    @Size(max = ResumeValidationConstants.DESCRIPTION_MAX_LENGTH, message = "求职意向描述长度不能超过500个字")
     private String description;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;

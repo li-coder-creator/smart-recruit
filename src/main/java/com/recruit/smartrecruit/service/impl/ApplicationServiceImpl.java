@@ -12,6 +12,7 @@ import com.recruit.smartrecruit.service.ApplicationService;
 import com.recruit.smartrecruit.entity.enums.JobStatus;
 import com.recruit.smartrecruit.vo.ApplicationVO;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -33,6 +34,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
+    @Transactional
     public void apply(ApplicationApplyDTO dto, Long userId) {
         permissionService.requireJobSeeker(userId);
         // 1. 查询岗位
@@ -117,8 +119,6 @@ public class ApplicationServiceImpl implements ApplicationService {
         }
         // 求职者：只能查看自己的投递
         if (user.getRole() == UserRole.JOB_SEEKER) {
-
-            permissionService.requireJobSeeker(userId);
 
             if (!application.getUserId().equals(userId)) {
                 throw new BusinessException("无权访问该投递");

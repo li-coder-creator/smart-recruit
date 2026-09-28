@@ -123,6 +123,7 @@ public class ResumeServiceImpl implements ResumeService {
     }
     //删除简历
     @Override
+    @Transactional
     public void delete(Long id,Long userId) {
         permissionService.requireJobSeeker(userId);
         //从数据库拿到查询简历对应的实体
@@ -134,6 +135,14 @@ public class ResumeServiceImpl implements ResumeService {
         if (!resume.getUserId().equals(userId)){
             throw new BusinessException("无权限访问");
         }
+        //先级联删除简历关联的各子模块数据，避免产生孤儿数据
+        resumeMapper.deleteJobPreferenceByResumeId(id);
+        resumeMapper.deleteEducationByResumeId(id);
+        resumeMapper.deleteExperienceByResumeId(id);
+        resumeMapper.deleteProjectByResumeId(id);
+        resumeMapper.deleteSkillByResumeId(id);
+        resumeMapper.deleteCertByResumeId(id);
+        resumeMapper.deleteLinkByResumeId(id);
         // 删除默认简历后允许当前用户暂时没有默认简历。
         resumeMapper.delete(id);
     }
@@ -142,7 +151,6 @@ public class ResumeServiceImpl implements ResumeService {
     @Override
     @Transactional
     public void addJobPreference(Long resumeId, JobPreference jobPreference, Long userId) {
-        permissionService.requireJobSeeker(userId);
         findById(resumeId, userId);
         JobPreference exist = resumeMapper.findJobPreferenceByResumeId(resumeId);
         if (exist != null) {
@@ -155,7 +163,6 @@ public class ResumeServiceImpl implements ResumeService {
     //获取求职意向
     @Override
     public JobPreference getJobPreference(Long resumeId, Long userId) {
-        permissionService.requireJobSeeker(userId);
         findById(resumeId, userId);
         return resumeMapper.findJobPreferenceByResumeId(resumeId);
     }
@@ -163,7 +170,6 @@ public class ResumeServiceImpl implements ResumeService {
     @Override
     @Transactional
     public void updateJobPreference(Long preferenceId, JobPreference jobPreference, Long userId) {
-        permissionService.requireJobSeeker(userId);
         JobPreference exist = resumeMapper.findJobPreferenceById(preferenceId);
         if (exist == null) {
             throw new BusinessException("求职意向不存在");
@@ -177,7 +183,6 @@ public class ResumeServiceImpl implements ResumeService {
     @Override
     @Transactional
     public void deleteJobPreference(Long preferenceId, Long userId) {
-        permissionService.requireJobSeeker(userId);
         JobPreference exist = resumeMapper.findJobPreferenceById(preferenceId);
         if (exist == null) {
             throw new BusinessException("求职意向不存在");
@@ -191,7 +196,6 @@ public class ResumeServiceImpl implements ResumeService {
     @Override
     @Transactional
     public void addResumeEducation(Long resumeId, ResumeEducation resumeEducation, Long userId) {
-        permissionService.requireJobSeeker(userId);
         findById(resumeId, userId);
         //设置默认排序顺序
         if (resumeEducation.getSortOrder() == null) {
@@ -204,7 +208,6 @@ public class ResumeServiceImpl implements ResumeService {
     //获取简历教育经历
     @Override
     public List<ResumeEducation> getResumeEducation(Long resumeId, Long userId) {
-        permissionService.requireJobSeeker(userId);
         findById(resumeId, userId);
         return resumeMapper.getResumeEducation(resumeId);
     }
@@ -212,7 +215,6 @@ public class ResumeServiceImpl implements ResumeService {
     @Override
     @Transactional
     public void updateResumeEducation(Long educationId, ResumeEducation resumeEducation, Long userId) {
-        permissionService.requireJobSeeker(userId);
         ResumeEducation resumeEducation1=resumeMapper.findEducationById(educationId);
         if (resumeEducation1 == null) {
             throw new BusinessException("教育经历不存在");
@@ -227,7 +229,6 @@ public class ResumeServiceImpl implements ResumeService {
     @Override
     @Transactional
     public void deleteResumeEducation( Long educationId, Long userId) {
-        permissionService.requireJobSeeker(userId);
         ResumeEducation exist = resumeMapper.findEducationById(educationId);
         if (exist == null) {
             throw new BusinessException("教育经历不存在");
@@ -241,7 +242,6 @@ public class ResumeServiceImpl implements ResumeService {
     @Override
     @Transactional
     public void addResumeExperience(Long resumeId, ResumeExperience experience, Long userId) {
-        permissionService.requireJobSeeker(userId);
         findById(resumeId, userId);
         //设置默认排序顺序
         if (experience.getSortOrder() == null) {
@@ -254,7 +254,6 @@ public class ResumeServiceImpl implements ResumeService {
     //获取简历工作经历
     @Override
     public List<ResumeExperience> getResumeExperience(Long resumeId, Long userId) {
-        permissionService.requireJobSeeker(userId);
         findById(resumeId, userId);
         return resumeMapper.getResumeExperience(resumeId);
     }
@@ -262,7 +261,6 @@ public class ResumeServiceImpl implements ResumeService {
     @Override
     @Transactional
     public void updateResumeExperience(Long experienceId, ResumeExperience experience, Long userId) {
-        permissionService.requireJobSeeker(userId);
         ResumeExperience exist = resumeMapper.findExperienceById(experienceId);
         if (exist == null) {
             throw new BusinessException("工作经历不存在");
@@ -279,7 +277,6 @@ public class ResumeServiceImpl implements ResumeService {
     @Override
     @Transactional
     public void deleteResumeExperience(Long experienceId, Long userId) {
-        permissionService.requireJobSeeker(userId);
         ResumeExperience exist = resumeMapper.findExperienceById(experienceId);
         if (exist == null) {
             throw new BusinessException("工作经历不存在");
@@ -293,7 +290,6 @@ public class ResumeServiceImpl implements ResumeService {
     @Override
     @Transactional
     public void addResumeProject(Long resumeId, ResumeProject project, Long userId) {
-        permissionService.requireJobSeeker(userId);
         findById(resumeId, userId);
         //设置默认排序顺序
         if (project.getSortOrder() == null) {
@@ -306,7 +302,6 @@ public class ResumeServiceImpl implements ResumeService {
     //获取简历项目经历
     @Override
     public List<ResumeProject> getResumeProject(Long resumeId, Long userId) {
-        permissionService.requireJobSeeker(userId);
         findById(resumeId, userId);
         return resumeMapper.getResumeProject(resumeId);
     }
@@ -314,7 +309,6 @@ public class ResumeServiceImpl implements ResumeService {
     @Override
     @Transactional
     public void updateResumeProject(Long projectId, ResumeProject project, Long userId) {
-        permissionService.requireJobSeeker(userId);
         ResumeProject exist = resumeMapper.findProjectById(projectId);
         if (exist == null) {
             throw new BusinessException("项目经历不存在");
@@ -332,7 +326,6 @@ public class ResumeServiceImpl implements ResumeService {
     @Override
     @Transactional
     public void deleteResumeProject(Long projectId, Long userId) {
-        permissionService.requireJobSeeker(userId);
         ResumeProject exist = resumeMapper.findProjectById(projectId);
         if (exist == null) {
             throw new BusinessException("项目经历不存在");
@@ -346,7 +339,6 @@ public class ResumeServiceImpl implements ResumeService {
     @Override
     @Transactional
     public void addResumeSkill(Long resumeId, ResumeSkill skill, Long userId) {
-        permissionService.requireJobSeeker(userId);
         findById(resumeId, userId);
         if(skill.getSortOrder() == null ){
             skill.setSortOrder(ResumeConstants.DEFAULT_SORT_ORDER);
@@ -356,14 +348,12 @@ public class ResumeServiceImpl implements ResumeService {
     }
     @Override
     public List<ResumeSkill> getResumeSkill(Long resumeId, Long userId) {
-        permissionService.requireJobSeeker(userId);
         findById(resumeId, userId);
         return resumeMapper.getResumeSkill(resumeId);
     }
     @Override
     @Transactional
     public void updateResumeSkill(Long skillId, ResumeSkill skill, Long userId) {
-        permissionService.requireJobSeeker(userId);
         ResumeSkill exist = resumeMapper.findSkillById(skillId);
         if (exist == null) {
             throw new BusinessException("技能不存在");
@@ -379,7 +369,6 @@ public class ResumeServiceImpl implements ResumeService {
     @Override
     @Transactional
     public void deleteResumeSkill(Long skillId, Long userId) {
-        permissionService.requireJobSeeker(userId);
         ResumeSkill exist = resumeMapper.findSkillById(skillId);
         if (exist == null) {
             throw new BusinessException("技能不存在");
@@ -393,7 +382,6 @@ public class ResumeServiceImpl implements ResumeService {
     //证书
     @Override
     public void addResumeCert(Long resumeId, ResumeCert cert, Long userId) {
-        permissionService.requireJobSeeker(userId);
         findById(resumeId, userId);
         if(cert.getSortOrder() == null ){
             cert.setSortOrder(ResumeConstants.DEFAULT_SORT_ORDER);
@@ -402,13 +390,11 @@ public class ResumeServiceImpl implements ResumeService {
     }
     @Override
     public List<ResumeCert> getResumeCert(Long resumeId, Long userId) {
-        permissionService.requireJobSeeker(userId);
         findById(resumeId, userId);
         return resumeMapper.getResumeCert(resumeId);
     }
     @Override
     public void updateResumeCert(Long certId, ResumeCert cert, Long userId) {
-        permissionService.requireJobSeeker(userId);
         ResumeCert exist = resumeMapper.findCertById(certId);
         if (exist == null) {
             throw new BusinessException("证书不存在");
@@ -421,7 +407,6 @@ public class ResumeServiceImpl implements ResumeService {
     }
     @Override
     public void deleteResumeCert(Long certId, Long userId) {
-        permissionService.requireJobSeeker(userId);
         ResumeCert exist = resumeMapper.findCertById(certId);
         if (exist == null) {
             throw new BusinessException("证书不存在");
@@ -433,7 +418,6 @@ public class ResumeServiceImpl implements ResumeService {
     //作品链接
     @Override
     public void addResumeLink(Long resumeId, ResumeLink link, Long userId) {
-        permissionService.requireJobSeeker(userId);
         findById(resumeId, userId);
         if(link.getSortOrder() == null ){
             link.setSortOrder(ResumeConstants.DEFAULT_SORT_ORDER);
@@ -443,13 +427,11 @@ public class ResumeServiceImpl implements ResumeService {
     }
     @Override
     public List<ResumeLink> getResumeLink(Long resumeId, Long userId) {
-        permissionService.requireJobSeeker(userId);
         findById(resumeId, userId);
         return resumeMapper.getResumeLink(resumeId);
     }
     @Override
     public void updateResumeLink(Long linkId, ResumeLink link, Long userId) {
-        permissionService.requireJobSeeker(userId);
         ResumeLink exist = resumeMapper.findLinkById(linkId);
         if (exist == null) {
             throw new BusinessException("作品链接不存在");
@@ -463,7 +445,6 @@ public class ResumeServiceImpl implements ResumeService {
     }
     @Override
     public void deleteResumeLink(Long linkId, Long userId) {
-        permissionService.requireJobSeeker(userId);
         ResumeLink exist = resumeMapper.findLinkById(linkId);
         if (exist == null) {
             throw new BusinessException("作品链接不存在");
@@ -476,7 +457,6 @@ public class ResumeServiceImpl implements ResumeService {
     //简历全部详情
     @Override
     public ResumeDetailVO getResumeDetail(Long resumeId, Long userId) {
-        permissionService.requireJobSeeker(userId);
         //校验简历存在且归属当前用户，同时拿到简历基本信息
         Resumebasic resume = findById(resumeId, userId);
         //分别查询各模块，避免多表 JOIN 聚合产生笛卡尔积重复

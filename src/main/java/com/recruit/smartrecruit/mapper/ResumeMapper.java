@@ -681,4 +681,26 @@ public interface ResumeMapper {
     int updateCompletionRate(@Param("resumeId") Long resumeId,
                              @Param("userId") Long userId,
                              @Param("completionRate") int completionRate);
+
+    //删除简历时级联清理各子模块数据，避免产生孤儿数据
+    @Delete("DELETE FROM job_preference WHERE resume_id = #{resumeId}")
+    void deleteJobPreferenceByResumeId(@Param("resumeId") Long resumeId);
+
+    @Delete("DELETE FROM resume_education WHERE resume_id = #{resumeId}")
+    void deleteEducationByResumeId(@Param("resumeId") Long resumeId);
+
+    @Delete("DELETE FROM resume_experience WHERE resume_id = #{resumeId}")
+    void deleteExperienceByResumeId(@Param("resumeId") Long resumeId);
+
+    @Delete("DELETE FROM resume_project WHERE resume_id = #{resumeId}")
+    void deleteProjectByResumeId(@Param("resumeId") Long resumeId);
+
+    @Delete("DELETE FROM resume_skill WHERE resume_id = #{resumeId}")
+    void deleteSkillByResumeId(@Param("resumeId") Long resumeId);
+
+    @Delete("DELETE FROM resume_cert WHERE resume_id = #{resumeId}")
+    void deleteCertByResumeId(@Param("resumeId") Long resumeId);
+
+    @Delete("DELETE FROM resume_link WHERE resume_id = #{resumeId}")
+    void deleteLinkByResumeId(@Param("resumeId") Long resumeId);
 }

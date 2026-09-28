@@ -28,7 +28,7 @@ public class ResumeCert {
 
     private LocalDate awardDate;
 
-    @Size(max = ResumeValidationConstants.DESCRIPTION_MAX_LENGTH, message = "证书描述长度不能超过1000个字")
+    @Size(max = ResumeValidationConstants.DESCRIPTION_MAX_LENGTH, message = "证书描述长度不能超过500个字")
     private String description;
 
     @PositiveOrZero(message = "排序值不能小于0")
