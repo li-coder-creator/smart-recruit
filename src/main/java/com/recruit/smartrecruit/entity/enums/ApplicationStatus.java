@@ -24,6 +24,20 @@ public enum ApplicationStatus {
         this.description = description;
     }
 
+    /** 允许跳过中间阶段向前处理；同状态、回退及终态变更均不允许。 */
+    public boolean canTransitionTo(ApplicationStatus target) {
+        if (target == null) {
+            return false;
+        }
+        return switch (this) {
+            case PENDING -> target == SCREENING || target == INTERVIEW
+                    || target == HIRED || target == REJECTED;
+            case SCREENING -> target == INTERVIEW || target == HIRED || target == REJECTED;
+            case INTERVIEW -> target == HIRED || target == REJECTED;
+            case HIRED, REJECTED -> false;
+        };
+    }
+
     public static ApplicationStatus fromCode(Integer code) {
 
         for (ApplicationStatus status : values()) {

@@ -17,6 +17,7 @@ import com.recruit.smartrecruit.vo.ResumeDetailVO;
 import com.recruit.smartrecruit.vo.ResumeListVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 
 import java.net.URI;
@@ -527,22 +528,18 @@ public class ResumeServiceImpl implements ResumeService {
         List<ResumeSkill> skills = detail.getSkills();
 
         int completionRate = ResumeConstants.INITIAL_COMPLETION_RATE;
-        if (hasText(resume.getRealName())) completionRate += ResumeConstants.COMPLETION_ITEM_SCORE;
-        if (hasText(resume.getEmail())) completionRate += ResumeConstants.COMPLETION_ITEM_SCORE;
-        if (hasText(resume.getPhone())) completionRate += ResumeConstants.COMPLETION_ITEM_SCORE;
-        if (hasText(resume.getCurrentCity())) completionRate += ResumeConstants.COMPLETION_ITEM_SCORE;
-        if (jobPreference != null && hasText(jobPreference.getExpectedPosition())) completionRate += ResumeConstants.COMPLETION_ITEM_SCORE;
-        if (jobPreference != null && hasText(jobPreference.getExpectedCity())) completionRate += ResumeConstants.COMPLETION_ITEM_SCORE;
+        if (StringUtils.hasText(resume.getRealName())) completionRate += ResumeConstants.COMPLETION_ITEM_SCORE;
+        if (StringUtils.hasText(resume.getEmail())) completionRate += ResumeConstants.COMPLETION_ITEM_SCORE;
+        if (StringUtils.hasText(resume.getPhone())) completionRate += ResumeConstants.COMPLETION_ITEM_SCORE;
+        if (StringUtils.hasText(resume.getCurrentCity())) completionRate += ResumeConstants.COMPLETION_ITEM_SCORE;
+        if (jobPreference != null && StringUtils.hasText(jobPreference.getExpectedPosition())) completionRate += ResumeConstants.COMPLETION_ITEM_SCORE;
+        if (jobPreference != null && StringUtils.hasText(jobPreference.getExpectedCity())) completionRate += ResumeConstants.COMPLETION_ITEM_SCORE;
         if (hasValidEducation(educations)) completionRate += ResumeConstants.COMPLETION_ITEM_SCORE;
         if (hasValidExperience(experiences) || hasValidProject(projects)) completionRate += ResumeConstants.COMPLETION_ITEM_SCORE;
         if (hasValidSkill(skills)) completionRate += ResumeConstants.COMPLETION_ITEM_SCORE;
-        if (hasText(resume.getSummary())) completionRate += ResumeConstants.COMPLETION_ITEM_SCORE;
+        if (StringUtils.hasText(resume.getSummary())) completionRate += ResumeConstants.COMPLETION_ITEM_SCORE;
 
         return Math.min(completionRate, ResumeConstants.COMPLETE_RATE);
-    }
-
-    private boolean hasText(String value) {
-        return value != null && !value.isBlank();
     }
 
     private void validateDateRange(LocalDate startDate, LocalDate endDate, String sectionName) {
@@ -573,27 +570,27 @@ public class ResumeServiceImpl implements ResumeService {
 
     private boolean hasValidEducation(List<ResumeEducation> educations) {
         return educations != null && educations.stream().anyMatch(education ->
-                hasText(education.getSchoolName())
-                        && hasText(education.getDegree())
-                        && hasText(education.getMajor()));
+                StringUtils.hasText(education.getSchoolName())
+                        && StringUtils.hasText(education.getDegree())
+                        && StringUtils.hasText(education.getMajor()));
     }
 
     private boolean hasValidExperience(List<ResumeExperience> experiences) {
         return experiences != null && experiences.stream().anyMatch(experience ->
-                hasText(experience.getCompanyName())
-                        && hasText(experience.getPosition())
-                        && hasText(experience.getDescription()));
+                StringUtils.hasText(experience.getCompanyName())
+                        && StringUtils.hasText(experience.getPosition())
+                        && StringUtils.hasText(experience.getDescription()));
     }
 
     private boolean hasValidProject(List<ResumeProject> projects) {
         return projects != null && projects.stream().anyMatch(project ->
-                hasText(project.getProjectName())
-                        && hasText(project.getRole())
-                        && hasText(project.getDescription()));
+                StringUtils.hasText(project.getProjectName())
+                        && StringUtils.hasText(project.getRole())
+                        && StringUtils.hasText(project.getDescription()));
     }
 
     private boolean hasValidSkill(List<ResumeSkill> skills) {
-        return skills != null && skills.stream().anyMatch(skill -> hasText(skill.getSkillName()));
+        return skills != null && skills.stream().anyMatch(skill -> StringUtils.hasText(skill.getSkillName()));
     }
 
     private void refreshCompletionRate(Long resumeId, Long userId) {

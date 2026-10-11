@@ -12,6 +12,7 @@ import com.recruit.smartrecruit.service.ApplicationService;
 import com.recruit.smartrecruit.entity.enums.JobStatus;
 import com.recruit.smartrecruit.vo.ApplicationVO;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -43,9 +44,9 @@ public class ApplicationServiceImpl implements ApplicationService {
         if (job == null) {
             throw new BusinessException("岗位不存在");
         }
-        // 3. 判断岗位是否正在招聘
-        if (job.getStatus() == JobStatus.PAUSED.getCode()) {
-            throw new BusinessException("岗位已暂停招聘，暂不可投递");
+        // 3. 判断岗位是否正在招聘：仅招聘中的岗位可投递
+        if (job.getStatus() != JobStatus.ACTIVE.getCode()) {
+            throw new BusinessException("岗位当前不可投递");
         }
         // 4. 查询简历
         Resumebasic resume = resumeMapper.findById(dto.getResumeId());
@@ -90,6 +91,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
     @Override
     public List<ApplicationVO> findJobseekerApplication(Long userId) {
+        permissionService.requireJobSeeker(userId);
         List<ApplicationVO> applications=applicationMapper.findJobseekerApplication(userId);
         //遍历每条申请记录，做一个**枚举翻译**：
         applications.forEach(application ->
@@ -104,10 +106,11 @@ public class ApplicationServiceImpl implements ApplicationService {
         return applications;
     }
     @Override
+    @Transactional(readOnly = true, isolation = Isolation.REPEATABLE_READ)
     public ApplicationVO findApplicationDetail(Long id, Long userId) {
 
-        ApplicationVO application =
-                applicationMapper.findApplicationDetail(id);
+        // 先依据原始投递判断存在性与归属，避免展示资料缺失影响权限判断。
+        Application application = applicationMapper.findById(id);
 
         if (application == null) {
             throw new BusinessException("该投递不存在");
@@ -147,20 +150,26 @@ public class ApplicationServiceImpl implements ApplicationService {
             throw new BusinessException("无权访问该投递");
 
         }
+        // 权限通过后读取展示资料，简历缺失时由 VO 标记不可用。
+        ApplicationVO detail = applicationMapper.findApplicationDetail(id);
+        if (detail == null) {
+            throw new BusinessException("投递详情读取失败，请刷新后重试");
+        }
         // 状态枚举翻译
-        application.setStatusText(
+        detail.setStatusText(
                 ApplicationStatus
                         .fromCode(application.getStatus())
                         .getDescription()
         );
-        return application;
+        return detail;
     }
 
     @Override
+    @Transactional
     public void updateStatus(Long id, Long userId, ApplicationStatusUpdateDTO dto) {
         Company company=permissionService.requireApprovedCompany(userId);
         //判断投递是否存在
-        ApplicationVO application=applicationMapper.findApplicationDetail(id);
+        Application application=applicationMapper.findById(id);
         if(application==null){
             throw  new BusinessException("该投递不存在");
         }
@@ -173,13 +182,25 @@ public class ApplicationServiceImpl implements ApplicationService {
         if(!job.getCompanyId().equals(company.getId())){
             throw  new BusinessException("无权修改该投递");
         }
-        ApplicationStatus applicationStatus =
-                ApplicationStatus.fromCode(dto.getStatus());
+        ApplicationStatus currentStatus = ApplicationStatus.fromCode(application.getStatus());
+        ApplicationStatus targetStatus = ApplicationStatus.fromCode(dto.getStatus());
+        if (currentStatus == targetStatus) {
+            throw new BusinessException("投递已处于目标状态");
+        }
+        if (!currentStatus.canTransitionTo(targetStatus)) {
+            throw new BusinessException("不能从" + currentStatus.getDescription()
+                    + "转为" + targetStatus.getDescription());
+        }
 
-        applicationMapper.updateStatus(
+        int affectedRows = applicationMapper.updateStatus(
                 id,
-                applicationStatus.getCode()
-        );
+                application.getJobId(),
+                currentStatus,
+                targetStatus,
+                ApplicationStatus.INTERVIEW);
+        if (affectedRows != 1) {
+            throw new BusinessException("投递状态已变化，请刷新后重试");
+        }
     }
 
 }

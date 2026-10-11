@@ -5,7 +5,9 @@ import lombok.Getter;
 @Getter
 public enum JobStatus {
     ACTIVE(0, "招聘中"),
-    PAUSED(1, "暂停招聘");
+    PAUSED(1, "暂停招聘"),
+    ENDED(2, "已结束"),
+    DRAFT(3, "草稿");
 
     private final int code;
     private final String description;

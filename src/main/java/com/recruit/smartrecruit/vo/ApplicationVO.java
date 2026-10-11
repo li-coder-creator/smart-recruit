@@ -70,4 +70,9 @@ public class ApplicationVO {
      * 更新时间
      */
     private LocalDateTime updateTime;
+    /**
+     * 原简历当前是否存在。
+     * false 表示无法读取原简历，但投递记录仍然有效。
+     */
+    private Boolean resumeAvailable;
 }
