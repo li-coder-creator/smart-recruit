@@ -35,3 +35,6 @@ build/
 # Logs
 logs/
 *.log
+
+# Local company photos and private qualification originals
+/storage/

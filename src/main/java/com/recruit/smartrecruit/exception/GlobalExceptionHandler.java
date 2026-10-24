@@ -5,11 +5,24 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
+import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
 //全局异常处理
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+    //文件上传大小超出异常处理
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public Result<Void> handleUploadSize(MaxUploadSizeExceededException exception) {
+        return Result.error("上传文件不能超过10MB，请分次上传");
+    }
+
+    @ExceptionHandler(MissingServletRequestPartException.class)
+    public Result<Void> handleMissingFile(MissingServletRequestPartException exception) {
+        return Result.error("请选择上传文件");
+    }
+
     //业务异常处理
     @ExceptionHandler(BusinessException.class)
     public Result<Void> handleBusinessException(BusinessException e) {

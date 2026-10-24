@@ -1,19 +1,24 @@
 package com.recruit.smartrecruit.service;
 
-import com.recruit.smartrecruit.common.Result;
+import com.recruit.smartrecruit.dto.CompanyProfileUpdateDTO;
 import com.recruit.smartrecruit.entity.Company;
-
-import java.util.Map;
+import com.recruit.smartrecruit.vo.CompanyProfileVO;
+import com.recruit.smartrecruit.vo.CompanyPublicProfileVO;
+import com.recruit.smartrecruit.vo.JobListVO;
+import com.recruit.smartrecruit.common.PageResult;
+import jakarta.validation.Valid;
 
 public interface CompanyService {
 
-    void add(Company company);
-
     Company findByUserId(Long userId);
 
-    void update(Company newCompany);
+    CompanyProfileVO getMyProfile(Long userId);
 
-    void delete(Long userId);
+    void updateProfile(Long userId, @Valid CompanyProfileUpdateDTO dto);
 
+    CompanyPublicProfileVO previewProfile(Long userId);
 
+    CompanyPublicProfileVO getPublicProfile(Long userId, Long companyId);
+
+    PageResult<JobListVO> listActiveJobs(Long userId, Long companyId, int page, int pageSize);
 }

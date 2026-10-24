@@ -1,0 +1,2849 @@
+{
+  "info": {
+    "name": "企业主页照片回归",
+    "description": "隔离夹具 setup 后运行 A；sort 后运行 B；revoke 后运行 C；审计 audit。全部用例持久保存在主集合02 Company。",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "A",
+      "item": [
+        {
+          "name": "001 身份1登录",
+          "request": {
+            "method": "POST",
+            "url": "{{cgHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"cp_fixture_1\",\"password\":\"{{companyPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('有效令牌',()=>pm.expect(b.data).a('string').and.not.empty);pm.collectionVariables.set('cgToken1',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "002 核对身份1",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('用户ID及角色',()=>{pm.expect(b.data.id).eq(101);pm.expect(b.data.role).eq('COMPANY');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "003 身份2登录",
+          "request": {
+            "method": "POST",
+            "url": "{{cgHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"cp_fixture_2\",\"password\":\"{{companyPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('有效令牌',()=>pm.expect(b.data).a('string').and.not.empty);pm.collectionVariables.set('cgToken2',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "004 核对身份2",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken2}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('用户ID及角色',()=>{pm.expect(b.data.id).eq(102);pm.expect(b.data.role).eq('COMPANY');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "005 身份3登录",
+          "request": {
+            "method": "POST",
+            "url": "{{cgHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"cp_fixture_3\",\"password\":\"{{companyPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('有效令牌',()=>pm.expect(b.data).a('string').and.not.empty);pm.collectionVariables.set('cgToken3',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "006 核对身份3",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken3}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('用户ID及角色',()=>{pm.expect(b.data.id).eq(103);pm.expect(b.data.role).eq('COMPANY');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "007 身份4登录",
+          "request": {
+            "method": "POST",
+            "url": "{{cgHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"cp_fixture_4\",\"password\":\"{{companyPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('有效令牌',()=>pm.expect(b.data).a('string').and.not.empty);pm.collectionVariables.set('cgToken4',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "008 核对身份4",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken4}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('用户ID及角色',()=>{pm.expect(b.data.id).eq(104);pm.expect(b.data.role).eq('COMPANY');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "009 身份5登录",
+          "request": {
+            "method": "POST",
+            "url": "{{cgHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"cp_fixture_5\",\"password\":\"{{companyPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('有效令牌',()=>pm.expect(b.data).a('string').and.not.empty);pm.collectionVariables.set('cgToken5',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "010 核对身份5",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken5}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('用户ID及角色',()=>{pm.expect(b.data.id).eq(105);pm.expect(b.data.role).eq('COMPANY');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "011 身份6登录",
+          "request": {
+            "method": "POST",
+            "url": "{{cgHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"cp_fixture_6\",\"password\":\"{{companyPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('有效令牌',()=>pm.expect(b.data).a('string').and.not.empty);pm.collectionVariables.set('cgToken6',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "012 核对身份6",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken6}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('用户ID及角色',()=>{pm.expect(b.data.id).eq(106);pm.expect(b.data.role).eq('JOB_SEEKER');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "013 身份7登录",
+          "request": {
+            "method": "POST",
+            "url": "{{cgHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"cp_fixture_7\",\"password\":\"{{companyPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('有效令牌',()=>pm.expect(b.data).a('string').and.not.empty);pm.collectionVariables.set('cgToken7',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "014 核对身份7",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken7}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('用户ID及角色',()=>{pm.expect(b.data.id).eq(107);pm.expect(b.data.role).eq('ADMIN');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "015 空照片本人预览",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/preview",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});function photoSafe(p){pm.expect(Object.keys(p).sort()).deep.eq([\"contentType\",\"createTime\",\"fileSize\",\"id\",\"originalFilename\",\"previewUrl\",\"sortOrder\"]);pm.expect(p.previewUrl).eq('/company/photos/'+p.id+'/file');pm.expect(p.fileSize).above(0);}pm.test('主页白名单、数量和排序一致',()=>{pm.expect(Object.keys(b.data).sort()).deep.eq([\"address\",\"basicProfileComplete\",\"benefits\",\"businessLicenseVerified\",\"businessScope\",\"businessStatus\",\"city\",\"commuteDescription\",\"companyNature\",\"creditCode\",\"description\",\"employeeSize\",\"financingStage\",\"foundedDate\",\"fullName\",\"id\",\"industry\",\"legalRepresentative\",\"logo\",\"name\",\"overtimePolicy\",\"photoCount\",\"photos\",\"productDescription\",\"productName\",\"registeredAddress\",\"registeredCapital\",\"registrationReviewStatus\",\"registrationVerified\",\"restPolicy\",\"teamBio\",\"teamName\",\"teamRole\",\"updateTime\",\"website\",\"workEndTime\",\"workNotes\",\"workStartTime\"]);pm.expect(b.data.photos).an('array');pm.expect(b.data.photoCount).eq(b.data.photos.length);b.data.photos.forEach(photoSafe);const ordered=[...b.data.photos].sort((a,c)=>a.sortOrder-c.sortOrder||a.id-c.id);pm.expect(b.data.photos.map(x=>x.id)).deep.eq(ordered.map(x=>x.id));});pm.test('照片名称及目标企业',()=>{pm.expect(b.data.photos.map(x=>x.originalFilename)).deep.eq([]);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "016 空照片求职者主页",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/201/profile",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken6}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});function photoSafe(p){pm.expect(Object.keys(p).sort()).deep.eq([\"contentType\",\"createTime\",\"fileSize\",\"id\",\"originalFilename\",\"previewUrl\",\"sortOrder\"]);pm.expect(p.previewUrl).eq('/company/photos/'+p.id+'/file');pm.expect(p.fileSize).above(0);}pm.test('主页白名单、数量和排序一致',()=>{pm.expect(Object.keys(b.data).sort()).deep.eq([\"address\",\"basicProfileComplete\",\"benefits\",\"businessLicenseVerified\",\"businessScope\",\"businessStatus\",\"city\",\"commuteDescription\",\"companyNature\",\"creditCode\",\"description\",\"employeeSize\",\"financingStage\",\"foundedDate\",\"fullName\",\"id\",\"industry\",\"legalRepresentative\",\"logo\",\"name\",\"overtimePolicy\",\"photoCount\",\"photos\",\"productDescription\",\"productName\",\"registeredAddress\",\"registeredCapital\",\"registrationReviewStatus\",\"registrationVerified\",\"restPolicy\",\"teamBio\",\"teamName\",\"teamRole\",\"updateTime\",\"website\",\"workEndTime\",\"workNotes\",\"workStartTime\"]);pm.expect(b.data.photos).an('array');pm.expect(b.data.photoCount).eq(b.data.photos.length);b.data.photos.forEach(photoSafe);const ordered=[...b.data.photos].sort((a,c)=>a.sortOrder-c.sortOrder||a.id-c.id);pm.expect(b.data.photos.map(x=>x.id)).deep.eq(ordered.map(x=>x.id));});pm.test('照片名称及目标企业',()=>{pm.expect(b.data.photos.map(x=>x.originalFilename)).deep.eq([]);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "017 旧资料不完整仍可展示",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/205/profile",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken6}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});function photoSafe(p){pm.expect(Object.keys(p).sort()).deep.eq([\"contentType\",\"createTime\",\"fileSize\",\"id\",\"originalFilename\",\"previewUrl\",\"sortOrder\"]);pm.expect(p.previewUrl).eq('/company/photos/'+p.id+'/file');pm.expect(p.fileSize).above(0);}pm.test('主页白名单、数量和排序一致',()=>{pm.expect(Object.keys(b.data).sort()).deep.eq([\"address\",\"basicProfileComplete\",\"benefits\",\"businessLicenseVerified\",\"businessScope\",\"businessStatus\",\"city\",\"commuteDescription\",\"companyNature\",\"creditCode\",\"description\",\"employeeSize\",\"financingStage\",\"foundedDate\",\"fullName\",\"id\",\"industry\",\"legalRepresentative\",\"logo\",\"name\",\"overtimePolicy\",\"photoCount\",\"photos\",\"productDescription\",\"productName\",\"registeredAddress\",\"registeredCapital\",\"registrationReviewStatus\",\"registrationVerified\",\"restPolicy\",\"teamBio\",\"teamName\",\"teamRole\",\"updateTime\",\"website\",\"workEndTime\",\"workNotes\",\"workStartTime\"]);pm.expect(b.data.photos).an('array');pm.expect(b.data.photoCount).eq(b.data.photos.length);b.data.photos.forEach(photoSafe);const ordered=[...b.data.photos].sort((a,c)=>a.sortOrder-c.sortOrder||a.id-c.id);pm.expect(b.data.photos.map(x=>x.id)).deep.eq(ordered.map(x=>x.id));});pm.test('照片名称及目标企业',()=>{pm.expect(b.data.photos.map(x=>x.originalFilename)).deep.eq([]);});pm.test('目标企业及旧空值',()=>{pm.expect(b.data.id).eq(205);pm.expect(b.data.fullName).eq(null);pm.expect(b.data.basicProfileComplete).eq(false);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "018 匿名访问拒绝 /company/preview",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/preview",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": []
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('未登录HTTP401',()=>pm.expect(pm.response.code).eq(401));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "019 匿名访问拒绝 /company/201/profile",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/201/profile",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": []
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('未登录HTTP401',()=>pm.expect(pm.response.code).eq(401));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "020 匿名访问拒绝 /company/photos/1/file",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/photos/1/file",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": []
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('未登录HTTP401',()=>pm.expect(pm.response.code).eq(401));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "021 无效令牌拒绝主页",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/201/profile",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer invalid-gallery-token"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('未登录HTTP401',()=>pm.expect(pm.response.code).eq(401));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "022 非企业拒绝本人预览",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/preview",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken6}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且不返回数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "023 非企业拒绝本人预览",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/preview",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken7}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且不返回数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "024 非求职者拒绝主页",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/201/profile",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且不返回数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "025 非求职者拒绝主页",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/201/profile",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken7}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且不返回数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "026 不可见或无效企业 202",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/202/profile",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken6}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且不返回数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "027 不可见或无效企业 203",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/203/profile",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken6}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且不返回数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "028 不可见或无效企业 0",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/0/profile",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken6}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且不返回数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "029 不可见或无效企业 -1",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/-1/profile",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken6}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且不返回数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "030 不可见或无效企业 999999",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/999999/profile",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken6}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且不返回数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "031 上传主页PNG",
+          "request": {
+            "method": "POST",
+            "url": "{{cgHost}}/company/photos",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken1}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": "D:/project/smart-recruit/target/company-gallery-fixtures/a.png"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});function photoSafe(p){pm.expect(Object.keys(p).sort()).deep.eq([\"contentType\",\"createTime\",\"fileSize\",\"id\",\"originalFilename\",\"previewUrl\",\"sortOrder\"]);pm.expect(p.previewUrl).eq('/company/photos/'+p.id+'/file');pm.expect(p.fileSize).above(0);}pm.test('上传白名单',()=>photoSafe(b.data));pm.collectionVariables.set('cgA',b.data.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "032 上传主页JPG",
+          "request": {
+            "method": "POST",
+            "url": "{{cgHost}}/company/photos",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken1}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": "D:/project/smart-recruit/target/company-gallery-fixtures/b.jpg"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});function photoSafe(p){pm.expect(Object.keys(p).sort()).deep.eq([\"contentType\",\"createTime\",\"fileSize\",\"id\",\"originalFilename\",\"previewUrl\",\"sortOrder\"]);pm.expect(p.previewUrl).eq('/company/photos/'+p.id+'/file');pm.expect(p.fileSize).above(0);}pm.test('上传白名单',()=>photoSafe(b.data));pm.collectionVariables.set('cgB',b.data.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "033 上传第三张照片",
+          "request": {
+            "method": "POST",
+            "url": "{{cgHost}}/company/photos",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken1}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": "D:/project/smart-recruit/target/company-gallery-fixtures/c.png"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});function photoSafe(p){pm.expect(Object.keys(p).sort()).deep.eq([\"contentType\",\"createTime\",\"fileSize\",\"id\",\"originalFilename\",\"previewUrl\",\"sortOrder\"]);pm.expect(p.previewUrl).eq('/company/photos/'+p.id+'/file');pm.expect(p.fileSize).above(0);}pm.test('上传白名单',()=>photoSafe(b.data));pm.collectionVariables.set('cgC',b.data.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "034 其他企业照片",
+          "request": {
+            "method": "POST",
+            "url": "{{cgHost}}/company/photos",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken4}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": "D:/project/smart-recruit/target/company-gallery-fixtures/office.png"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});function photoSafe(p){pm.expect(Object.keys(p).sort()).deep.eq([\"contentType\",\"createTime\",\"fileSize\",\"id\",\"originalFilename\",\"previewUrl\",\"sortOrder\"]);pm.expect(p.previewUrl).eq('/company/photos/'+p.id+'/file');pm.expect(p.fileSize).above(0);}pm.test('上传白名单',()=>photoSafe(b.data));pm.collectionVariables.set('cgOther',b.data.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "035 待审企业照片",
+          "request": {
+            "method": "POST",
+            "url": "{{cgHost}}/company/photos",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken2}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": "D:/project/smart-recruit/target/company-gallery-fixtures/office.png"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});function photoSafe(p){pm.expect(Object.keys(p).sort()).deep.eq([\"contentType\",\"createTime\",\"fileSize\",\"id\",\"originalFilename\",\"previewUrl\",\"sortOrder\"]);pm.expect(p.previewUrl).eq('/company/photos/'+p.id+'/file');pm.expect(p.fileSize).above(0);}pm.test('上传白名单',()=>photoSafe(b.data));pm.collectionVariables.set('cgPending',b.data.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "036 拒绝企业照片",
+          "request": {
+            "method": "POST",
+            "url": "{{cgHost}}/company/photos",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken3}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": "D:/project/smart-recruit/target/company-gallery-fixtures/office.png"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});function photoSafe(p){pm.expect(Object.keys(p).sort()).deep.eq([\"contentType\",\"createTime\",\"fileSize\",\"id\",\"originalFilename\",\"previewUrl\",\"sortOrder\"]);pm.expect(p.previewUrl).eq('/company/photos/'+p.id+'/file');pm.expect(p.fileSize).above(0);}pm.test('上传白名单',()=>photoSafe(b.data));pm.collectionVariables.set('cgRejected',b.data.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "037 上传后本人预览同步",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/preview",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});function photoSafe(p){pm.expect(Object.keys(p).sort()).deep.eq([\"contentType\",\"createTime\",\"fileSize\",\"id\",\"originalFilename\",\"previewUrl\",\"sortOrder\"]);pm.expect(p.previewUrl).eq('/company/photos/'+p.id+'/file');pm.expect(p.fileSize).above(0);}pm.test('主页白名单、数量和排序一致',()=>{pm.expect(Object.keys(b.data).sort()).deep.eq([\"address\",\"basicProfileComplete\",\"benefits\",\"businessLicenseVerified\",\"businessScope\",\"businessStatus\",\"city\",\"commuteDescription\",\"companyNature\",\"creditCode\",\"description\",\"employeeSize\",\"financingStage\",\"foundedDate\",\"fullName\",\"id\",\"industry\",\"legalRepresentative\",\"logo\",\"name\",\"overtimePolicy\",\"photoCount\",\"photos\",\"productDescription\",\"productName\",\"registeredAddress\",\"registeredCapital\",\"registrationReviewStatus\",\"registrationVerified\",\"restPolicy\",\"teamBio\",\"teamName\",\"teamRole\",\"updateTime\",\"website\",\"workEndTime\",\"workNotes\",\"workStartTime\"]);pm.expect(b.data.photos).an('array');pm.expect(b.data.photoCount).eq(b.data.photos.length);b.data.photos.forEach(photoSafe);const ordered=[...b.data.photos].sort((a,c)=>a.sortOrder-c.sortOrder||a.id-c.id);pm.expect(b.data.photos.map(x=>x.id)).deep.eq(ordered.map(x=>x.id));});pm.test('照片名称及目标企业',()=>{pm.expect(b.data.photos.map(x=>x.originalFilename)).deep.eq([\"a.png\",\"b.jpg\",\"c.png\"]);});pm.collectionVariables.set('cgOwnGallery',JSON.stringify(b.data.photos));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "038 上传后求职者主页同步",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/201/profile",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken6}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});function photoSafe(p){pm.expect(Object.keys(p).sort()).deep.eq([\"contentType\",\"createTime\",\"fileSize\",\"id\",\"originalFilename\",\"previewUrl\",\"sortOrder\"]);pm.expect(p.previewUrl).eq('/company/photos/'+p.id+'/file');pm.expect(p.fileSize).above(0);}pm.test('主页白名单、数量和排序一致',()=>{pm.expect(Object.keys(b.data).sort()).deep.eq([\"address\",\"basicProfileComplete\",\"benefits\",\"businessLicenseVerified\",\"businessScope\",\"businessStatus\",\"city\",\"commuteDescription\",\"companyNature\",\"creditCode\",\"description\",\"employeeSize\",\"financingStage\",\"foundedDate\",\"fullName\",\"id\",\"industry\",\"legalRepresentative\",\"logo\",\"name\",\"overtimePolicy\",\"photoCount\",\"photos\",\"productDescription\",\"productName\",\"registeredAddress\",\"registeredCapital\",\"registrationReviewStatus\",\"registrationVerified\",\"restPolicy\",\"teamBio\",\"teamName\",\"teamRole\",\"updateTime\",\"website\",\"workEndTime\",\"workNotes\",\"workStartTime\"]);pm.expect(b.data.photos).an('array');pm.expect(b.data.photoCount).eq(b.data.photos.length);b.data.photos.forEach(photoSafe);const ordered=[...b.data.photos].sort((a,c)=>a.sortOrder-c.sortOrder||a.id-c.id);pm.expect(b.data.photos.map(x=>x.id)).deep.eq(ordered.map(x=>x.id));});pm.test('照片名称及目标企业',()=>{pm.expect(b.data.photos.map(x=>x.originalFilename)).deep.eq([\"a.png\",\"b.jpg\",\"c.png\"]);});pm.test('与本人预览一致',()=>pm.expect(b.data.photos).deep.eq(JSON.parse(pm.collectionVariables.get('cgOwnGallery'))));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "039 管理列表与主页共用白名单",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/photos",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});function photoSafe(p){pm.expect(Object.keys(p).sort()).deep.eq([\"contentType\",\"createTime\",\"fileSize\",\"id\",\"originalFilename\",\"previewUrl\",\"sortOrder\"]);pm.expect(p.previewUrl).eq('/company/photos/'+p.id+'/file');pm.expect(p.fileSize).above(0);}pm.test('管理列表与主页完全一致',()=>{pm.expect(b.data).deep.eq(JSON.parse(pm.collectionVariables.get('cgOwnGallery')));b.data.forEach(photoSafe);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "040 其他企业预览仅含自己的照片",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/preview",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken4}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});function photoSafe(p){pm.expect(Object.keys(p).sort()).deep.eq([\"contentType\",\"createTime\",\"fileSize\",\"id\",\"originalFilename\",\"previewUrl\",\"sortOrder\"]);pm.expect(p.previewUrl).eq('/company/photos/'+p.id+'/file');pm.expect(p.fileSize).above(0);}pm.test('主页白名单、数量和排序一致',()=>{pm.expect(Object.keys(b.data).sort()).deep.eq([\"address\",\"basicProfileComplete\",\"benefits\",\"businessLicenseVerified\",\"businessScope\",\"businessStatus\",\"city\",\"commuteDescription\",\"companyNature\",\"creditCode\",\"description\",\"employeeSize\",\"financingStage\",\"foundedDate\",\"fullName\",\"id\",\"industry\",\"legalRepresentative\",\"logo\",\"name\",\"overtimePolicy\",\"photoCount\",\"photos\",\"productDescription\",\"productName\",\"registeredAddress\",\"registeredCapital\",\"registrationReviewStatus\",\"registrationVerified\",\"restPolicy\",\"teamBio\",\"teamName\",\"teamRole\",\"updateTime\",\"website\",\"workEndTime\",\"workNotes\",\"workStartTime\"]);pm.expect(b.data.photos).an('array');pm.expect(b.data.photoCount).eq(b.data.photos.length);b.data.photos.forEach(photoSafe);const ordered=[...b.data.photos].sort((a,c)=>a.sortOrder-c.sortOrder||a.id-c.id);pm.expect(b.data.photos.map(x=>x.id)).deep.eq(ordered.map(x=>x.id));});pm.test('照片名称及目标企业',()=>{pm.expect(b.data.photos.map(x=>x.originalFilename)).deep.eq([\"office.png\"]);});pm.test('企业隔离',()=>{pm.expect(b.data.id).eq(204);pm.expect(b.data.photos[0].id).eq(Number(pm.collectionVariables.get('cgOther')));});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "041 求职者切换目标企业",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/204/profile",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken6}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});function photoSafe(p){pm.expect(Object.keys(p).sort()).deep.eq([\"contentType\",\"createTime\",\"fileSize\",\"id\",\"originalFilename\",\"previewUrl\",\"sortOrder\"]);pm.expect(p.previewUrl).eq('/company/photos/'+p.id+'/file');pm.expect(p.fileSize).above(0);}pm.test('主页白名单、数量和排序一致',()=>{pm.expect(Object.keys(b.data).sort()).deep.eq([\"address\",\"basicProfileComplete\",\"benefits\",\"businessLicenseVerified\",\"businessScope\",\"businessStatus\",\"city\",\"commuteDescription\",\"companyNature\",\"creditCode\",\"description\",\"employeeSize\",\"financingStage\",\"foundedDate\",\"fullName\",\"id\",\"industry\",\"legalRepresentative\",\"logo\",\"name\",\"overtimePolicy\",\"photoCount\",\"photos\",\"productDescription\",\"productName\",\"registeredAddress\",\"registeredCapital\",\"registrationReviewStatus\",\"registrationVerified\",\"restPolicy\",\"teamBio\",\"teamName\",\"teamRole\",\"updateTime\",\"website\",\"workEndTime\",\"workNotes\",\"workStartTime\"]);pm.expect(b.data.photos).an('array');pm.expect(b.data.photoCount).eq(b.data.photos.length);b.data.photos.forEach(photoSafe);const ordered=[...b.data.photos].sort((a,c)=>a.sortOrder-c.sortOrder||a.id-c.id);pm.expect(b.data.photos.map(x=>x.id)).deep.eq(ordered.map(x=>x.id));});pm.test('照片名称及目标企业',()=>{pm.expect(b.data.photos.map(x=>x.originalFilename)).deep.eq([\"office.png\"]);});pm.test('目标企业隔离',()=>pm.expect(b.data.id).eq(204));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "042 未准入企业可本人预览",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/preview",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken2}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});function photoSafe(p){pm.expect(Object.keys(p).sort()).deep.eq([\"contentType\",\"createTime\",\"fileSize\",\"id\",\"originalFilename\",\"previewUrl\",\"sortOrder\"]);pm.expect(p.previewUrl).eq('/company/photos/'+p.id+'/file');pm.expect(p.fileSize).above(0);}pm.test('主页白名单、数量和排序一致',()=>{pm.expect(Object.keys(b.data).sort()).deep.eq([\"address\",\"basicProfileComplete\",\"benefits\",\"businessLicenseVerified\",\"businessScope\",\"businessStatus\",\"city\",\"commuteDescription\",\"companyNature\",\"creditCode\",\"description\",\"employeeSize\",\"financingStage\",\"foundedDate\",\"fullName\",\"id\",\"industry\",\"legalRepresentative\",\"logo\",\"name\",\"overtimePolicy\",\"photoCount\",\"photos\",\"productDescription\",\"productName\",\"registeredAddress\",\"registeredCapital\",\"registrationReviewStatus\",\"registrationVerified\",\"restPolicy\",\"teamBio\",\"teamName\",\"teamRole\",\"updateTime\",\"website\",\"workEndTime\",\"workNotes\",\"workStartTime\"]);pm.expect(b.data.photos).an('array');pm.expect(b.data.photoCount).eq(b.data.photos.length);b.data.photos.forEach(photoSafe);const ordered=[...b.data.photos].sort((a,c)=>a.sortOrder-c.sortOrder||a.id-c.id);pm.expect(b.data.photos.map(x=>x.id)).deep.eq(ordered.map(x=>x.id));});pm.test('照片名称及目标企业',()=>{pm.expect(b.data.photos.map(x=>x.originalFilename)).deep.eq([\"office.png\"]);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "043 未准入企业本人可读照片",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/photos/{{cgPending}}/file",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken2}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('受保护图片响应及原件一致',()=>{pm.expect(pm.response.code).eq(200);pm.expect(pm.response.headers.get('Content-Type')).include('image/png');pm.expect(pm.response.headers.get('Content-Disposition')).include('inline');pm.expect(pm.response.headers.get('Cache-Control')).include('no-store');const bytes=require('crypto-js').lib.WordArray.create(pm.response.stream);pm.expect(require('crypto-js').SHA256(bytes).toString()).eq('3100c00a4d47954075c075d556256b78a3b257f7be77cb36702837f3f1a32169');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "044 求职者拒绝未准入图片",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/photos/{{cgPending}}/file",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken6}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且不返回数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "045 未准入企业可本人预览",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/preview",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken3}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});function photoSafe(p){pm.expect(Object.keys(p).sort()).deep.eq([\"contentType\",\"createTime\",\"fileSize\",\"id\",\"originalFilename\",\"previewUrl\",\"sortOrder\"]);pm.expect(p.previewUrl).eq('/company/photos/'+p.id+'/file');pm.expect(p.fileSize).above(0);}pm.test('主页白名单、数量和排序一致',()=>{pm.expect(Object.keys(b.data).sort()).deep.eq([\"address\",\"basicProfileComplete\",\"benefits\",\"businessLicenseVerified\",\"businessScope\",\"businessStatus\",\"city\",\"commuteDescription\",\"companyNature\",\"creditCode\",\"description\",\"employeeSize\",\"financingStage\",\"foundedDate\",\"fullName\",\"id\",\"industry\",\"legalRepresentative\",\"logo\",\"name\",\"overtimePolicy\",\"photoCount\",\"photos\",\"productDescription\",\"productName\",\"registeredAddress\",\"registeredCapital\",\"registrationReviewStatus\",\"registrationVerified\",\"restPolicy\",\"teamBio\",\"teamName\",\"teamRole\",\"updateTime\",\"website\",\"workEndTime\",\"workNotes\",\"workStartTime\"]);pm.expect(b.data.photos).an('array');pm.expect(b.data.photoCount).eq(b.data.photos.length);b.data.photos.forEach(photoSafe);const ordered=[...b.data.photos].sort((a,c)=>a.sortOrder-c.sortOrder||a.id-c.id);pm.expect(b.data.photos.map(x=>x.id)).deep.eq(ordered.map(x=>x.id));});pm.test('照片名称及目标企业',()=>{pm.expect(b.data.photos.map(x=>x.originalFilename)).deep.eq([\"office.png\"]);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "046 未准入企业本人可读照片",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/photos/{{cgRejected}}/file",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken3}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('受保护图片响应及原件一致',()=>{pm.expect(pm.response.code).eq(200);pm.expect(pm.response.headers.get('Content-Type')).include('image/png');pm.expect(pm.response.headers.get('Content-Disposition')).include('inline');pm.expect(pm.response.headers.get('Cache-Control')).include('no-store');const bytes=require('crypto-js').lib.WordArray.create(pm.response.stream);pm.expect(require('crypto-js').SHA256(bytes).toString()).eq('3100c00a4d47954075c075d556256b78a3b257f7be77cb36702837f3f1a32169');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "047 求职者拒绝未准入图片",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/photos/{{cgRejected}}/file",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken6}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且不返回数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "048 求职者读取主页PNG",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/photos/{{cgA}}/file",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken6}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('受保护图片响应及原件一致',()=>{pm.expect(pm.response.code).eq(200);pm.expect(pm.response.headers.get('Content-Type')).include('image/png');pm.expect(pm.response.headers.get('Content-Disposition')).include('inline');pm.expect(pm.response.headers.get('Cache-Control')).include('no-store');const bytes=require('crypto-js').lib.WordArray.create(pm.response.stream);pm.expect(require('crypto-js').SHA256(bytes).toString()).eq('3100c00a4d47954075c075d556256b78a3b257f7be77cb36702837f3f1a32169');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "049 企业读取主页JPG",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/photos/{{cgB}}/file",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('受保护图片响应及原件一致',()=>{pm.expect(pm.response.code).eq(200);pm.expect(pm.response.headers.get('Content-Type')).include('image/jpeg');pm.expect(pm.response.headers.get('Content-Disposition')).include('inline');pm.expect(pm.response.headers.get('Cache-Control')).include('no-store');const bytes=require('crypto-js').lib.WordArray.create(pm.response.stream);pm.expect(require('crypto-js').SHA256(bytes).toString()).eq('37e5e425fa1a0df86ab878df9f6baabce597e31d8877006a2fef6e2ca77c6dc9');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "050 其他企业及管理员拒绝原企业图片",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/photos/{{cgA}}/file",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken4}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且不返回数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "051 其他企业及管理员拒绝原企业图片",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/photos/{{cgA}}/file",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken7}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且不返回数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "B",
+      "item": [
+        {
+          "name": "052 身份1登录",
+          "request": {
+            "method": "POST",
+            "url": "{{cgHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"cp_fixture_1\",\"password\":\"{{companyPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('有效令牌',()=>pm.expect(b.data).a('string').and.not.empty);pm.collectionVariables.set('cgToken1',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "053 核对身份1",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('用户ID及角色',()=>{pm.expect(b.data.id).eq(101);pm.expect(b.data.role).eq('COMPANY');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "054 身份6登录",
+          "request": {
+            "method": "POST",
+            "url": "{{cgHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"cp_fixture_6\",\"password\":\"{{companyPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('有效令牌',()=>pm.expect(b.data).a('string').and.not.empty);pm.collectionVariables.set('cgToken6',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "055 核对身份6",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken6}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('用户ID及角色',()=>{pm.expect(b.data.id).eq(106);pm.expect(b.data.role).eq('JOB_SEEKER');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "056 按sortOrder及id稳定排序",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/preview",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});function photoSafe(p){pm.expect(Object.keys(p).sort()).deep.eq([\"contentType\",\"createTime\",\"fileSize\",\"id\",\"originalFilename\",\"previewUrl\",\"sortOrder\"]);pm.expect(p.previewUrl).eq('/company/photos/'+p.id+'/file');pm.expect(p.fileSize).above(0);}pm.test('主页白名单、数量和排序一致',()=>{pm.expect(Object.keys(b.data).sort()).deep.eq([\"address\",\"basicProfileComplete\",\"benefits\",\"businessLicenseVerified\",\"businessScope\",\"businessStatus\",\"city\",\"commuteDescription\",\"companyNature\",\"creditCode\",\"description\",\"employeeSize\",\"financingStage\",\"foundedDate\",\"fullName\",\"id\",\"industry\",\"legalRepresentative\",\"logo\",\"name\",\"overtimePolicy\",\"photoCount\",\"photos\",\"productDescription\",\"productName\",\"registeredAddress\",\"registeredCapital\",\"registrationReviewStatus\",\"registrationVerified\",\"restPolicy\",\"teamBio\",\"teamName\",\"teamRole\",\"updateTime\",\"website\",\"workEndTime\",\"workNotes\",\"workStartTime\"]);pm.expect(b.data.photos).an('array');pm.expect(b.data.photoCount).eq(b.data.photos.length);b.data.photos.forEach(photoSafe);const ordered=[...b.data.photos].sort((a,c)=>a.sortOrder-c.sortOrder||a.id-c.id);pm.expect(b.data.photos.map(x=>x.id)).deep.eq(ordered.map(x=>x.id));});pm.test('照片名称及目标企业',()=>{pm.expect(b.data.photos.map(x=>x.originalFilename)).deep.eq([\"b.jpg\",\"c.png\",\"a.png\"]);});pm.test('相同排序值按ID排序',()=>{const p=b.data.photos;pm.expect(p.map(x=>x.sortOrder)).deep.eq([0,0,4]);pm.expect(p[0].id).below(p[1].id);});for(const p of b.data.photos)pm.collectionVariables.set(p.originalFilename==='a.png'?'cgA':p.originalFilename==='b.jpg'?'cgB':'cgC',p.id);pm.collectionVariables.set('cgSorted',JSON.stringify(b.data.photos));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "057 求职者排序与预览相同",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/201/profile",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken6}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});function photoSafe(p){pm.expect(Object.keys(p).sort()).deep.eq([\"contentType\",\"createTime\",\"fileSize\",\"id\",\"originalFilename\",\"previewUrl\",\"sortOrder\"]);pm.expect(p.previewUrl).eq('/company/photos/'+p.id+'/file');pm.expect(p.fileSize).above(0);}pm.test('主页白名单、数量和排序一致',()=>{pm.expect(Object.keys(b.data).sort()).deep.eq([\"address\",\"basicProfileComplete\",\"benefits\",\"businessLicenseVerified\",\"businessScope\",\"businessStatus\",\"city\",\"commuteDescription\",\"companyNature\",\"creditCode\",\"description\",\"employeeSize\",\"financingStage\",\"foundedDate\",\"fullName\",\"id\",\"industry\",\"legalRepresentative\",\"logo\",\"name\",\"overtimePolicy\",\"photoCount\",\"photos\",\"productDescription\",\"productName\",\"registeredAddress\",\"registeredCapital\",\"registrationReviewStatus\",\"registrationVerified\",\"restPolicy\",\"teamBio\",\"teamName\",\"teamRole\",\"updateTime\",\"website\",\"workEndTime\",\"workNotes\",\"workStartTime\"]);pm.expect(b.data.photos).an('array');pm.expect(b.data.photoCount).eq(b.data.photos.length);b.data.photos.forEach(photoSafe);const ordered=[...b.data.photos].sort((a,c)=>a.sortOrder-c.sortOrder||a.id-c.id);pm.expect(b.data.photos.map(x=>x.id)).deep.eq(ordered.map(x=>x.id));});pm.test('照片名称及目标企业',()=>{pm.expect(b.data.photos.map(x=>x.originalFilename)).deep.eq([\"b.jpg\",\"c.png\",\"a.png\"]);});pm.test('两入口一致',()=>pm.expect(b.data.photos).deep.eq(JSON.parse(pm.collectionVariables.get('cgSorted'))));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "058 删除排序第一张照片",
+          "request": {
+            "method": "DELETE",
+            "url": "{{cgHost}}/company/photos/{{cgB}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "059 删除后本人数量列表同步",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/preview",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});function photoSafe(p){pm.expect(Object.keys(p).sort()).deep.eq([\"contentType\",\"createTime\",\"fileSize\",\"id\",\"originalFilename\",\"previewUrl\",\"sortOrder\"]);pm.expect(p.previewUrl).eq('/company/photos/'+p.id+'/file');pm.expect(p.fileSize).above(0);}pm.test('主页白名单、数量和排序一致',()=>{pm.expect(Object.keys(b.data).sort()).deep.eq([\"address\",\"basicProfileComplete\",\"benefits\",\"businessLicenseVerified\",\"businessScope\",\"businessStatus\",\"city\",\"commuteDescription\",\"companyNature\",\"creditCode\",\"description\",\"employeeSize\",\"financingStage\",\"foundedDate\",\"fullName\",\"id\",\"industry\",\"legalRepresentative\",\"logo\",\"name\",\"overtimePolicy\",\"photoCount\",\"photos\",\"productDescription\",\"productName\",\"registeredAddress\",\"registeredCapital\",\"registrationReviewStatus\",\"registrationVerified\",\"restPolicy\",\"teamBio\",\"teamName\",\"teamRole\",\"updateTime\",\"website\",\"workEndTime\",\"workNotes\",\"workStartTime\"]);pm.expect(b.data.photos).an('array');pm.expect(b.data.photoCount).eq(b.data.photos.length);b.data.photos.forEach(photoSafe);const ordered=[...b.data.photos].sort((a,c)=>a.sortOrder-c.sortOrder||a.id-c.id);pm.expect(b.data.photos.map(x=>x.id)).deep.eq(ordered.map(x=>x.id));});pm.test('照片名称及目标企业',()=>{pm.expect(b.data.photos.map(x=>x.originalFilename)).deep.eq([\"c.png\",\"a.png\"]);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "060 删除后公开主页同步",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/201/profile",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken6}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});function photoSafe(p){pm.expect(Object.keys(p).sort()).deep.eq([\"contentType\",\"createTime\",\"fileSize\",\"id\",\"originalFilename\",\"previewUrl\",\"sortOrder\"]);pm.expect(p.previewUrl).eq('/company/photos/'+p.id+'/file');pm.expect(p.fileSize).above(0);}pm.test('主页白名单、数量和排序一致',()=>{pm.expect(Object.keys(b.data).sort()).deep.eq([\"address\",\"basicProfileComplete\",\"benefits\",\"businessLicenseVerified\",\"businessScope\",\"businessStatus\",\"city\",\"commuteDescription\",\"companyNature\",\"creditCode\",\"description\",\"employeeSize\",\"financingStage\",\"foundedDate\",\"fullName\",\"id\",\"industry\",\"legalRepresentative\",\"logo\",\"name\",\"overtimePolicy\",\"photoCount\",\"photos\",\"productDescription\",\"productName\",\"registeredAddress\",\"registeredCapital\",\"registrationReviewStatus\",\"registrationVerified\",\"restPolicy\",\"teamBio\",\"teamName\",\"teamRole\",\"updateTime\",\"website\",\"workEndTime\",\"workNotes\",\"workStartTime\"]);pm.expect(b.data.photos).an('array');pm.expect(b.data.photoCount).eq(b.data.photos.length);b.data.photos.forEach(photoSafe);const ordered=[...b.data.photos].sort((a,c)=>a.sortOrder-c.sortOrder||a.id-c.id);pm.expect(b.data.photos.map(x=>x.id)).deep.eq(ordered.map(x=>x.id));});pm.test('照片名称及目标企业',()=>{pm.expect(b.data.photos.map(x=>x.originalFilename)).deep.eq([\"c.png\",\"a.png\"]);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "061 删除后原URL不可读取",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/photos/{{cgB}}/file",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且不返回数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "062 删除后原URL不可读取",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/photos/{{cgB}}/file",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken6}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且不返回数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "063 删除第二张",
+          "request": {
+            "method": "DELETE",
+            "url": "{{cgHost}}/company/photos/{{cgC}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "064 删除最后一张",
+          "request": {
+            "method": "DELETE",
+            "url": "{{cgHost}}/company/photos/{{cgA}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "065 删除全部后预览空数组",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/preview",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});function photoSafe(p){pm.expect(Object.keys(p).sort()).deep.eq([\"contentType\",\"createTime\",\"fileSize\",\"id\",\"originalFilename\",\"previewUrl\",\"sortOrder\"]);pm.expect(p.previewUrl).eq('/company/photos/'+p.id+'/file');pm.expect(p.fileSize).above(0);}pm.test('主页白名单、数量和排序一致',()=>{pm.expect(Object.keys(b.data).sort()).deep.eq([\"address\",\"basicProfileComplete\",\"benefits\",\"businessLicenseVerified\",\"businessScope\",\"businessStatus\",\"city\",\"commuteDescription\",\"companyNature\",\"creditCode\",\"description\",\"employeeSize\",\"financingStage\",\"foundedDate\",\"fullName\",\"id\",\"industry\",\"legalRepresentative\",\"logo\",\"name\",\"overtimePolicy\",\"photoCount\",\"photos\",\"productDescription\",\"productName\",\"registeredAddress\",\"registeredCapital\",\"registrationReviewStatus\",\"registrationVerified\",\"restPolicy\",\"teamBio\",\"teamName\",\"teamRole\",\"updateTime\",\"website\",\"workEndTime\",\"workNotes\",\"workStartTime\"]);pm.expect(b.data.photos).an('array');pm.expect(b.data.photoCount).eq(b.data.photos.length);b.data.photos.forEach(photoSafe);const ordered=[...b.data.photos].sort((a,c)=>a.sortOrder-c.sortOrder||a.id-c.id);pm.expect(b.data.photos.map(x=>x.id)).deep.eq(ordered.map(x=>x.id));});pm.test('照片名称及目标企业',()=>{pm.expect(b.data.photos.map(x=>x.originalFilename)).deep.eq([]);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "066 删除全部后主页空数组",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/201/profile",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken6}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});function photoSafe(p){pm.expect(Object.keys(p).sort()).deep.eq([\"contentType\",\"createTime\",\"fileSize\",\"id\",\"originalFilename\",\"previewUrl\",\"sortOrder\"]);pm.expect(p.previewUrl).eq('/company/photos/'+p.id+'/file');pm.expect(p.fileSize).above(0);}pm.test('主页白名单、数量和排序一致',()=>{pm.expect(Object.keys(b.data).sort()).deep.eq([\"address\",\"basicProfileComplete\",\"benefits\",\"businessLicenseVerified\",\"businessScope\",\"businessStatus\",\"city\",\"commuteDescription\",\"companyNature\",\"creditCode\",\"description\",\"employeeSize\",\"financingStage\",\"foundedDate\",\"fullName\",\"id\",\"industry\",\"legalRepresentative\",\"logo\",\"name\",\"overtimePolicy\",\"photoCount\",\"photos\",\"productDescription\",\"productName\",\"registeredAddress\",\"registeredCapital\",\"registrationReviewStatus\",\"registrationVerified\",\"restPolicy\",\"teamBio\",\"teamName\",\"teamRole\",\"updateTime\",\"website\",\"workEndTime\",\"workNotes\",\"workStartTime\"]);pm.expect(b.data.photos).an('array');pm.expect(b.data.photoCount).eq(b.data.photos.length);b.data.photos.forEach(photoSafe);const ordered=[...b.data.photos].sort((a,c)=>a.sortOrder-c.sortOrder||a.id-c.id);pm.expect(b.data.photos.map(x=>x.id)).deep.eq(ordered.map(x=>x.id));});pm.test('照片名称及目标企业',()=>{pm.expect(b.data.photos.map(x=>x.originalFilename)).deep.eq([]);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "067 删除后管理列表也为空",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/photos",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('列表清空',()=>pm.expect(b.data).deep.eq([]));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "068 其他企业照片不受影响",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/204/profile",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken6}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});function photoSafe(p){pm.expect(Object.keys(p).sort()).deep.eq([\"contentType\",\"createTime\",\"fileSize\",\"id\",\"originalFilename\",\"previewUrl\",\"sortOrder\"]);pm.expect(p.previewUrl).eq('/company/photos/'+p.id+'/file');pm.expect(p.fileSize).above(0);}pm.test('主页白名单、数量和排序一致',()=>{pm.expect(Object.keys(b.data).sort()).deep.eq([\"address\",\"basicProfileComplete\",\"benefits\",\"businessLicenseVerified\",\"businessScope\",\"businessStatus\",\"city\",\"commuteDescription\",\"companyNature\",\"creditCode\",\"description\",\"employeeSize\",\"financingStage\",\"foundedDate\",\"fullName\",\"id\",\"industry\",\"legalRepresentative\",\"logo\",\"name\",\"overtimePolicy\",\"photoCount\",\"photos\",\"productDescription\",\"productName\",\"registeredAddress\",\"registeredCapital\",\"registrationReviewStatus\",\"registrationVerified\",\"restPolicy\",\"teamBio\",\"teamName\",\"teamRole\",\"updateTime\",\"website\",\"workEndTime\",\"workNotes\",\"workStartTime\"]);pm.expect(b.data.photos).an('array');pm.expect(b.data.photoCount).eq(b.data.photos.length);b.data.photos.forEach(photoSafe);const ordered=[...b.data.photos].sort((a,c)=>a.sortOrder-c.sortOrder||a.id-c.id);pm.expect(b.data.photos.map(x=>x.id)).deep.eq(ordered.map(x=>x.id));});pm.test('照片名称及目标企业',()=>{pm.expect(b.data.photos.map(x=>x.originalFilename)).deep.eq([\"office.png\"]);});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "C",
+      "item": [
+        {
+          "name": "069 身份4登录",
+          "request": {
+            "method": "POST",
+            "url": "{{cgHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"cp_fixture_4\",\"password\":\"{{companyPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('有效令牌',()=>pm.expect(b.data).a('string').and.not.empty);pm.collectionVariables.set('cgToken4',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "070 核对身份4",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken4}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('用户ID及角色',()=>{pm.expect(b.data.id).eq(104);pm.expect(b.data.role).eq('COMPANY');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "071 身份6登录",
+          "request": {
+            "method": "POST",
+            "url": "{{cgHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"cp_fixture_6\",\"password\":\"{{companyPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('有效令牌',()=>pm.expect(b.data).a('string').and.not.empty);pm.collectionVariables.set('cgToken6',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "072 核对身份6",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken6}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('用户ID及角色',()=>{pm.expect(b.data.id).eq(106);pm.expect(b.data.role).eq('JOB_SEEKER');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "073 准入撤销后企业仍可预览",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/preview",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken4}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});function photoSafe(p){pm.expect(Object.keys(p).sort()).deep.eq([\"contentType\",\"createTime\",\"fileSize\",\"id\",\"originalFilename\",\"previewUrl\",\"sortOrder\"]);pm.expect(p.previewUrl).eq('/company/photos/'+p.id+'/file');pm.expect(p.fileSize).above(0);}pm.test('主页白名单、数量和排序一致',()=>{pm.expect(Object.keys(b.data).sort()).deep.eq([\"address\",\"basicProfileComplete\",\"benefits\",\"businessLicenseVerified\",\"businessScope\",\"businessStatus\",\"city\",\"commuteDescription\",\"companyNature\",\"creditCode\",\"description\",\"employeeSize\",\"financingStage\",\"foundedDate\",\"fullName\",\"id\",\"industry\",\"legalRepresentative\",\"logo\",\"name\",\"overtimePolicy\",\"photoCount\",\"photos\",\"productDescription\",\"productName\",\"registeredAddress\",\"registeredCapital\",\"registrationReviewStatus\",\"registrationVerified\",\"restPolicy\",\"teamBio\",\"teamName\",\"teamRole\",\"updateTime\",\"website\",\"workEndTime\",\"workNotes\",\"workStartTime\"]);pm.expect(b.data.photos).an('array');pm.expect(b.data.photoCount).eq(b.data.photos.length);b.data.photos.forEach(photoSafe);const ordered=[...b.data.photos].sort((a,c)=>a.sortOrder-c.sortOrder||a.id-c.id);pm.expect(b.data.photos.map(x=>x.id)).deep.eq(ordered.map(x=>x.id));});pm.test('照片名称及目标企业',()=>{pm.expect(b.data.photos.map(x=>x.originalFilename)).deep.eq([\"office.png\"]);});pm.collectionVariables.set('cgRevokedPhoto',b.data.photos[0].id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "074 准入撤销后企业本人可读",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/photos/{{cgRevokedPhoto}}/file",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken4}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('受保护图片响应及原件一致',()=>{pm.expect(pm.response.code).eq(200);pm.expect(pm.response.headers.get('Content-Type')).include('image/png');pm.expect(pm.response.headers.get('Content-Disposition')).include('inline');pm.expect(pm.response.headers.get('Cache-Control')).include('no-store');const bytes=require('crypto-js').lib.WordArray.create(pm.response.stream);pm.expect(require('crypto-js').SHA256(bytes).toString()).eq('3100c00a4d47954075c075d556256b78a3b257f7be77cb36702837f3f1a32169');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "075 准入撤销后求职者拒绝主页",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/204/profile",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken6}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且不返回数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "076 准入撤销后求职者拒绝原图片URL",
+          "request": {
+            "method": "GET",
+            "url": "{{cgHost}}/company/photos/{{cgRevokedPhoto}}/file",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{cgToken6}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyGalleryRegression')!=='true'||pm.environment.get('galleryFixtureReady')!=='true'||pm.environment.get('cgHost')!=='http://127.0.0.1:18083'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且不返回数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

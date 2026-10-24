@@ -11,6 +11,19 @@ import java.time.LocalDateTime;
 import java.util.List;
 @Mapper
 public interface JobMapper {
+    // 企业主页专用：企业归属与招聘中状态同时限制在 SQL 中。
+    @Select("""
+            SELECT id, title, category, team, employment, status, city,
+                   experience, education, salary_min, salary_max, salary_unit,
+                   negotiable, update_time
+            FROM job
+            WHERE company_id = #{companyId}
+              AND status = #{status.code}
+            ORDER BY update_time DESC, id DESC
+            """)
+    List<JobListVO> findActiveJobsByCompany(@Param("companyId") Long companyId,
+                                          @Param("status") JobStatus status);
+
     // 岗位数量独立聚合，避免关联投递后一个岗位被重复计数。
     @Select("""
             SELECT

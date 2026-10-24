@@ -1,12 +1,17 @@
 package com.recruit.smartrecruit.controller;
 
 import com.recruit.smartrecruit.common.Result;
+import com.recruit.smartrecruit.common.PageResult;
+import com.recruit.smartrecruit.dto.CompanyProfileUpdateDTO;
 import com.recruit.smartrecruit.dto.CompanyRegisterDTO;
-import com.recruit.smartrecruit.entity.Company;
-import com.recruit.smartrecruit.entity.User;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import com.recruit.smartrecruit.service.CompanyService;
 import com.recruit.smartrecruit.service.UserService;
 import com.recruit.smartrecruit.utils.ThreadLocalUtil;
+import com.recruit.smartrecruit.vo.CompanyProfileVO;
+import com.recruit.smartrecruit.vo.CompanyPublicProfileVO;
+import com.recruit.smartrecruit.vo.JobListVO;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,36 +32,53 @@ public class CompanyController {
         Map<String,Object> data=userService.registerCompany(dto);
         return Result.success(data);
     }
-    //创建企业
+    // 企业账号与企业记录统一经注册事务创建，不再接收可控制准入状态的实体。
     @PostMapping()
-    public Result<Void> addCompany(@RequestBody @Valid Company company){
-        //获取当前登录用户
-        Long userId = ThreadLocalUtil.getUserId();
-        company.setUserId(userId);
-        companyService.add(company);
-        return Result.success();
+    public ResponseEntity<Result<Void>> addCompany(){
+        return ResponseEntity.status(HttpStatus.GONE)
+                .body(Result.error("企业创建入口已停用，请使用企业注册接口"));
     }
     //查询当前用户企业
-    @GetMapping()
-    public Result<Company> getMyCompany(){
+    @GetMapping
+    public Result<CompanyProfileVO> getMyProfile() {
         Long userId = ThreadLocalUtil.getUserId();
-        Company company=companyService.findByUserId(userId);
-        return Result.success(company);
+        CompanyProfileVO profile = companyService.getMyProfile(userId);
+        return Result.success(profile);
     }
     //修改企业
-    @PutMapping()
-    public Result<Void> updateCompany(@RequestBody Company newCompany){
+    @PutMapping
+    public Result<Void> updateProfile(
+            @RequestBody @Valid CompanyProfileUpdateDTO dto) {
         Long userId = ThreadLocalUtil.getUserId();
-        newCompany.setUserId(userId);
-        companyService.update(newCompany);
+        companyService.updateProfile(userId, dto);
         return Result.success();
     }
-    //删除企业
+    // 企业本人预览，无需准入已通过，使用公开字段响应。
+    @GetMapping("/preview")
+    public Result<CompanyPublicProfileVO> previewProfile() {
+        return Result.success(companyService.previewProfile(ThreadLocalUtil.getUserId()));
+    }
+
+    // 求职者查看已通过准入的企业主页。
+    @GetMapping("/{id}/profile")
+    public Result<CompanyPublicProfileVO> getPublicProfile(@PathVariable("id") long id) {
+        return Result.success(companyService.getPublicProfile(ThreadLocalUtil.getUserId(), id));
+    }
+
+    @GetMapping("/{id}/jobs")
+    public Result<PageResult<JobListVO>> listActiveJobs(
+            @PathVariable("id") long id,
+            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "10") Integer pageSize) {
+        return Result.success(companyService.listActiveJobs(
+                ThreadLocalUtil.getUserId(), id, page, pageSize));
+    }
+
+    // 保留岗位、投递和审核历史；注销业务需要独立生命周期设计。
     @DeleteMapping()
-    public Result<Void> deleteCompany(){
-        Long userId = ThreadLocalUtil.getUserId();
-        companyService.delete(userId);
-        return Result.success();
+    public ResponseEntity<Result<Void>> deleteCompany(){
+        return ResponseEntity.status(HttpStatus.GONE)
+                .body(Result.error("企业物理删除入口已停用"));
     }
 
 

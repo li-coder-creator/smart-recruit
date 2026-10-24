@@ -1,0 +1,3350 @@
+{
+  "info": {
+    "name": "企业模块收尾回归",
+    "description": "企业模块收尾集成回归：全新隔离夹具及独立服务就绪后 baseline → A → verify-rollback → B → audit/audit-material。仅允许 rrHost=http://127.0.0.1:18086、runCompanyCloseRegression=true、companyCloseFixtureReady=true；先按验收文档准备数据。含写入，不对开发库执行。无凭据导出。",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "A",
+      "item": [
+        {
+          "name": "001 身份登录1",
+          "request": {
+            "method": "POST",
+            "url": "{{rrHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"cp_fixture_1\",\"password\":\"{{companyPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('rrToken1',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "002 身份核对",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('用户身份',()=>pm.expect(b.data.id).eq(101));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "003 身份登录2",
+          "request": {
+            "method": "POST",
+            "url": "{{rrHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"cp_fixture_2\",\"password\":\"{{companyPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('rrToken2',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "004 身份核对",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken2}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('用户身份',()=>pm.expect(b.data.id).eq(102));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "005 身份登录6",
+          "request": {
+            "method": "POST",
+            "url": "{{rrHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"cp_fixture_6\",\"password\":\"{{companyPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('rrToken6',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "006 身份核对",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken6}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('用户身份',()=>pm.expect(b.data.id).eq(106));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "007 身份登录7",
+          "request": {
+            "method": "POST",
+            "url": "{{rrHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"cp_fixture_7\",\"password\":\"{{companyPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('rrToken7',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "008 身份核对",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken7}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('用户身份',()=>pm.expect(b.data.id).eq(107));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "009 拒绝伪造准入创建",
+          "request": {
+            "method": "POST",
+            "url": "{{rrHost}}/company",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\":\"伪造企业\",\"status\":\"APPROVED\",\"userId\":106,\"id\":201,\"registrationReviewStatus\":\"VERIFIED\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('旧入口永久停用',()=>{pm.expect(pm.response.code).eq(410);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "010 拒绝无关联企业物理删除",
+          "request": {
+            "method": "DELETE",
+            "url": "{{rrHost}}/company?companyId=205",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('旧入口永久停用',()=>{pm.expect(pm.response.code).eq(410);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "011 拒绝有岗位关联企业物理删除",
+          "request": {
+            "method": "DELETE",
+            "url": "{{rrHost}}/company?companyId=201",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('旧入口永久停用',()=>{pm.expect(pm.response.code).eq(410);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "012 拒绝伪造准入创建",
+          "request": {
+            "method": "POST",
+            "url": "{{rrHost}}/company",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken2}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\":\"伪造企业\",\"status\":\"APPROVED\",\"userId\":106,\"id\":201,\"registrationReviewStatus\":\"VERIFIED\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('旧入口永久停用',()=>{pm.expect(pm.response.code).eq(410);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "013 拒绝无关联企业物理删除",
+          "request": {
+            "method": "DELETE",
+            "url": "{{rrHost}}/company?companyId=205",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken2}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('旧入口永久停用',()=>{pm.expect(pm.response.code).eq(410);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "014 拒绝有岗位关联企业物理删除",
+          "request": {
+            "method": "DELETE",
+            "url": "{{rrHost}}/company?companyId=201",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken2}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('旧入口永久停用',()=>{pm.expect(pm.response.code).eq(410);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "015 拒绝伪造准入创建",
+          "request": {
+            "method": "POST",
+            "url": "{{rrHost}}/company",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken6}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\":\"伪造企业\",\"status\":\"APPROVED\",\"userId\":106,\"id\":201,\"registrationReviewStatus\":\"VERIFIED\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('旧入口永久停用',()=>{pm.expect(pm.response.code).eq(410);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "016 拒绝无关联企业物理删除",
+          "request": {
+            "method": "DELETE",
+            "url": "{{rrHost}}/company?companyId=205",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken6}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('旧入口永久停用',()=>{pm.expect(pm.response.code).eq(410);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "017 拒绝有岗位关联企业物理删除",
+          "request": {
+            "method": "DELETE",
+            "url": "{{rrHost}}/company?companyId=201",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken6}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('旧入口永久停用',()=>{pm.expect(pm.response.code).eq(410);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "018 拒绝伪造准入创建",
+          "request": {
+            "method": "POST",
+            "url": "{{rrHost}}/company",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken7}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\":\"伪造企业\",\"status\":\"APPROVED\",\"userId\":106,\"id\":201,\"registrationReviewStatus\":\"VERIFIED\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('旧入口永久停用',()=>{pm.expect(pm.response.code).eq(410);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "019 拒绝无关联企业物理删除",
+          "request": {
+            "method": "DELETE",
+            "url": "{{rrHost}}/company?companyId=205",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken7}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('旧入口永久停用',()=>{pm.expect(pm.response.code).eq(410);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "020 拒绝有岗位关联企业物理删除",
+          "request": {
+            "method": "DELETE",
+            "url": "{{rrHost}}/company?companyId=201",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken7}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('旧入口永久停用',()=>{pm.expect(pm.response.code).eq(410);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "021 匿名旧入口仍需登录",
+          "request": {
+            "method": "POST",
+            "url": "{{rrHost}}/company",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": []
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP401',()=>pm.expect(pm.response.code).eq(401));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "022 匿名旧入口仍需登录",
+          "request": {
+            "method": "DELETE",
+            "url": "{{rrHost}}/company",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": []
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP401',()=>pm.expect(pm.response.code).eq(401));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "023 畸形JSON不触发旧写入",
+          "request": {
+            "method": "POST",
+            "url": "{{rrHost}}/company",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken6}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{invalid"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('旧入口永久停用',()=>{pm.expect(pm.response.code).eq(410);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "024 停用不影响资料查询",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/company",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('当前企业仍存在',()=>pm.expect(b.data.id).eq(201));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "B",
+      "item": [
+        {
+          "name": "025 身份登录1",
+          "request": {
+            "method": "POST",
+            "url": "{{rrHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"cp_fixture_1\",\"password\":\"{{companyPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('rrToken1',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "026 身份核对",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('用户身份',()=>pm.expect(b.data.id).eq(101));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "027 身份登录2",
+          "request": {
+            "method": "POST",
+            "url": "{{rrHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"cp_fixture_2\",\"password\":\"{{companyPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('rrToken2',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "028 身份核对",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken2}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('用户身份',()=>pm.expect(b.data.id).eq(102));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "029 身份登录6",
+          "request": {
+            "method": "POST",
+            "url": "{{rrHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"cp_fixture_6\",\"password\":\"{{companyPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('rrToken6',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "030 身份核对",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken6}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('用户身份',()=>pm.expect(b.data.id).eq(106));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "031 身份登录7",
+          "request": {
+            "method": "POST",
+            "url": "{{rrHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"cp_fixture_7\",\"password\":\"{{companyPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('rrToken7',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "032 身份核对",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken7}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('用户身份',()=>pm.expect(b.data.id).eq(107));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "033 事务失败不留孤立账号",
+          "request": {
+            "method": "POST",
+            "url": "{{rrHost}}/company/register",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"{{closeUsername}}\",\"password\":\"{{companyPassword}}\",\"companyName\":\"企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企企\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}pm.collectionVariables.set('closeUsername','close_'+Date.now());"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "034 统一注册且拒绝系统字段注入",
+          "request": {
+            "method": "POST",
+            "url": "{{rrHost}}/company/register",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"{{closeUsername}}\",\"password\":\"{{companyPassword}}\",\"companyName\":\"企业联调验收\",\"status\":\"APPROVED\",\"role\":\"ADMIN\",\"registrationReviewStatus\":\"VERIFIED\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('注册默认待审',()=>pm.expect(b.data.status).eq('PENDING'));pm.collectionVariables.set('closeCompanyId',b.data.companyId);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "035 新企业登录",
+          "request": {
+            "method": "POST",
+            "url": "{{rrHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"{{closeUsername}}\",\"password\":\"{{companyPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('rrToken9',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "036 账号角色不可注入",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken9}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('企业角色',()=>pm.expect(b.data.role).eq('COMPANY'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "037 重复注册拒绝",
+          "request": {
+            "method": "POST",
+            "url": "{{rrHost}}/company/register",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"{{closeUsername}}\",\"password\":\"{{companyPassword}}\",\"companyName\":\"重复\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "038 旧企业读取兼容",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/company",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken2}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('旧字段为空可展示',()=>pm.expect(b.data.fullName).eq(null));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "039 新企业资料与审核初始状态",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/company",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken9}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('初始状态安全',()=>{pm.expect(b.data.id).eq(Number(pm.collectionVariables.get('closeCompanyId')));pm.expect(b.data.status).eq('PENDING');pm.expect(b.data.profileVersion).eq(0);pm.expect(b.data.registrationVerified).eq(false);pm.expect(b.data.businessLicenseVerified).eq(false);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "040 完整表单保存",
+          "request": {
+            "method": "PUT",
+            "url": "{{rrHost}}/company",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken9}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\":\"完整企业资料\",\"fullName\":\"企业联调验收有限公司\",\"industry\":\"SOFTWARE\",\"employeeSize\":\"FROM_20_TO_99\",\"city\":\"上海\",\"address\":\"验收地址\",\"description\":\"完整联调闭环\",\"benefits\":[],\"profileVersion\":0}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "041 旧版本保存拒绝",
+          "request": {
+            "method": "PUT",
+            "url": "{{rrHost}}/company",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken9}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\":\"完整企业资料\",\"fullName\":\"企业联调验收有限公司\",\"industry\":\"SOFTWARE\",\"employeeSize\":\"FROM_20_TO_99\",\"city\":\"上海\",\"address\":\"验收地址\",\"description\":\"完整联调闭环\",\"benefits\":[],\"profileVersion\":0}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "042 旧前端不完整表单拒绝",
+          "request": {
+            "method": "PUT",
+            "url": "{{rrHost}}/company",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken9}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\":\"旧表单\",\"description\":\"旧字段\",\"city\":\"上海\",\"address\":\"旧地址\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "043 工商提交历史",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/company/registration-reviews",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken9}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('一次真实提交',()=>{pm.expect(b.data.total).eq(1);pm.expect(b.data.items[0].registrationVersion).eq(1);});pm.collectionVariables.set('regId',b.data.items[0].id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "044 上传办公照片",
+          "request": {
+            "method": "POST",
+            "url": "{{rrHost}}/company/photos",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken9}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": "D:/project/smart-recruit/target/company-file-fixtures/office.png"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('photoId',b.data.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "045 照片管理列表",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/company/photos",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken9}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('一张照片',()=>pm.expect(b.data).lengthOf(1));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "046 本人照片读取",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/company/photos/{{photoId}}/file",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken9}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('实际图片响应',()=>{pm.expect(pm.response.code).eq(200);pm.expect(pm.response.headers.get('Content-Type')).include('image/png');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "047 上传真实材料 license.pdf",
+          "request": {
+            "method": "POST",
+            "url": "{{rrHost}}/company/qualifications",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken9}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": "D:/project/smart-recruit/target/company-file-fixtures/license.pdf"
+                },
+                {
+                  "key": "qualificationType",
+                  "type": "text",
+                  "value": "BUSINESS_LICENSE"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('qId',b.data.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "048 企业审核反馈",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/company/qualification-reviews",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken9}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('历史白名单',()=>b.data.items.forEach(x=>pm.expect(Object.keys(x).sort()).deep.eq([\"contentType\",\"fileSize\",\"id\",\"originalFilename\",\"qualificationId\",\"qualificationType\",\"removed\",\"reviewComment\",\"reviewStatus\",\"reviewedAt\",\"submittedAt\"])));if(b.data.items.length)pm.collectionVariables.set('rId',b.data.items[0].id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "049 管理员下载原件校验",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/admin/company/qualification-reviews/{{rId}}/file",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken7}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('原件与响应头',()=>{pm.expect(pm.response.code).eq(200);pm.expect(pm.response.headers.get('Content-Disposition')).include('attachment');pm.expect(pm.response.headers.get('Cache-Control')).include('no-store');pm.expect(pm.response.headers.get('X-Content-Type-Options')).eq('nosniff');pm.expect(Number(pm.response.headers.get('Content-Length'))).eq(594);pm.expect(require('crypto-js').SHA256(require('crypto-js').lib.WordArray.create(pm.response.stream)).toString()).eq('77e234172ab9f8381bbae88093b820d44d4687e4c3e80d591ffc0166a3632a85');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "050 企业资质列表",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/company/qualifications",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken9}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('材料待审',()=>pm.expect(b.data[0].reviewStatus).eq('PENDING'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "051 企业私有原件下载",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/company/qualifications/{{qId}}/file",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken9}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('PDF附件',()=>{pm.expect(pm.response.code).eq(200);pm.expect(pm.response.headers.get('Content-Type')).include('application/pdf');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "052 待准入企业自己可预览",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/company/preview",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken9}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('真实照片与标记',()=>{pm.expect(b.data.photoCount).eq(1);pm.expect(b.data.photos).lengthOf(1);pm.expect(b.data.registrationVerified).eq(false);pm.expect(b.data.businessLicenseVerified).eq(false);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "053 求职者不能查看待准入企业",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/company/{{closeCompanyId}}/profile",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken6}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "054 求职者不能查看待准入企业",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/company/{{closeCompanyId}}/jobs",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken6}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "055 不能自行通过入驻",
+          "request": {
+            "method": "PUT",
+            "url": "{{rrHost}}/admin/company/{{closeCompanyId}}/approve",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken9}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "056 管理员待入驻列表",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/admin/company/pending",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken7}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "057 管理员企业列表",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/admin/company?page=1&pageSize=10",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken7}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "058 管理员企业详情",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/admin/company/{{closeCompanyId}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken7}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('目标企业',()=>pm.expect(b.data.status).eq('PENDING'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "059 入驻通过",
+          "request": {
+            "method": "PUT",
+            "url": "{{rrHost}}/admin/company/{{closeCompanyId}}/approve",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken7}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "060 入驻拒绝原待审夹具",
+          "request": {
+            "method": "PUT",
+            "url": "{{rrHost}}/admin/company/202/reject",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken7}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "061 求职者企业主页",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/company/{{closeCompanyId}}/profile",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken6}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('照片白名单及数量',()=>{pm.expect(b.data.photoCount).eq(b.data.photos.length);pm.expect(b.data).not.have.property('profileVersion');pm.expect(b.data.photos[0]).not.have.property('storageKey');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "062 求职者企业照片",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/company/photos/{{photoId}}/file",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken6}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('可见图片',()=>pm.expect(pm.response.code).eq(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "063 企业在招岗位空列表",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/company/{{closeCompanyId}}/jobs",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken6}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('空岗位',()=>{pm.expect(b.data.total).eq(0);pm.expect(b.data.items).deep.eq([]);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "064 有岗位企业分页过滤",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/company/201/jobs?page=1&pageSize=2",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken6}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('招聘中且分页正确',()=>{pm.expect(b.data.total).eq(3);pm.expect(b.data.items).lengthOf(2);b.data.items.forEach(x=>pm.expect(x.status).eq(0));});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "065 工商待审列表",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/admin/company/registration-reviews",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken7}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "066 工商快照详情",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/admin/company/registration-reviews/{{regId}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken7}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('提交快照',()=>{pm.expect(b.data.snapshot.fullName).eq('企业联调验收有限公司');pm.expect(b.data.reviewable).eq(true);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "067 工商核验通过",
+          "request": {
+            "method": "PUT",
+            "url": "{{rrHost}}/admin/company/registration-reviews/{{regId}}/decision",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken7}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"decision\":\"APPROVE\",\"registrationVersion\":1}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "068 材料待审列表",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/admin/company/qualification-reviews",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken7}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('列表白名单',()=>b.data.items.forEach(x=>pm.expect(Object.keys(x).sort()).deep.eq([\"companyId\",\"companyName\",\"contentType\",\"fileSize\",\"id\",\"originalFilename\",\"qualificationId\",\"qualificationType\",\"removed\",\"reviewStatus\",\"reviewable\",\"reviewedAt\",\"submittedAt\"])));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "069 材料审核详情",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/admin/company/qualification-reviews/{{rId}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken7}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('详情白名单',()=>{pm.expect(Object.keys(b.data).sort()).deep.eq([\"companyId\",\"companyName\",\"contentType\",\"downloadUrl\",\"fileSize\",\"id\",\"originalFilename\",\"qualificationId\",\"qualificationType\",\"removed\",\"reviewComment\",\"reviewStatus\",\"reviewable\",\"reviewedAt\",\"reviewerUserId\",\"snapshot\",\"submittedAt\"]);pm.expect(Object.keys(b.data.snapshot).sort()).deep.eq(['qualificationId','qualificationType','originalFilename','contentType','fileSize','sha256'].sort());});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "070 审核决定 APPROVE",
+          "request": {
+            "method": "PUT",
+            "url": "{{rrHost}}/admin/company/qualification-reviews/{{rId}}/decision",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken7}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"decision\":\"APPROVE\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "071 两类核验独立完成",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/company",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken9}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('完整核验状态',()=>{pm.expect(b.data.registrationVerified).eq(true);pm.expect(b.data.businessLicenseVerified).eq(true);pm.expect(b.data.status).eq('APPROVED');pm.expect(b.data.profileVersion).eq(1);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "072 其他企业不能下载私有材料",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/company/qualifications/{{qId}}/file",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "073 求职者不能读取管理员原件",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/admin/company/qualification-reviews/{{rId}}/file",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken6}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "074 工商变更生成新版",
+          "request": {
+            "method": "PUT",
+            "url": "{{rrHost}}/company",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken9}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\":\"完整企业资料\",\"fullName\":\"企业联调第二版有限公司\",\"industry\":\"SOFTWARE\",\"employeeSize\":\"FROM_20_TO_99\",\"city\":\"上海\",\"address\":\"验收地址\",\"description\":\"完整联调闭环\",\"benefits\":[],\"profileVersion\":1}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "075 旧审批不可覆盖新版",
+          "request": {
+            "method": "PUT",
+            "url": "{{rrHost}}/admin/company/registration-reviews/{{regId}}/decision",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken7}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"decision\":\"APPROVE\",\"registrationVersion\":1}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "076 最新工商历史",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/company/registration-reviews",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken9}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('regNewId',b.data.items[0].id);pm.test('版本推进',()=>pm.expect(b.data.items[0].registrationVersion).eq(2));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "077 新版驳回有原因",
+          "request": {
+            "method": "PUT",
+            "url": "{{rrHost}}/admin/company/registration-reviews/{{regNewId}}/decision",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken7}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"decision\":\"REJECT\",\"registrationVersion\":2,\"reviewComment\":\"请核实资料\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "078 核验历史与当前区分",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/company",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken9}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('旧通过不能冒充当前核验',()=>{pm.expect(b.data.registrationVerified).eq(false);pm.expect(b.data.verifiedRegistrationVersion).eq(1);pm.expect(b.data.businessLicenseVerified).eq(true);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "079 移除营业执照",
+          "request": {
+            "method": "DELETE",
+            "url": "{{rrHost}}/company/qualifications/{{qId}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken9}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "080 移除后标记更新",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/company",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken9}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('有效执照已移除',()=>pm.expect(b.data.businessLicenseVerified).eq(false));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "081 管理员下载原件校验",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/admin/company/qualification-reviews/{{rId}}/file",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken7}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('原件与响应头',()=>{pm.expect(pm.response.code).eq(200);pm.expect(pm.response.headers.get('Content-Disposition')).include('attachment');pm.expect(pm.response.headers.get('Cache-Control')).include('no-store');pm.expect(pm.response.headers.get('X-Content-Type-Options')).eq('nosniff');pm.expect(Number(pm.response.headers.get('Content-Length'))).eq(594);pm.expect(require('crypto-js').SHA256(require('crypto-js').lib.WordArray.create(pm.response.stream)).toString()).eq('77e234172ab9f8381bbae88093b820d44d4687e4c3e80d591ffc0166a3632a85');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "082 材料审核详情",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/admin/company/qualification-reviews/{{rId}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken7}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('详情白名单',()=>{pm.expect(Object.keys(b.data).sort()).deep.eq([\"companyId\",\"companyName\",\"contentType\",\"downloadUrl\",\"fileSize\",\"id\",\"originalFilename\",\"qualificationId\",\"qualificationType\",\"removed\",\"reviewComment\",\"reviewStatus\",\"reviewable\",\"reviewedAt\",\"reviewerUserId\",\"snapshot\",\"submittedAt\"]);pm.expect(Object.keys(b.data.snapshot).sort()).deep.eq(['qualificationId','qualificationType','originalFilename','contentType','fileSize','sha256'].sort());});pm.test('管理员历史追溯',()=>{pm.expect(b.data.removed).eq(true);pm.expect(b.data.reviewable).eq(false);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "083 企业移除后原件不可下载",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/company/qualifications/{{qId}}/file",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken9}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "084 删除办公照片",
+          "request": {
+            "method": "DELETE",
+            "url": "{{rrHost}}/company/photos/{{photoId}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken9}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "085 删除后主页同步",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/company/{{closeCompanyId}}/profile",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken6}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('照片清空',()=>{pm.expect(b.data.photoCount).eq(0);pm.expect(b.data.photos).deep.eq([]);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "086 照片原地址失效",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/company/photos/{{photoId}}/file",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken6}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "087 新企业也不能物理删除",
+          "request": {
+            "method": "DELETE",
+            "url": "{{rrHost}}/company",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken9}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('旧入口永久停用',()=>{pm.expect(pm.response.code).eq(410);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "088 企业及审核历史保留",
+          "request": {
+            "method": "GET",
+            "url": "{{rrHost}}/company/registration-reviews",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rrToken9}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runCompanyCloseRegression')!=='true'||pm.environment.get('companyCloseFixtureReady')!=='true'||pm.environment.get('rrHost')!=='http://127.0.0.1:18086'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP及业务成功',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('历史保留',()=>pm.expect(b.data.total).eq(2));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

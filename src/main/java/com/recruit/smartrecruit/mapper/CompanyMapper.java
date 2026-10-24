@@ -38,24 +38,6 @@ public interface CompanyMapper {
             WHERE user_id=#{userId}
             """)
     Company findByUserId(Long userId);
-    @Update("""
-            UPDATE company
-            SET
-            name=#{name},
-            description=#{description},
-            logo=#{logo},
-            city=#{city},
-            address=#{address}
-            WHERE id=#{id}
-            """)
-    void update(Company newCompany);
-
-    @Delete("""
-            DELETE
-            FROM company
-            WHERE id=#{companyId}
-            """)
-    void delete(Long companyId);
     @Select("""
              SELECT *
             FROM COMPANY

@@ -31,6 +31,19 @@
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
+		<!-- 资质 PDF 使用解析器验证，不依赖客户端文件后缀和 Content-Type。 -->
+		<dependency>
+			<groupId>org.apache.pdfbox</groupId>
+			<artifactId>pdfbox</artifactId>
+			<version>3.0.8</version>
+			<exclusions>
+				<!-- Spring 已提供 spring-jcl，避免重复日志实现。 -->
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 		<!--		validation依赖，参数校验-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

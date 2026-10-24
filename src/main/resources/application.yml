@@ -1,4 +1,9 @@
 spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      # 留出 multipart 边界和字段的空间；业务层仍按文件字节数执行 3MB/10MB 限制。
+      max-request-size: 11MB
   application:
     name: smart-recruit
 
@@ -21,6 +26,10 @@ mybatis:
 
 server:
   port: 8081
+
+smart-recruit:
+  company-files:
+    root: ${SMART_RECRUIT_COMPANY_FILE_ROOT:./storage/company}
 
 # ==================== 日志配置 ====================
 
