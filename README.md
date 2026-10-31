@@ -31,6 +31,8 @@
 - 岗位投递
 - 企业处理投递与状态迁移白名单
 - 简历缺失时保留历史投递
+- 我的投递分页筛选、状态概览与真实事件时间线
+- 企业面试安排、改期、取消与求职者近期面试
 - 用户角色与权限控制
 - 企业审核
 - Redis 缓存
@@ -51,6 +53,8 @@
 前端项目采用 **Vue 3** 开发，独立维护于前端仓库。
 
 **当前阶段（2026-10-21）：** 简历模块前端已提交；岗位后端的生命周期、招聘统计、操作记录和历史投递可见性已实现。企业资料扩展、私有文件、工商核验与材料审核已完成后端分阶段回归及收尾集成回归；岗位与企业资料前端适配、完整业务联调待完成。推荐人才及智能匹配仍在后续规划中。
+
+**本轮投递升级（2026-10-28）：** 已实现求职者分页、概览、详情、真实事件，以及企业面试安排/改期/取消、求职者近期面试和投递终态联动。第五阶段统一验收范围与执行结果见 [阶段五验收报告](docs/application-upgrade-phase-5-regression-2026-10-28.md)。本轮投递页面与企业排期入口的前端适配、浏览器联调仍待下一阶段。
 
 ---
 
@@ -337,7 +341,7 @@ smart-recruit
 
 ---
 
-## 📬 投递模块 V1
+## 📬 投递与面试模块
 
 | 功能 | 状态 |
 |---|---|
@@ -354,9 +358,17 @@ smart-recruit
 | 面试历史标记与未知旧数据兼容 | ✅ |
 | 状态更新带原状态条件，拒绝并发冲突 | ✅ |
 | 简历或账号展示资料缺失时保留投递 | ✅ |
+| 求职者投递分页、状态/关键词/日期筛选 | ✅ |
+| 全部历史投递的当前状态概览 | ✅ |
+| 初始投递与真实状态变化事件，同事务写入 | ✅ |
+| 企业面试安排、完整改期、取消与历史保留 | ✅ |
+| 父投递行锁与面试版本控制 | ✅ |
+| 录用/拒绝时自动取消尚未结束的有效面试 | ✅ |
+| 求职者近期面试、时间派生状态与授权字段 | ✅ |
 | 接口回归测试 | ✅ |
 | 投递时简历快照 | ⏳ |
-| 完整投递列表分页与按岗位筛选 | ⏳ |
+| 企业收到的投递列表分页与按岗位筛选 | ⏳ |
+| 本轮投递页面和企业排期前端联调 | ⏳ |
 
 ### 投递状态迁移
 
@@ -369,11 +381,33 @@ smart-recruit
 | 拒绝（4） | 无，终态 |
 
 同状态重复操作、回退和终态变更均拒绝。后端按白名单独立校验，前端仅展示允许的目标。
-`hasInterviewed` 为 `true` / `false` / `null`，分别表示确认曾面试、确认未面试、旧记录未知。
+`hasInterviewed` 为 `true` / `false` / `null`，分别表示确认曾进入面试阶段、确认未进入、旧记录未知；不证明实际出席。
 
 投递详情先查询原始记录、检查访问者和归属，再读取展示资料。简历缺失时仍返回原投递及 `resumeId`，`resumeAvailable=false`、`resumeTitle=null`；简历标题为空不表示记录缺失。此机制保留进度记录，不能恢复已经删除的简历内容。
 
 实现说明：[投递白名单](docs/application-status-whitelist.md)、[历史投递可见性](docs/historical-application-visibility.md)。
+
+### 我的投递与面试契约
+
+求职者分页默认 `page=1`、`pageSize=10`、`dateRange=LAST_30_DAYS`；每页 1～100，
+`status` 沿用 0～4，`keyword` 按岗位标题/企业名称字面搜索。日期范围仅接受
+`LAST_7_DAYS`、`LAST_30_DAYS`、`ALL`，按 Asia/Shanghai 自然日包含今天，列表始终排除晚于本次服务器时间的记录。
+概览统计本人全部历史投递的当前状态，不受列表的日期、关键词、分页影响；`interviewCount` 为当前面试阶段数量。
+
+`historyComplete` 表示从投递创建起事件是否完整。旧记录保持 false；新投递与唯一 APPLIED 事件同事务成功后为 true。
+跳阶段只记录实际起点和终点，不补造中间阶段。岗位、企业、简历展示字段取当前关联资料，尚未保存投递时完整快照。
+`jobAvailable`/`companyAvailable` 表示资料存在，`resumeAvailable` 还检查简历归属；`jobViewable` 要求岗位 ACTIVE 且企业 APPROVED。
+
+面试仅由所属的已审核企业创建、改期和取消，写操作要求投递 INTERVIEW。同一投递最多一场未取消且未结束的有效安排。
+改期为完整内容替换、仅允许尚未开始的场次；手动取消允许进行中但尚未结束的场次。修改和取消携带当前整数 `version`，成功后递增。
+ONLINE 必填平台和 http/https 链接，OFFLINE 必填地址，两种方式字段互斥；会议链接不会由服务端访问。
+
+存储状态为 SCHEDULED/CANCELLED，`timingStatus` 根据统一服务器时间派生 UPCOMING/ONGOING/EXPIRED/CANCELLED。
+时间过期不能据此推断出席或完成面试。近期查询也可返回正在进行的面试；无安排时 `interview=null`，仍返回 `serverTime` 和 `timeZone`。
+会议链接、地址及可见说明仅向相关双方提供；事件仅返回白名单变化，不返回操作者账号、原始 detailJson 或内部取消来源。
+
+契约与实现：[字段契约](docs/application-upgrade-field-contract.md)、[事件事务](docs/application-upgrade-phase-3.md)、
+[面试排期](docs/application-upgrade-phase-4.md)、[统一验收说明](docs/application-upgrade-phase-5.md)。
 
 ---
 
@@ -402,6 +436,14 @@ smart-recruit
 | GET | `/application/my` | 企业收到的投递 |
 | GET | `/application/{id}` | 投递详情 |
 | PUT | `/application/{id}/status` | 修改投递状态 |
+| GET | `/application/mine/page` | 求职者本人投递分页 |
+| GET | `/application/mine/overview` | 本人全部历史当前状态概览 |
+| GET | `/application/mine/{id}` | 本人详情、真实事件与面试安排 |
+| GET | `/application/{id}/interviews` | 所属企业读取投递面试列表 |
+| POST | `/application/{id}/interviews` | 所属企业创建面试 |
+| PUT | `/application/{id}/interviews/{interviewId}` | 完整改期，携带 version |
+| PUT | `/application/{id}/interviews/{interviewId}/cancel` | 取消面试，携带 version/reason |
+| GET | `/application/mine/interviews/next` | 本人下一场有效面试，包含进行中 |
 
 岗位分页参数为 `page`、`size`、`keyword`；企业分页额外接受 `filter=ALL/ACTIVE/PAUSED/ENDED/DRAFT`。
 默认页码 1、每页 10 条，每页范围 1～100；分页响应从 `data.items` 读取列表，`data.total` 读取总数。
@@ -436,9 +478,13 @@ smart-recruit
 | 2 | [2026-10-03-company-job-overview.sql](docs/sql/2026-10-03-company-job-overview.sql) | 面试历史字段及旧数据兼容 |
 | 3 | [2026-10-04-job-activity.sql](docs/sql/2026-10-04-job-activity.sql) | 岗位操作记录表 |
 | 4 | [2026-10-16-company-profile.sql](docs/sql/2026-10-16-company-profile.sql) | 企业资料扩展、福利、照片、资质与审核记录 |
+| 5 | [2026-10-25-application-query.sql](docs/sql/2026-10-25-application-query.sql) | 投递历史完整性、本人查询索引、面试安排与真实事件表 |
 
 这些是针对既有表的增量迁移，不是空数据库的完整初始化脚本，也未接入自动迁移工具。
 执行前备份并检查目标库、既有列和约束；已迁移环境不重复执行。MySQL DDL 会隐式提交，具体检查与恢复说明见脚本注释。
+
+本地开发库的第5项迁移已于2026-10-25执行，禁止直接重跑；其他环境先检查是否已存在目标列、索引和表。
+迁移默认保留旧历史不完整，不能根据旧状态补造事件。执行记录及备份位置见 [阶段二迁移记录](docs/application-upgrade-phase-2.md)。
 
 4. 从后端根目录编译并启动：
 
@@ -466,10 +512,13 @@ mvn spring-boot:run
 | 2026-10-21 | 工商审核与版本保护 | 162 / 286 | [验收报告](docs/company-registration-review-regression-2026-10-21.md) |
 | 2026-10-21 | 资质材料审核与原件追溯 | 148 / 225 | [验收报告](docs/company-qualification-review-regression-2026-10-21.md) |
 | 2026-10-21 | 企业旧入口停用与完整流程集成 | 88 / 121 | [收尾验收](docs/company-close-regression-2026-10-21.md) |
+| 2026-10-25 | 面试排期、终态联动及投递兼容回归 | 359 / 624 | [阶段四验收](docs/application-upgrade-phase-4-regression-2026-10-25.md) |
+| 2026-10-28 | 真实新投递完整流程、精确查询边界与关联缺失矩阵 | 190 / 418 | [阶段五验收](docs/application-upgrade-phase-5-regression-2026-10-28.md) |
 
 这些是分阶段验收记录，部分功能重复覆盖，不能将次数相加作为独立功能覆盖率或性能指标。
 白名单表格只列业务验收，不把当时的 2 个缺失简历问题诊断请求计入成功业务；该问题已在 2026-10-11 修复。
 测试数据准备导致的首次失败、修正和复跑记录保留在对应报告中，表格列最终完整分组结果。
+第五阶段HTTP用例于10月28日执行，10月31日完成中断后的结果核对、数据库审计和运行开关清理；不将收尾日期作为重复执行日期。
 
 含删除、状态更新、并发及故障注入的用例默认跳过，需要按报告准备隔离数据后启用，不能直接对开发库运行整个集合。
 当前回归证明所列接口在测试场景下满足契约，不代表岗位前端联调、性能基准或所有并发边界已完成。
@@ -890,7 +939,7 @@ OperationLogAspect
 | 管理员模块 | 🟢 核心功能已完成 |
 | 简历模块 | 🟢 结构化简历与列表已实现，前端已提交 |
 | 岗位模块 | 🟢 本阶段后端接口及分阶段回归完成，前端待适配 |
-| 投递模块 V1 | 🟢 核心流程、状态白名单及历史可见性已实现 |
+| 投递与面试模块 | 🟢 本期后端及阶段五验收完成，投递页面与企业排期前端待联调 |
 | JWT 身份认证 | ✅ 已完成 |
 | 用户角色与权限 | ✅ 已完成 |
 | 企业审核 | ✅ 已完成 |
@@ -942,6 +991,9 @@ OperationLogAspect
 - [x] 企业总览、单岗位进展及岗位列表统计
 - [x] 投递状态白名单与面试历史
 - [x] 历史投递可见性修复
+- [x] 我的投递分页、概览、真实事件与面试安排后端
+- [x] 投递升级完整流程与查询边界Postman验收
+- [ ] 求职者投递页面与企业排期入口前端适配及联调
 - [ ] 岗位前端适配与完整业务联调
 - [ ] 城市、薪资等独立筛选条件
 - [ ] 投递时简历快照

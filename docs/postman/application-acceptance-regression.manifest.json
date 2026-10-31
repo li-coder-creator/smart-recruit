@@ -1,0 +1,16 @@
+{
+  "collectionId": "56227183-00855bc5-e68c-4aab-bdc2-faffe0f70f82",
+  "folderId": "32384b24-6cb8-e8d2-d54f-b272f77cd442",
+  "runners": {
+    "A": "56227183-43a8f999-a386-47a1-9c26-c6c940781cc5",
+    "B": "56227183-f3abca1e-fc81-46fa-b572-42823b79add0",
+    "C": "56227183-25000016-b68e-4ef1-9a9f-22fb1178f2fc"
+  },
+  "folders": {
+    "A": "694b9ad1-2e7b-65af-2859-8fbba7536595",
+    "B": "8268b510-6c2e-7d63-6d7d-eef0782c66f2",
+    "C": "98f369a6-92e6-3c12-99dc-df600cb37518"
+  },
+  "persistentRequests": 190,
+  "clock": "2026-10-28T12:34:56"
+}

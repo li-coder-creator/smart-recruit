@@ -1,0 +1,5128 @@
+{
+  "info": {
+    "name": "我的投递真实事件持久回归",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "仅允许隔离端口18087。A正常；B前启用事件失败触发器，B后核对回滚并移除；C恢复；D前启用延时触发器，D后移除。所有用例已持久加入 SmartRecruit API - Optimized Regression / 05 Application。"
+  },
+  "item": [
+    {
+      "name": "A",
+      "item": [
+        {
+          "name": "001 登录隔离身份1",
+          "request": {
+            "method": "POST",
+            "url": "{{apHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"ap_event_1\",\"password\":\"{{apPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('apToken1',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "002 核对身份1",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('账号ID与角色',()=>{pm.expect(b.data.id).eq(101);pm.expect(b.data.role).eq('JOB_SEEKER');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "003 登录隔离身份2",
+          "request": {
+            "method": "POST",
+            "url": "{{apHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"ap_event_2\",\"password\":\"{{apPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('apToken2',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "004 核对身份2",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken2}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('账号ID与角色',()=>{pm.expect(b.data.id).eq(102);pm.expect(b.data.role).eq('JOB_SEEKER');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "005 登录隔离身份3",
+          "request": {
+            "method": "POST",
+            "url": "{{apHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"ap_event_3\",\"password\":\"{{apPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('apToken3',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "006 核对身份3",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken3}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('账号ID与角色',()=>{pm.expect(b.data.id).eq(103);pm.expect(b.data.role).eq('COMPANY');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "007 登录隔离身份4",
+          "request": {
+            "method": "POST",
+            "url": "{{apHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"ap_event_4\",\"password\":\"{{apPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('apToken4',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "008 核对身份4",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken4}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('账号ID与角色',()=>{pm.expect(b.data.id).eq(104);pm.expect(b.data.role).eq('COMPANY');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "009 登录隔离身份5",
+          "request": {
+            "method": "POST",
+            "url": "{{apHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"ap_event_5\",\"password\":\"{{apPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('apToken5',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "010 核对身份5",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken5}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('账号ID与角色',()=>{pm.expect(b.data.id).eq(105);pm.expect(b.data.role).eq('COMPANY');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "011 登录隔离身份6",
+          "request": {
+            "method": "POST",
+            "url": "{{apHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"ap_event_6\",\"password\":\"{{apPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('apToken6',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "012 核对身份6",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken6}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('账号ID与角色',()=>{pm.expect(b.data.id).eq(106);pm.expect(b.data.role).eq('ADMIN');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "013 登录隔离身份7",
+          "request": {
+            "method": "POST",
+            "url": "{{apHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"ap_event_7\",\"password\":\"{{apPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('apToken7',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "014 核对身份7",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken7}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('账号ID与角色',()=>{pm.expect(b.data.id).eq(107);pm.expect(b.data.role).eq('JOB_SEEKER');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "015 全历史概览五种状态各一条",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/overview",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('初始五桶及总数',()=>pm.expect(b.data).deep.eq({totalCount:5,pendingCount:1,screeningCount:1,interviewCount:1,hiredCount:1,rejectedCount:1}));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "016 默认30天不包含45天前旧投递",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/page",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('日期筛选为空',()=>{pm.expect(b.data.total).eq(0);pm.expect(b.data.items).deep.eq([]);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "017 全部历史分页且同时间稳定排序",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/page?dateRange=ALL&pageSize=2",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('总数与稳定顺序',()=>{pm.expect(b.data.total).eq(5);pm.expect(b.data.items.map(x=>x.id)).deep.eq([506,505]);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "018 超末页返回空不修正页码",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/page?dateRange=ALL&page=999",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('总数保留且空页',()=>{pm.expect(b.data.total).eq(5);pm.expect(b.data.items).deep.eq([]);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "019 百分号下划线转义符字面搜索",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/page?dateRange=ALL&keyword=%25_%21",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('仅匹配字面字符岗位',()=>{pm.expect(b.data.total).eq(1);pm.expect(b.data.items[0].jobId).eq(416);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "020 空白关键词不筛选",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/page?dateRange=ALL&keyword=%20%20",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('全部历史',()=>pm.expect(b.data.total).eq(5));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "021 空用户六个计数均零",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/overview",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken7}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('空用户计数',()=>Object.values(b.data).forEach(x=>pm.expect(x).eq(0)));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "022 列表状态筛选仅面试",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/page?dateRange=ALL&status=2",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('仅返回当前面试',()=>{pm.expect(b.data.total).eq(1);pm.expect(b.data.items[0].status).eq(2);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "023 拒绝非法筛选 page=0",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/page?page=0",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "024 拒绝非法筛选 pageSize=101",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/page?pageSize=101",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "025 拒绝非法筛选 page=abc",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/page?page=abc",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "026 拒绝非法筛选 status=-1",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/page?status=-1",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "027 拒绝非法筛选 status=5",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/page?status=5",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "028 拒绝非法筛选 status=abc",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/page?status=abc",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "029 拒绝非法筛选 dateRange=WRONG",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/page?dateRange=WRONG",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "030 拒绝非法筛选 keyword=xxxxxxxxxxxxxxxxx",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/page?keyword=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "031 角色3不能使用本人查询",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/page",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken3}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "032 角色3不能使用本人查询",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/overview",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken3}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "033 角色3不能使用本人查询",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/501",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken3}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "034 角色6不能使用本人查询",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/page",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken6}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "035 角色6不能使用本人查询",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/overview",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken6}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "036 角色6不能使用本人查询",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/501",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken6}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "037 本人查询未登录",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/overview",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": []
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('未登录HTTP401',()=>pm.expect(pm.response.code).eq(401));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "038 他人投递与不存在统一拒绝",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/503",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});pm.test('统一错误文案',()=>pm.expect(b.message).eq('投递不存在或无权访问'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "039 不存在投递",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/999999",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});pm.test('统一错误文案',()=>pm.expect(b.message).eq('投递不存在或无权访问'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "040 投递岗位403",
+          "request": {
+            "method": "POST",
+            "url": "{{apHost}}/application",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"jobId\":403,\"resumeId\":302}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "041 投递岗位403",
+          "request": {
+            "method": "POST",
+            "url": "{{apHost}}/application",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"jobId\":403,\"resumeId\":999999}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "042 投递岗位403",
+          "request": {
+            "method": "POST",
+            "url": "{{apHost}}/application",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken2}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"jobId\":403,\"resumeId\":301}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "043 投递岗位403",
+          "request": {
+            "method": "POST",
+            "url": "{{apHost}}/application",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken3}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"jobId\":403,\"resumeId\":301}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "044 投递岗位403",
+          "request": {
+            "method": "POST",
+            "url": "{{apHost}}/application",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken6}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"jobId\":403,\"resumeId\":301}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "045 投递岗位999999",
+          "request": {
+            "method": "POST",
+            "url": "{{apHost}}/application",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"jobId\":999999,\"resumeId\":301}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "046 投递岗位423",
+          "request": {
+            "method": "POST",
+            "url": "{{apHost}}/application",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"jobId\":423,\"resumeId\":301}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "047 投递岗位424",
+          "request": {
+            "method": "POST",
+            "url": "{{apHost}}/application",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"jobId\":424,\"resumeId\":301}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "048 投递岗位425",
+          "request": {
+            "method": "POST",
+            "url": "{{apHost}}/application",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"jobId\":425,\"resumeId\":301}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "049 未登录不能投递",
+          "request": {
+            "method": "POST",
+            "url": "{{apHost}}/application",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"jobId\":403,\"resumeId\":301}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('未登录HTTP401',()=>pm.expect(pm.response.code).eq(401));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "050 缺少岗位参数不能投递",
+          "request": {
+            "method": "POST",
+            "url": "{{apHost}}/application",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":301}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "051 投递岗位401",
+          "request": {
+            "method": "POST",
+            "url": "{{apHost}}/application",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"jobId\":401,\"resumeId\":301}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "052 查询岗位401的投递ID",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/page?dateRange=ALL&keyword=APE_401",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('唯一目标投递',()=>{pm.expect(b.data.total).eq(1);pm.expect(b.data.items).lengthOf(1);pm.expect(b.data.items[0].jobId).eq(401);});pm.collectionVariables.set('app401',b.data.items[0].id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "053 核对岗位401真实时间线",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/{{app401}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('事件响应白名单及隐私',()=>{b.data.events.forEach(e=>{pm.expect(Object.keys(e).sort()).deep.eq([\"actorType\",\"eventType\",\"fromStatus\",\"id\",\"interviewChange\",\"interviewId\",\"occurredAt\",\"summary\",\"toStatus\"]);pm.expect(e.interviewId).eq(null);pm.expect(e.interviewChange).eq(null);pm.expect(e.occurredAt).a('string');});pm.expect(b.data).not.have.property('userId');pm.expect(b.data).not.have.property('hasInterviewed');});pm.test('真实状态和历史完整性',()=>{pm.expect(b.data.status).eq(0);pm.expect(b.data.historyComplete).eq(true);pm.expect(b.data.events).lengthOf(1);pm.expect(b.data.timeZone).eq('Asia/Shanghai');pm.expect(b.data.interviews).deep.eq([]);});pm.test('真实APPLIED',()=>{const e=b.data.events[0];pm.expect(e.eventType).eq('APPLIED');pm.expect(e.fromStatus).eq(null);pm.expect(e.toStatus).eq(0);pm.expect(e.actorType).eq('JOB_SEEKER');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "054 投递岗位401",
+          "request": {
+            "method": "POST",
+            "url": "{{apHost}}/application",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"jobId\":401,\"resumeId\":301}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "055 核对岗位401真实时间线",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/{{app401}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('事件响应白名单及隐私',()=>{b.data.events.forEach(e=>{pm.expect(Object.keys(e).sort()).deep.eq([\"actorType\",\"eventType\",\"fromStatus\",\"id\",\"interviewChange\",\"interviewId\",\"occurredAt\",\"summary\",\"toStatus\"]);pm.expect(e.interviewId).eq(null);pm.expect(e.interviewChange).eq(null);pm.expect(e.occurredAt).a('string');});pm.expect(b.data).not.have.property('userId');pm.expect(b.data).not.have.property('hasInterviewed');});pm.test('真实状态和历史完整性',()=>{pm.expect(b.data.status).eq(0);pm.expect(b.data.historyComplete).eq(true);pm.expect(b.data.events).lengthOf(1);pm.expect(b.data.timeZone).eq('Asia/Shanghai');pm.expect(b.data.interviews).deep.eq([]);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "056 岗位401状态推进至2",
+          "request": {
+            "method": "PUT",
+            "url": "{{apHost}}/application/{{app401}}/status",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":2}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "057 岗位401状态推进至2",
+          "request": {
+            "method": "PUT",
+            "url": "{{apHost}}/application/{{app401}}/status",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken4}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":2}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "058 岗位401状态推进至2",
+          "request": {
+            "method": "PUT",
+            "url": "{{apHost}}/application/{{app401}}/status",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken5}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":2}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "059 岗位401状态推进至2",
+          "request": {
+            "method": "PUT",
+            "url": "{{apHost}}/application/{{app401}}/status",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken6}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":2}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "060 未登录不能变更状态",
+          "request": {
+            "method": "PUT",
+            "url": "{{apHost}}/application/{{app401}}/status",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":2}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('未登录HTTP401',()=>pm.expect(pm.response.code).eq(401));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "061 岗位401状态推进至-1",
+          "request": {
+            "method": "PUT",
+            "url": "{{apHost}}/application/{{app401}}/status",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken3}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":-1}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "062 岗位401状态推进至5",
+          "request": {
+            "method": "PUT",
+            "url": "{{apHost}}/application/{{app401}}/status",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken3}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":5}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "063 岗位401状态推进至bad",
+          "request": {
+            "method": "PUT",
+            "url": "{{apHost}}/application/{{app401}}/status",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken3}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":\"bad\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "064 岗位401状态推进至null",
+          "request": {
+            "method": "PUT",
+            "url": "{{apHost}}/application/{{app401}}/status",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken3}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":null}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "065 岗位401状态推进至0",
+          "request": {
+            "method": "PUT",
+            "url": "{{apHost}}/application/{{app401}}/status",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken3}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":0}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "066 核对岗位401真实时间线",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/{{app401}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('事件响应白名单及隐私',()=>{b.data.events.forEach(e=>{pm.expect(Object.keys(e).sort()).deep.eq([\"actorType\",\"eventType\",\"fromStatus\",\"id\",\"interviewChange\",\"interviewId\",\"occurredAt\",\"summary\",\"toStatus\"]);pm.expect(e.interviewId).eq(null);pm.expect(e.interviewChange).eq(null);pm.expect(e.occurredAt).a('string');});pm.expect(b.data).not.have.property('userId');pm.expect(b.data).not.have.property('hasInterviewed');});pm.test('真实状态和历史完整性',()=>{pm.expect(b.data.status).eq(0);pm.expect(b.data.historyComplete).eq(true);pm.expect(b.data.events).lengthOf(1);pm.expect(b.data.timeZone).eq('Asia/Shanghai');pm.expect(b.data.interviews).deep.eq([]);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "067 岗位401状态推进至1",
+          "request": {
+            "method": "PUT",
+            "url": "{{apHost}}/application/{{app401}}/status",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken3}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":1}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "068 核对岗位401真实时间线",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/{{app401}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('事件响应白名单及隐私',()=>{b.data.events.forEach(e=>{pm.expect(Object.keys(e).sort()).deep.eq([\"actorType\",\"eventType\",\"fromStatus\",\"id\",\"interviewChange\",\"interviewId\",\"occurredAt\",\"summary\",\"toStatus\"]);pm.expect(e.interviewId).eq(null);pm.expect(e.interviewChange).eq(null);pm.expect(e.occurredAt).a('string');});pm.expect(b.data).not.have.property('userId');pm.expect(b.data).not.have.property('hasInterviewed');});pm.test('真实状态和历史完整性',()=>{pm.expect(b.data.status).eq(1);pm.expect(b.data.historyComplete).eq(true);pm.expect(b.data.events).lengthOf(2);pm.expect(b.data.timeZone).eq('Asia/Shanghai');pm.expect(b.data.interviews).deep.eq([]);});pm.test('真实起止状态',()=>{const e=b.data.events[0];pm.expect(e.eventType).eq('STATUS_CHANGED');pm.expect(e.fromStatus).eq(0);pm.expect(e.toStatus).eq(1);pm.expect(e.actorType).eq('COMPANY');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "069 岗位401状态推进至2",
+          "request": {
+            "method": "PUT",
+            "url": "{{apHost}}/application/{{app401}}/status",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken3}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":2}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "070 核对岗位401真实时间线",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/{{app401}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('事件响应白名单及隐私',()=>{b.data.events.forEach(e=>{pm.expect(Object.keys(e).sort()).deep.eq([\"actorType\",\"eventType\",\"fromStatus\",\"id\",\"interviewChange\",\"interviewId\",\"occurredAt\",\"summary\",\"toStatus\"]);pm.expect(e.interviewId).eq(null);pm.expect(e.interviewChange).eq(null);pm.expect(e.occurredAt).a('string');});pm.expect(b.data).not.have.property('userId');pm.expect(b.data).not.have.property('hasInterviewed');});pm.test('真实状态和历史完整性',()=>{pm.expect(b.data.status).eq(2);pm.expect(b.data.historyComplete).eq(true);pm.expect(b.data.events).lengthOf(3);pm.expect(b.data.timeZone).eq('Asia/Shanghai');pm.expect(b.data.interviews).deep.eq([]);});pm.test('真实起止状态',()=>{const e=b.data.events[0];pm.expect(e.eventType).eq('STATUS_CHANGED');pm.expect(e.fromStatus).eq(1);pm.expect(e.toStatus).eq(2);pm.expect(e.actorType).eq('COMPANY');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "071 岗位401状态推进至3",
+          "request": {
+            "method": "PUT",
+            "url": "{{apHost}}/application/{{app401}}/status",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken3}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":3}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "072 核对岗位401真实时间线",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/{{app401}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('事件响应白名单及隐私',()=>{b.data.events.forEach(e=>{pm.expect(Object.keys(e).sort()).deep.eq([\"actorType\",\"eventType\",\"fromStatus\",\"id\",\"interviewChange\",\"interviewId\",\"occurredAt\",\"summary\",\"toStatus\"]);pm.expect(e.interviewId).eq(null);pm.expect(e.interviewChange).eq(null);pm.expect(e.occurredAt).a('string');});pm.expect(b.data).not.have.property('userId');pm.expect(b.data).not.have.property('hasInterviewed');});pm.test('真实状态和历史完整性',()=>{pm.expect(b.data.status).eq(3);pm.expect(b.data.historyComplete).eq(true);pm.expect(b.data.events).lengthOf(4);pm.expect(b.data.timeZone).eq('Asia/Shanghai');pm.expect(b.data.interviews).deep.eq([]);});pm.test('真实起止状态',()=>{const e=b.data.events[0];pm.expect(e.eventType).eq('STATUS_CHANGED');pm.expect(e.fromStatus).eq(2);pm.expect(e.toStatus).eq(3);pm.expect(e.actorType).eq('COMPANY');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "073 岗位401状态推进至3",
+          "request": {
+            "method": "PUT",
+            "url": "{{apHost}}/application/{{app401}}/status",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken3}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":3}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "074 岗位401状态推进至2",
+          "request": {
+            "method": "PUT",
+            "url": "{{apHost}}/application/{{app401}}/status",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken3}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":2}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "075 岗位401状态推进至4",
+          "request": {
+            "method": "PUT",
+            "url": "{{apHost}}/application/{{app401}}/status",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken3}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":4}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "076 核对岗位401真实时间线",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/{{app401}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('事件响应白名单及隐私',()=>{b.data.events.forEach(e=>{pm.expect(Object.keys(e).sort()).deep.eq([\"actorType\",\"eventType\",\"fromStatus\",\"id\",\"interviewChange\",\"interviewId\",\"occurredAt\",\"summary\",\"toStatus\"]);pm.expect(e.interviewId).eq(null);pm.expect(e.interviewChange).eq(null);pm.expect(e.occurredAt).a('string');});pm.expect(b.data).not.have.property('userId');pm.expect(b.data).not.have.property('hasInterviewed');});pm.test('真实状态和历史完整性',()=>{pm.expect(b.data.status).eq(3);pm.expect(b.data.historyComplete).eq(true);pm.expect(b.data.events).lengthOf(4);pm.expect(b.data.timeZone).eq('Asia/Shanghai');pm.expect(b.data.interviews).deep.eq([]);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "077 投递岗位402",
+          "request": {
+            "method": "POST",
+            "url": "{{apHost}}/application",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"jobId\":402,\"resumeId\":301}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "078 查询岗位402的投递ID",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/page?dateRange=ALL&keyword=APE_402",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('唯一目标投递',()=>{pm.expect(b.data.total).eq(1);pm.expect(b.data.items).lengthOf(1);pm.expect(b.data.items[0].jobId).eq(402);});pm.collectionVariables.set('app402',b.data.items[0].id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "079 岗位402状态推进至3",
+          "request": {
+            "method": "PUT",
+            "url": "{{apHost}}/application/{{app402}}/status",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken3}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":3}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "080 核对岗位402真实时间线",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/{{app402}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('事件响应白名单及隐私',()=>{b.data.events.forEach(e=>{pm.expect(Object.keys(e).sort()).deep.eq([\"actorType\",\"eventType\",\"fromStatus\",\"id\",\"interviewChange\",\"interviewId\",\"occurredAt\",\"summary\",\"toStatus\"]);pm.expect(e.interviewId).eq(null);pm.expect(e.interviewChange).eq(null);pm.expect(e.occurredAt).a('string');});pm.expect(b.data).not.have.property('userId');pm.expect(b.data).not.have.property('hasInterviewed');});pm.test('真实状态和历史完整性',()=>{pm.expect(b.data.status).eq(3);pm.expect(b.data.historyComplete).eq(true);pm.expect(b.data.events).lengthOf(2);pm.expect(b.data.timeZone).eq('Asia/Shanghai');pm.expect(b.data.interviews).deep.eq([]);});pm.test('跳级不伪造中间事件',()=>{pm.expect(b.data.events.map(x=>x.eventType)).deep.eq(['STATUS_CHANGED','APPLIED']);pm.expect(b.data.events[0].fromStatus).eq(0);pm.expect(b.data.events[0].toStatus).eq(3);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "081 投递岗位408",
+          "request": {
+            "method": "POST",
+            "url": "{{apHost}}/application",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"jobId\":408,\"resumeId\":301}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "082 查询岗位408的投递ID",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/page?dateRange=ALL&keyword=APE_408",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('唯一目标投递',()=>{pm.expect(b.data.total).eq(1);pm.expect(b.data.items).lengthOf(1);pm.expect(b.data.items[0].jobId).eq(408);});pm.collectionVariables.set('app408',b.data.items[0].id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "083 岗位408状态推进至4",
+          "request": {
+            "method": "PUT",
+            "url": "{{apHost}}/application/{{app408}}/status",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken3}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":4}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "084 核对岗位408真实时间线",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/{{app408}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('事件响应白名单及隐私',()=>{b.data.events.forEach(e=>{pm.expect(Object.keys(e).sort()).deep.eq([\"actorType\",\"eventType\",\"fromStatus\",\"id\",\"interviewChange\",\"interviewId\",\"occurredAt\",\"summary\",\"toStatus\"]);pm.expect(e.interviewId).eq(null);pm.expect(e.interviewChange).eq(null);pm.expect(e.occurredAt).a('string');});pm.expect(b.data).not.have.property('userId');pm.expect(b.data).not.have.property('hasInterviewed');});pm.test('真实状态和历史完整性',()=>{pm.expect(b.data.status).eq(4);pm.expect(b.data.historyComplete).eq(true);pm.expect(b.data.events).lengthOf(2);pm.expect(b.data.timeZone).eq('Asia/Shanghai');pm.expect(b.data.interviews).deep.eq([]);});pm.test('求职者文案为未通过',()=>pm.expect(b.data.statusText).eq('未通过'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "085 岗位408状态推进至3",
+          "request": {
+            "method": "PUT",
+            "url": "{{apHost}}/application/{{app408}}/status",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken3}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":3}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "086 投递岗位405",
+          "request": {
+            "method": "POST",
+            "url": "{{apHost}}/application",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"jobId\":405,\"resumeId\":301}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "087 查询岗位405的投递ID",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/page?dateRange=ALL&keyword=APE_405",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('唯一目标投递',()=>{pm.expect(b.data.total).eq(1);pm.expect(b.data.items).lengthOf(1);pm.expect(b.data.items[0].jobId).eq(405);});pm.collectionVariables.set('app405',b.data.items[0].id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "088 核对岗位405真实时间线",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/{{app405}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('事件响应白名单及隐私',()=>{b.data.events.forEach(e=>{pm.expect(Object.keys(e).sort()).deep.eq([\"actorType\",\"eventType\",\"fromStatus\",\"id\",\"interviewChange\",\"interviewId\",\"occurredAt\",\"summary\",\"toStatus\"]);pm.expect(e.interviewId).eq(null);pm.expect(e.interviewChange).eq(null);pm.expect(e.occurredAt).a('string');});pm.expect(b.data).not.have.property('userId');pm.expect(b.data).not.have.property('hasInterviewed');});pm.test('真实状态和历史完整性',()=>{pm.expect(b.data.status).eq(0);pm.expect(b.data.historyComplete).eq(true);pm.expect(b.data.events).lengthOf(1);pm.expect(b.data.timeZone).eq('Asia/Shanghai');pm.expect(b.data.interviews).deep.eq([]);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "089 投递岗位406",
+          "request": {
+            "method": "POST",
+            "url": "{{apHost}}/application",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"jobId\":406,\"resumeId\":301}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "090 查询岗位406的投递ID",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/page?dateRange=ALL&keyword=APE_406",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('唯一目标投递',()=>{pm.expect(b.data.total).eq(1);pm.expect(b.data.items).lengthOf(1);pm.expect(b.data.items[0].jobId).eq(406);});pm.collectionVariables.set('app406',b.data.items[0].id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "091 核对岗位406真实时间线",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/{{app406}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('事件响应白名单及隐私',()=>{b.data.events.forEach(e=>{pm.expect(Object.keys(e).sort()).deep.eq([\"actorType\",\"eventType\",\"fromStatus\",\"id\",\"interviewChange\",\"interviewId\",\"occurredAt\",\"summary\",\"toStatus\"]);pm.expect(e.interviewId).eq(null);pm.expect(e.interviewChange).eq(null);pm.expect(e.occurredAt).a('string');});pm.expect(b.data).not.have.property('userId');pm.expect(b.data).not.have.property('hasInterviewed');});pm.test('真实状态和历史完整性',()=>{pm.expect(b.data.status).eq(0);pm.expect(b.data.historyComplete).eq(true);pm.expect(b.data.events).lengthOf(1);pm.expect(b.data.timeZone).eq('Asia/Shanghai');pm.expect(b.data.interviews).deep.eq([]);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "092 旧简历缺失详情仍可见",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/501",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('事件响应白名单及隐私',()=>{b.data.events.forEach(e=>{pm.expect(Object.keys(e).sort()).deep.eq([\"actorType\",\"eventType\",\"fromStatus\",\"id\",\"interviewChange\",\"interviewId\",\"occurredAt\",\"summary\",\"toStatus\"]);pm.expect(e.interviewId).eq(null);pm.expect(e.interviewChange).eq(null);pm.expect(e.occurredAt).a('string');});pm.expect(b.data).not.have.property('userId');pm.expect(b.data).not.have.property('hasInterviewed');});pm.test('真实状态和历史完整性',()=>{pm.expect(b.data.status).eq(0);pm.expect(b.data.historyComplete).eq(false);pm.expect(b.data.events).lengthOf(0);pm.expect(b.data.timeZone).eq('Asia/Shanghai');pm.expect(b.data.interviews).deep.eq([]);});pm.test('缺失标记明确',()=>{pm.expect(b.data.resumeAvailable).eq(false);pm.expect(b.data.resumeTitle).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "093 旧投递实际状态变更501",
+          "request": {
+            "method": "PUT",
+            "url": "{{apHost}}/application/501/status",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken3}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":2}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "094 旧记录不补造历史501",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/501",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('事件响应白名单及隐私',()=>{b.data.events.forEach(e=>{pm.expect(Object.keys(e).sort()).deep.eq([\"actorType\",\"eventType\",\"fromStatus\",\"id\",\"interviewChange\",\"interviewId\",\"occurredAt\",\"summary\",\"toStatus\"]);pm.expect(e.interviewId).eq(null);pm.expect(e.interviewChange).eq(null);pm.expect(e.occurredAt).a('string');});pm.expect(b.data).not.have.property('userId');pm.expect(b.data).not.have.property('hasInterviewed');});pm.test('真实状态和历史完整性',()=>{pm.expect(b.data.status).eq(2);pm.expect(b.data.historyComplete).eq(false);pm.expect(b.data.events).lengthOf(1);pm.expect(b.data.timeZone).eq('Asia/Shanghai');pm.expect(b.data.interviews).deep.eq([]);});pm.test('只记录本次真实变更',()=>{pm.expect(b.data.events[0].fromStatus).eq(0);pm.expect(b.data.events[0].toStatus).eq(2);pm.expect(b.data.events[0].eventType).eq('STATUS_CHANGED');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "095 旧投递实际状态变更502",
+          "request": {
+            "method": "PUT",
+            "url": "{{apHost}}/application/502/status",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken3}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":3}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "096 旧记录不补造历史502",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/502",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('事件响应白名单及隐私',()=>{b.data.events.forEach(e=>{pm.expect(Object.keys(e).sort()).deep.eq([\"actorType\",\"eventType\",\"fromStatus\",\"id\",\"interviewChange\",\"interviewId\",\"occurredAt\",\"summary\",\"toStatus\"]);pm.expect(e.interviewId).eq(null);pm.expect(e.interviewChange).eq(null);pm.expect(e.occurredAt).a('string');});pm.expect(b.data).not.have.property('userId');pm.expect(b.data).not.have.property('hasInterviewed');});pm.test('真实状态和历史完整性',()=>{pm.expect(b.data.status).eq(3);pm.expect(b.data.historyComplete).eq(false);pm.expect(b.data.events).lengthOf(1);pm.expect(b.data.timeZone).eq('Asia/Shanghai');pm.expect(b.data.interviews).deep.eq([]);});pm.test('只记录本次真实变更',()=>{pm.expect(b.data.events[0].fromStatus).eq(2);pm.expect(b.data.events[0].toStatus).eq(3);pm.expect(b.data.events[0].eventType).eq('STATUS_CHANGED');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "097 旧投递实际状态变更506",
+          "request": {
+            "method": "PUT",
+            "url": "{{apHost}}/application/506/status",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken3}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":4}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "098 旧记录不补造历史506",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/506",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('事件响应白名单及隐私',()=>{b.data.events.forEach(e=>{pm.expect(Object.keys(e).sort()).deep.eq([\"actorType\",\"eventType\",\"fromStatus\",\"id\",\"interviewChange\",\"interviewId\",\"occurredAt\",\"summary\",\"toStatus\"]);pm.expect(e.interviewId).eq(null);pm.expect(e.interviewChange).eq(null);pm.expect(e.occurredAt).a('string');});pm.expect(b.data).not.have.property('userId');pm.expect(b.data).not.have.property('hasInterviewed');});pm.test('真实状态和历史完整性',()=>{pm.expect(b.data.status).eq(4);pm.expect(b.data.historyComplete).eq(false);pm.expect(b.data.events).lengthOf(1);pm.expect(b.data.timeZone).eq('Asia/Shanghai');pm.expect(b.data.interviews).deep.eq([]);});pm.test('只记录本次真实变更',()=>{pm.expect(b.data.events[0].fromStatus).eq(1);pm.expect(b.data.events[0].toStatus).eq(4);pm.expect(b.data.events[0].eventType).eq('STATUS_CHANGED');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "099 旧接口列表仍兼容",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('旧列表仍为数组',()=>pm.expect(b.data).an('array'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "100 旧企业列表仍兼容",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/my",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken3}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('旧企业列表仍为数组',()=>pm.expect(b.data).an('array'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "101 旧详情仍可读取",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/501",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('旧详情没有扩大事件字段',()=>{pm.expect(b.data.id).eq(501);pm.expect(b.data.resumeAvailable).eq(false);pm.expect(b.data).not.have.property('events');});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "B",
+      "item": [
+        {
+          "name": "102 登录隔离身份1",
+          "request": {
+            "method": "POST",
+            "url": "{{apHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"ap_event_1\",\"password\":\"{{apPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('apToken1',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "103 核对身份1",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('账号ID与角色',()=>{pm.expect(b.data.id).eq(101);pm.expect(b.data.role).eq('JOB_SEEKER');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "104 登录隔离身份3",
+          "request": {
+            "method": "POST",
+            "url": "{{apHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"ap_event_3\",\"password\":\"{{apPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('apToken3',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "105 核对身份3",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken3}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('账号ID与角色',()=>{pm.expect(b.data.id).eq(103);pm.expect(b.data.role).eq('COMPANY');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "106 查询岗位405的投递ID",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/page?dateRange=ALL&keyword=APE_405",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('唯一目标投递',()=>{pm.expect(b.data.total).eq(1);pm.expect(b.data.items).lengthOf(1);pm.expect(b.data.items[0].jobId).eq(405);});pm.collectionVariables.set('app405',b.data.items[0].id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "107 核对岗位405真实时间线",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/{{app405}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('事件响应白名单及隐私',()=>{b.data.events.forEach(e=>{pm.expect(Object.keys(e).sort()).deep.eq([\"actorType\",\"eventType\",\"fromStatus\",\"id\",\"interviewChange\",\"interviewId\",\"occurredAt\",\"summary\",\"toStatus\"]);pm.expect(e.interviewId).eq(null);pm.expect(e.interviewChange).eq(null);pm.expect(e.occurredAt).a('string');});pm.expect(b.data).not.have.property('userId');pm.expect(b.data).not.have.property('hasInterviewed');});pm.collectionVariables.set('before405',JSON.stringify(b.data));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "108 投递岗位404",
+          "request": {
+            "method": "POST",
+            "url": "{{apHost}}/application",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"jobId\":404,\"resumeId\":301}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});pm.test('注入故障不返回成功',()=>pm.expect(b.message).include('系统异常'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "109 失败新投递不存在",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/page?dateRange=ALL&keyword=APE_404",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('投递已回滚',()=>{pm.expect(b.data.total).eq(0);pm.expect(b.data.items).deep.eq([]);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "110 岗位405状态推进至2",
+          "request": {
+            "method": "PUT",
+            "url": "{{apHost}}/application/{{app405}}/status",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken3}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":2}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "111 核对岗位405真实时间线",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/{{app405}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('事件响应白名单及隐私',()=>{b.data.events.forEach(e=>{pm.expect(Object.keys(e).sort()).deep.eq([\"actorType\",\"eventType\",\"fromStatus\",\"id\",\"interviewChange\",\"interviewId\",\"occurredAt\",\"summary\",\"toStatus\"]);pm.expect(e.interviewId).eq(null);pm.expect(e.interviewChange).eq(null);pm.expect(e.occurredAt).a('string');});pm.expect(b.data).not.have.property('userId');pm.expect(b.data).not.have.property('hasInterviewed');});pm.test('业务字段与事件均回滚',()=>{const before=JSON.parse(pm.collectionVariables.get('before405'));delete before.serverTime;const current={...b.data};delete current.serverTime;pm.expect(current).deep.eq(before);});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "C",
+      "item": [
+        {
+          "name": "112 登录隔离身份1",
+          "request": {
+            "method": "POST",
+            "url": "{{apHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"ap_event_1\",\"password\":\"{{apPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('apToken1',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "113 核对身份1",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('账号ID与角色',()=>{pm.expect(b.data.id).eq(101);pm.expect(b.data.role).eq('JOB_SEEKER');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "114 登录隔离身份3",
+          "request": {
+            "method": "POST",
+            "url": "{{apHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"ap_event_3\",\"password\":\"{{apPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('apToken3',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "115 核对身份3",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken3}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('账号ID与角色',()=>{pm.expect(b.data.id).eq(103);pm.expect(b.data.role).eq('COMPANY');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "116 投递岗位404",
+          "request": {
+            "method": "POST",
+            "url": "{{apHost}}/application",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"jobId\":404,\"resumeId\":301}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "117 查询岗位404的投递ID",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/page?dateRange=ALL&keyword=APE_404",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('唯一目标投递',()=>{pm.expect(b.data.total).eq(1);pm.expect(b.data.items).lengthOf(1);pm.expect(b.data.items[0].jobId).eq(404);});pm.collectionVariables.set('app404',b.data.items[0].id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "118 核对岗位404真实时间线",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/{{app404}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('事件响应白名单及隐私',()=>{b.data.events.forEach(e=>{pm.expect(Object.keys(e).sort()).deep.eq([\"actorType\",\"eventType\",\"fromStatus\",\"id\",\"interviewChange\",\"interviewId\",\"occurredAt\",\"summary\",\"toStatus\"]);pm.expect(e.interviewId).eq(null);pm.expect(e.interviewChange).eq(null);pm.expect(e.occurredAt).a('string');});pm.expect(b.data).not.have.property('userId');pm.expect(b.data).not.have.property('hasInterviewed');});pm.test('真实状态和历史完整性',()=>{pm.expect(b.data.status).eq(0);pm.expect(b.data.historyComplete).eq(true);pm.expect(b.data.events).lengthOf(1);pm.expect(b.data.timeZone).eq('Asia/Shanghai');pm.expect(b.data.interviews).deep.eq([]);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "119 查询岗位405的投递ID",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/page?dateRange=ALL&keyword=APE_405",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('唯一目标投递',()=>{pm.expect(b.data.total).eq(1);pm.expect(b.data.items).lengthOf(1);pm.expect(b.data.items[0].jobId).eq(405);});pm.collectionVariables.set('app405',b.data.items[0].id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "120 岗位405状态推进至2",
+          "request": {
+            "method": "PUT",
+            "url": "{{apHost}}/application/{{app405}}/status",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken3}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":2}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "121 核对岗位405真实时间线",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/{{app405}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('事件响应白名单及隐私',()=>{b.data.events.forEach(e=>{pm.expect(Object.keys(e).sort()).deep.eq([\"actorType\",\"eventType\",\"fromStatus\",\"id\",\"interviewChange\",\"interviewId\",\"occurredAt\",\"summary\",\"toStatus\"]);pm.expect(e.interviewId).eq(null);pm.expect(e.interviewChange).eq(null);pm.expect(e.occurredAt).a('string');});pm.expect(b.data).not.have.property('userId');pm.expect(b.data).not.have.property('hasInterviewed');});pm.test('真实状态和历史完整性',()=>{pm.expect(b.data.status).eq(2);pm.expect(b.data.historyComplete).eq(true);pm.expect(b.data.events).lengthOf(2);pm.expect(b.data.timeZone).eq('Asia/Shanghai');pm.expect(b.data.interviews).deep.eq([]);});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "D",
+      "item": [
+        {
+          "name": "122 登录隔离身份1",
+          "request": {
+            "method": "POST",
+            "url": "{{apHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"ap_event_1\",\"password\":\"{{apPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('apToken1',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "123 核对身份1",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('账号ID与角色',()=>{pm.expect(b.data.id).eq(101);pm.expect(b.data.role).eq('JOB_SEEKER');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "124 登录隔离身份3",
+          "request": {
+            "method": "POST",
+            "url": "{{apHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"ap_event_3\",\"password\":\"{{apPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('apToken3',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "125 核对身份3",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken3}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('账号ID与角色',()=>{pm.expect(b.data.id).eq(103);pm.expect(b.data.role).eq('COMPANY');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "126 查询岗位406的投递ID",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/page?dateRange=ALL&keyword=APE_406",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('唯一目标投递',()=>{pm.expect(b.data.total).eq(1);pm.expect(b.data.items).lengthOf(1);pm.expect(b.data.items[0].jobId).eq(406);});pm.collectionVariables.set('app406',b.data.items[0].id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "127 核对岗位406真实时间线",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/{{app406}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('事件响应白名单及隐私',()=>{b.data.events.forEach(e=>{pm.expect(Object.keys(e).sort()).deep.eq([\"actorType\",\"eventType\",\"fromStatus\",\"id\",\"interviewChange\",\"interviewId\",\"occurredAt\",\"summary\",\"toStatus\"]);pm.expect(e.interviewId).eq(null);pm.expect(e.interviewChange).eq(null);pm.expect(e.occurredAt).a('string');});pm.expect(b.data).not.have.property('userId');pm.expect(b.data).not.have.property('hasInterviewed');});let done=0;const results=[];[2,3].forEach((target,index)=>setTimeout(()=>{const started=Date.now();pm.sendRequest({url:pm.environment.get('apHost')+'/application/'+b.data.id+'/status',method:'PUT',header:{Authorization:'Bearer '+pm.collectionVariables.get('apToken3'),'Content-Type':'application/json'},body:{mode:'raw',raw:JSON.stringify({status:target})}},(err,res)=>{pm.test('并发状态请求可达',()=>pm.expect(err).eq(null));if(!err)results.push({target,code:res.json().code,message:res.json().message,started,ended:Date.now()});if(++done===2){pm.test('同原状态竞争一成功一拒绝',()=>pm.expect(results.map(x=>x.code).sort()).deep.eq([200,500]));pm.test('两个请求实际重叠',()=>pm.expect(Math.max(...results.map(x=>x.started))).below(Math.min(...results.map(x=>x.ended))));pm.test('冲突明确提示刷新',()=>pm.expect(results.find(x=>x.code===500).message).include('刷新'));console.log('AP_STATUS_RACE='+JSON.stringify(results));}});},index*100));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "128 核对岗位406真实时间线",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/{{app406}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('事件响应白名单及隐私',()=>{b.data.events.forEach(e=>{pm.expect(Object.keys(e).sort()).deep.eq([\"actorType\",\"eventType\",\"fromStatus\",\"id\",\"interviewChange\",\"interviewId\",\"occurredAt\",\"summary\",\"toStatus\"]);pm.expect(e.interviewId).eq(null);pm.expect(e.interviewChange).eq(null);pm.expect(e.occurredAt).a('string');});pm.expect(b.data).not.have.property('userId');pm.expect(b.data).not.have.property('hasInterviewed');});pm.test('竞争仅追加一条真实状态事件',()=>{pm.expect(b.data.events).lengthOf(2);pm.expect(b.data.events[0].fromStatus).eq(0);pm.expect(b.data.events[0].toStatus).eq(b.data.status);pm.expect([2,3]).include(b.data.status);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "129 同岗位并发投递",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/overview",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});let done=0;const results=[];[0,1].forEach(index=>setTimeout(()=>{const started=Date.now();pm.sendRequest({url:pm.environment.get('apHost')+'/application',method:'POST',header:{Authorization:'Bearer '+pm.collectionVariables.get('apToken1'),'Content-Type':'application/json'},body:{mode:'raw',raw:JSON.stringify({jobId:407,resumeId:301})}},(err,res)=>{pm.test('并发投递请求可达',()=>pm.expect(err).eq(null));if(!err)results.push({code:res.json().code,message:res.json().message,started,ended:Date.now()});if(++done===2){pm.test('并发投递一成功一拒绝',()=>pm.expect(results.map(x=>x.code).sort()).deep.eq([200,500]));pm.test('投递请求实际重叠',()=>pm.expect(Math.max(...results.map(x=>x.started))).below(Math.min(...results.map(x=>x.ended))));console.log('AP_APPLY_RACE='+JSON.stringify(results));}});},index*100));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "130 查询岗位407的投递ID",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/page?dateRange=ALL&keyword=APE_407",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('唯一目标投递',()=>{pm.expect(b.data.total).eq(1);pm.expect(b.data.items).lengthOf(1);pm.expect(b.data.items[0].jobId).eq(407);});pm.collectionVariables.set('app407',b.data.items[0].id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "131 核对岗位407真实时间线",
+          "request": {
+            "method": "GET",
+            "url": "{{apHost}}/application/mine/{{app407}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{apToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runApplicationEventRegression')!=='true'||pm.environment.get('applicationEventFixtureReady')!=='true'||pm.environment.get('apHost')!=='http://127.0.0.1:18087'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200及业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test('事件响应白名单及隐私',()=>{b.data.events.forEach(e=>{pm.expect(Object.keys(e).sort()).deep.eq([\"actorType\",\"eventType\",\"fromStatus\",\"id\",\"interviewChange\",\"interviewId\",\"occurredAt\",\"summary\",\"toStatus\"]);pm.expect(e.interviewId).eq(null);pm.expect(e.interviewChange).eq(null);pm.expect(e.occurredAt).a('string');});pm.expect(b.data).not.have.property('userId');pm.expect(b.data).not.have.property('hasInterviewed');});pm.test('真实状态和历史完整性',()=>{pm.expect(b.data.status).eq(0);pm.expect(b.data.historyComplete).eq(true);pm.expect(b.data.events).lengthOf(1);pm.expect(b.data.timeZone).eq('Asia/Shanghai');pm.expect(b.data.interviews).deep.eq([]);});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

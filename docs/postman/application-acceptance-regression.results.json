@@ -1,0 +1,515 @@
+{
+  "scope": "Application upgrade phase five",
+  "httpExecutionDate": "2026-10-28",
+  "closeoutDate": "2026-10-31",
+  "clock": "2026-10-28T12:34:56",
+  "timeZone": "Asia/Shanghai",
+  "host": "http://127.0.0.1:18087",
+  "database": "smart_recruit_acceptance_1793178449871",
+  "groups": {
+    "A": {
+      "requests": 79,
+      "failedRequests": 0,
+      "assertions": 164,
+      "failedAssertions": 0,
+      "durationSeconds": 89.56,
+      "executedAt": "2026-10-28T09:15:20.002Z"
+    },
+    "B": {
+      "requests": 60,
+      "failedRequests": 0,
+      "assertions": 89,
+      "failedAssertions": 0,
+      "durationSeconds": 67.16,
+      "executedAt": "2026-10-28T09:16:57.453Z"
+    },
+    "C": {
+      "requests": 51,
+      "failedRequests": 0,
+      "assertions": 165,
+      "failedAssertions": 0,
+      "durationSeconds": 57.27,
+      "executedAt": "2026-10-28T09:18:13.808Z"
+    }
+  },
+  "totals": {
+    "requests": 190,
+    "assertions": 418,
+    "failedRequests": 0,
+    "failedAssertions": 0
+  },
+  "persistentRequests": 190,
+  "collectionId": "56227183-00855bc5-e68c-4aab-bdc2-faffe0f70f82",
+  "folderId": "32384b24-6cb8-e8d2-d54f-b272f77cd442",
+  "runners": {
+    "A": "56227183-43a8f999-a386-47a1-9c26-c6c940781cc5",
+    "B": "56227183-f3abca1e-fc81-46fa-b572-42823b79add0",
+    "C": "56227183-25000016-b68e-4ef1-9a9f-22fb1178f2fc"
+  },
+  "diagnostics": [
+    {
+      "kind": "initial-fixture-contamination",
+      "requests": 77,
+      "failedRequests": 0,
+      "assertions": 160,
+      "failedAssertions": 2,
+      "durationSeconds": 96.35,
+      "executedAt": "2026-10-28T08:48:43.209Z",
+      "reason": "Intentionally invalid status fixture was included in the normal company legacy list. Fixture moved to separate rejected company; full A/B/C rerun uses a fresh schema."
+    },
+    {
+      "kind": "startup-not-ready",
+      "requests": 1,
+      "failedRequests": 1,
+      "assertions": 0,
+      "failedAssertions": 0,
+      "durationSeconds": 1.27,
+      "executedAt": "2026-10-28T09:13:05.774Z",
+      "reason": "One login connection failed before server readiness; no application write executed. Launcher now waits for startup log readiness."
+    }
+  ],
+  "databaseAudit": {
+    "database": "smart_recruit_acceptance_1793178449871",
+    "sourceUnchanged": true,
+    "sourceSha256": "112b2fd0f2690d6c1507b41a97787cda477a562f506b117ba68ebe3f5d8b0da6",
+    "clock": "2026-10-28T12:34:56",
+    "flows": [
+      {
+        "id": 3902,
+        "user_id": 101,
+        "job_id": 4501,
+        "status": 3,
+        "has_interviewed": true,
+        "history_recorded_from_start": true
+      },
+      {
+        "id": 3903,
+        "user_id": 101,
+        "job_id": 4502,
+        "status": 4,
+        "has_interviewed": true,
+        "history_recorded_from_start": true
+      },
+      {
+        "id": 3904,
+        "user_id": 101,
+        "job_id": 4503,
+        "status": 3,
+        "has_interviewed": false,
+        "history_recorded_from_start": true
+      },
+      {
+        "id": 3905,
+        "user_id": 101,
+        "job_id": 4504,
+        "status": 4,
+        "has_interviewed": false,
+        "history_recorded_from_start": true
+      },
+      {
+        "id": 3906,
+        "user_id": 101,
+        "job_id": 4505,
+        "status": 2,
+        "has_interviewed": true,
+        "history_recorded_from_start": true
+      },
+      {
+        "id": 3907,
+        "user_id": 102,
+        "job_id": 4506,
+        "status": 2,
+        "has_interviewed": true,
+        "history_recorded_from_start": true
+      }
+    ],
+    "initialEventAndHistoryVerified": true,
+    "versionEventConsistencyVerified": true,
+    "terminalCleanupVerified": true,
+    "triggers": [],
+    "interviews": [
+      {
+        "id": 1,
+        "application_id": 3902,
+        "status": "CANCELLED",
+        "version": 2,
+        "cancel_source": "COMPANY"
+      },
+      {
+        "id": 2,
+        "application_id": 3902,
+        "status": "CANCELLED",
+        "version": 1,
+        "cancel_source": "APPLICATION_STATUS"
+      },
+      {
+        "id": 3,
+        "application_id": 3903,
+        "status": "CANCELLED",
+        "version": 1,
+        "cancel_source": "APPLICATION_STATUS"
+      },
+      {
+        "id": 4,
+        "application_id": 3906,
+        "status": "SCHEDULED",
+        "version": 0,
+        "cancel_source": null
+      },
+      {
+        "id": 5,
+        "application_id": 3907,
+        "status": "SCHEDULED",
+        "version": 0,
+        "cancel_source": null
+      }
+    ],
+    "events": [
+      {
+        "id": 1,
+        "application_id": 3902,
+        "event_type": "APPLIED",
+        "from_status": null,
+        "to_status": 0,
+        "interview_id": null,
+        "actor_type": "JOB_SEEKER"
+      },
+      {
+        "id": 2,
+        "application_id": 3902,
+        "event_type": "STATUS_CHANGED",
+        "from_status": 0,
+        "to_status": 1,
+        "interview_id": null,
+        "actor_type": "COMPANY"
+      },
+      {
+        "id": 3,
+        "application_id": 3902,
+        "event_type": "STATUS_CHANGED",
+        "from_status": 1,
+        "to_status": 2,
+        "interview_id": null,
+        "actor_type": "COMPANY"
+      },
+      {
+        "id": 4,
+        "application_id": 3902,
+        "event_type": "INTERVIEW_SCHEDULED",
+        "from_status": null,
+        "to_status": null,
+        "interview_id": 1,
+        "actor_type": "COMPANY"
+      },
+      {
+        "id": 5,
+        "application_id": 3902,
+        "event_type": "INTERVIEW_RESCHEDULED",
+        "from_status": null,
+        "to_status": null,
+        "interview_id": 1,
+        "actor_type": "COMPANY"
+      },
+      {
+        "id": 6,
+        "application_id": 3902,
+        "event_type": "INTERVIEW_CANCELLED",
+        "from_status": null,
+        "to_status": null,
+        "interview_id": 1,
+        "actor_type": "COMPANY"
+      },
+      {
+        "id": 7,
+        "application_id": 3902,
+        "event_type": "INTERVIEW_SCHEDULED",
+        "from_status": null,
+        "to_status": null,
+        "interview_id": 2,
+        "actor_type": "COMPANY"
+      },
+      {
+        "id": 8,
+        "application_id": 3902,
+        "event_type": "STATUS_CHANGED",
+        "from_status": 2,
+        "to_status": 3,
+        "interview_id": null,
+        "actor_type": "COMPANY"
+      },
+      {
+        "id": 9,
+        "application_id": 3902,
+        "event_type": "INTERVIEW_CANCELLED",
+        "from_status": null,
+        "to_status": null,
+        "interview_id": 2,
+        "actor_type": "SYSTEM"
+      },
+      {
+        "id": 10,
+        "application_id": 3903,
+        "event_type": "APPLIED",
+        "from_status": null,
+        "to_status": 0,
+        "interview_id": null,
+        "actor_type": "JOB_SEEKER"
+      },
+      {
+        "id": 11,
+        "application_id": 3903,
+        "event_type": "STATUS_CHANGED",
+        "from_status": 0,
+        "to_status": 2,
+        "interview_id": null,
+        "actor_type": "COMPANY"
+      },
+      {
+        "id": 12,
+        "application_id": 3903,
+        "event_type": "INTERVIEW_SCHEDULED",
+        "from_status": null,
+        "to_status": null,
+        "interview_id": 3,
+        "actor_type": "COMPANY"
+      },
+      {
+        "id": 13,
+        "application_id": 3903,
+        "event_type": "STATUS_CHANGED",
+        "from_status": 2,
+        "to_status": 4,
+        "interview_id": null,
+        "actor_type": "COMPANY"
+      },
+      {
+        "id": 14,
+        "application_id": 3903,
+        "event_type": "INTERVIEW_CANCELLED",
+        "from_status": null,
+        "to_status": null,
+        "interview_id": 3,
+        "actor_type": "SYSTEM"
+      },
+      {
+        "id": 15,
+        "application_id": 3904,
+        "event_type": "APPLIED",
+        "from_status": null,
+        "to_status": 0,
+        "interview_id": null,
+        "actor_type": "JOB_SEEKER"
+      },
+      {
+        "id": 16,
+        "application_id": 3904,
+        "event_type": "STATUS_CHANGED",
+        "from_status": 0,
+        "to_status": 3,
+        "interview_id": null,
+        "actor_type": "COMPANY"
+      },
+      {
+        "id": 17,
+        "application_id": 3905,
+        "event_type": "APPLIED",
+        "from_status": null,
+        "to_status": 0,
+        "interview_id": null,
+        "actor_type": "JOB_SEEKER"
+      },
+      {
+        "id": 18,
+        "application_id": 3905,
+        "event_type": "STATUS_CHANGED",
+        "from_status": 0,
+        "to_status": 4,
+        "interview_id": null,
+        "actor_type": "COMPANY"
+      },
+      {
+        "id": 19,
+        "application_id": 3906,
+        "event_type": "APPLIED",
+        "from_status": null,
+        "to_status": 0,
+        "interview_id": null,
+        "actor_type": "JOB_SEEKER"
+      },
+      {
+        "id": 20,
+        "application_id": 3906,
+        "event_type": "STATUS_CHANGED",
+        "from_status": 0,
+        "to_status": 2,
+        "interview_id": null,
+        "actor_type": "COMPANY"
+      },
+      {
+        "id": 21,
+        "application_id": 3906,
+        "event_type": "INTERVIEW_SCHEDULED",
+        "from_status": null,
+        "to_status": null,
+        "interview_id": 4,
+        "actor_type": "COMPANY"
+      },
+      {
+        "id": 22,
+        "application_id": 3907,
+        "event_type": "APPLIED",
+        "from_status": null,
+        "to_status": 0,
+        "interview_id": null,
+        "actor_type": "JOB_SEEKER"
+      },
+      {
+        "id": 23,
+        "application_id": 3907,
+        "event_type": "STATUS_CHANGED",
+        "from_status": 0,
+        "to_status": 2,
+        "interview_id": null,
+        "actor_type": "COMPANY"
+      },
+      {
+        "id": 24,
+        "application_id": 3907,
+        "event_type": "INTERVIEW_SCHEDULED",
+        "from_status": null,
+        "to_status": null,
+        "interview_id": 5,
+        "actor_type": "COMPANY"
+      }
+    ],
+    "queryIndexes": [
+      {
+        "Table": "job_application",
+        "Non_unique": 1,
+        "Key_name": "idx_application_user_time",
+        "Seq_in_index": 1,
+        "Column_name": "user_id",
+        "Collation": "A",
+        "Cardinality": 4,
+        "Sub_part": null,
+        "Packed": null,
+        "Null": "",
+        "Index_type": "BTREE",
+        "Comment": "",
+        "Index_comment": "",
+        "Visible": "YES",
+        "Expression": null
+      },
+      {
+        "Table": "job_application",
+        "Non_unique": 1,
+        "Key_name": "idx_application_user_time",
+        "Seq_in_index": 2,
+        "Column_name": "create_time",
+        "Collation": "A",
+        "Cardinality": 15,
+        "Sub_part": null,
+        "Packed": null,
+        "Null": "",
+        "Index_type": "BTREE",
+        "Comment": "",
+        "Index_comment": "",
+        "Visible": "YES",
+        "Expression": null
+      },
+      {
+        "Table": "job_application",
+        "Non_unique": 1,
+        "Key_name": "idx_application_user_time",
+        "Seq_in_index": 3,
+        "Column_name": "id",
+        "Collation": "A",
+        "Cardinality": 47,
+        "Sub_part": null,
+        "Packed": null,
+        "Null": "",
+        "Index_type": "BTREE",
+        "Comment": "",
+        "Index_comment": "",
+        "Visible": "YES",
+        "Expression": null
+      },
+      {
+        "Table": "job_application",
+        "Non_unique": 1,
+        "Key_name": "idx_application_user_status_time",
+        "Seq_in_index": 1,
+        "Column_name": "user_id",
+        "Collation": "A",
+        "Cardinality": 4,
+        "Sub_part": null,
+        "Packed": null,
+        "Null": "",
+        "Index_type": "BTREE",
+        "Comment": "",
+        "Index_comment": "",
+        "Visible": "YES",
+        "Expression": null
+      },
+      {
+        "Table": "job_application",
+        "Non_unique": 1,
+        "Key_name": "idx_application_user_status_time",
+        "Seq_in_index": 2,
+        "Column_name": "status",
+        "Collation": "A",
+        "Cardinality": 16,
+        "Sub_part": null,
+        "Packed": null,
+        "Null": "",
+        "Index_type": "BTREE",
+        "Comment": "",
+        "Index_comment": "",
+        "Visible": "YES",
+        "Expression": null
+      },
+      {
+        "Table": "job_application",
+        "Non_unique": 1,
+        "Key_name": "idx_application_user_status_time",
+        "Seq_in_index": 3,
+        "Column_name": "create_time",
+        "Collation": "A",
+        "Cardinality": 27,
+        "Sub_part": null,
+        "Packed": null,
+        "Null": "",
+        "Index_type": "BTREE",
+        "Comment": "",
+        "Index_comment": "",
+        "Visible": "YES",
+        "Expression": null
+      },
+      {
+        "Table": "job_application",
+        "Non_unique": 1,
+        "Key_name": "idx_application_user_status_time",
+        "Seq_in_index": 4,
+        "Column_name": "id",
+        "Collation": "A",
+        "Cardinality": 47,
+        "Sub_part": null,
+        "Packed": null,
+        "Null": "",
+        "Index_type": "BTREE",
+        "Comment": "",
+        "Index_comment": "",
+        "Visible": "YES",
+        "Expression": null
+      }
+    ]
+  },
+  "currentSourceTreeSha256": "a21d8fc3604329297fbba9eaadb2fcbc5ffb358f2cbe330c307f274681516581",
+  "notes": [
+    "HTTP calls executed through Postman MCP only.",
+    "Fixed Clock is provided by a test-only launcher outside src/main.",
+    "Stage three/four fault and concurrency counts are separate historical reports, not rerun totals for phase five.",
+    "Preserved test-fixture and startup failures are not counted as final passing execution.",
+    "Read-only audit normalized JDBC LocalDateTime/Timestamp before comparison."
+  ]
+}

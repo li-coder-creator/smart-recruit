@@ -1,0 +1,21 @@
+{
+  "collectionId": "56227183-00855bc5-e68c-4aab-bdc2-faffe0f70f82",
+  "folderId": "d84b1b3c-65a2-3e69-9f0e-7281efc2a95d",
+  "runners": {
+    "A": "56227183-ac74d213-aea5-4c48-86e9-ee1c70d8909d",
+    "B": "56227183-fed9975a-f604-4338-a6cd-61a3379898dc",
+    "C": "56227183-ce14532a-cf5f-436b-901d-9d0b97c43ea6",
+    "D": "56227183-a32f9cdd-b555-402e-ad85-ba39a2b59112"
+  },
+  "folders": {
+    "A": "0d137ce7-acb2-15be-0c9b-efaab8c69d69",
+    "B": "85803cd3-1940-d93f-7e20-9ed5ef0ad380",
+    "C": "44df8a37-65eb-f198-c3aa-970b650e0783",
+    "D": "649add0c-d2e2-8841-b8f8-908ae8b14b33"
+  },
+  "persistentRequestCount": 131,
+  "executedRequestCount": 135,
+  "assertions": 230,
+  "testDate": "2026-10-25",
+  "host": "http://127.0.0.1:18087"
+}

@@ -24,6 +24,8 @@ public class Application {
      * 是否曾实际进入面试：true 已进入，false 未进入，null 为未核实的旧记录。
      */
     private Boolean hasInterviewed;
+    /** 仅在投递和初始事件同事务写入成功时为 true；旧记录保持 false。 */
+    private Boolean historyRecordedFromStart;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
 }

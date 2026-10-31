@@ -1,0 +1,1512 @@
+{
+  "testDate": "2026-10-25",
+  "compileSources": 181,
+  "tool": "Postman MCP runCollection",
+  "collectionName": "SmartRecruit API - Optimized Regression",
+  "folder": "05 Application / 面试排期回归 2026-10-25",
+  "persistentRequests": 206,
+  "requests": 224,
+  "assertions": 394,
+  "groups": [
+    {
+      "stage": "A",
+      "requests": 138,
+      "assertions": 208,
+      "failedRequests": 0,
+      "failedAssertions": 0,
+      "duration": "155.40s"
+    },
+    {
+      "stage": "B",
+      "requests": 14,
+      "assertions": 28,
+      "failedRequests": 0,
+      "failedAssertions": 0,
+      "duration": "16.41s"
+    },
+    {
+      "stage": "C",
+      "requests": 13,
+      "assertions": 27,
+      "failedRequests": 0,
+      "failedAssertions": 0,
+      "duration": "14.78s"
+    },
+    {
+      "stage": "D",
+      "requests": 52,
+      "assertions": 123,
+      "failedRequests": 0,
+      "failedAssertions": 0,
+      "duration": "70.84s"
+    },
+    {
+      "stage": "E",
+      "requests": 7,
+      "assertions": 8,
+      "failedRequests": 0,
+      "failedAssertions": 0,
+      "duration": "8.01s"
+    }
+  ],
+  "isolatedDatabase": "smart_recruit_interviews_1792917921159",
+  "sourceBeforeSha256": "112b2fd0f2690d6c1507b41a97787cda477a562f506b117ba68ebe3f5d8b0da6",
+  "sourceAfterSha256": "112b2fd0f2690d6c1507b41a97787cda477a562f506b117ba68ebe3f5d8b0da6",
+  "sourceUnchanged": true,
+  "singleEffectiveArrangementVerified": true,
+  "terminalCleanupVerified": true,
+  "versionEventConsistencyVerified": true,
+  "preexistingQueryFilterFixture": {
+    "applicationId": 1030,
+    "description": "故意预置终态但有未结束安排，只用于近期查询排除；不计作本轮接口处理后的终态残留"
+  },
+  "concurrencyPairs": 9,
+  "remainingTriggers": [],
+  "stoppedAt": "2026-10-25T16:58:16",
+  "interviewGuardDisabled": true,
+  "interviewFacts": [
+    {
+      "id": 2002,
+      "application_id": 1002,
+      "status": "CANCELLED",
+      "version": 1,
+      "start_time": [
+        2026,
+        10,
+        25,
+        16,
+        15,
+        23,
+        911000000
+      ],
+      "end_time": [
+        2026,
+        10,
+        25,
+        18,
+        15,
+        23,
+        911000000
+      ],
+      "cancel_source": "COMPANY",
+      "cancel_reason": "进行中取消"
+    },
+    {
+      "id": 2003,
+      "application_id": 1003,
+      "status": "SCHEDULED",
+      "version": 0,
+      "start_time": [
+        2026,
+        10,
+        22,
+        16,
+        45,
+        23,
+        918000000
+      ],
+      "end_time": [
+        2026,
+        10,
+        22,
+        17,
+        45,
+        23,
+        918000000
+      ],
+      "cancel_source": null,
+      "cancel_reason": null
+    },
+    {
+      "id": 2008,
+      "application_id": 1008,
+      "status": "SCHEDULED",
+      "version": 0,
+      "start_time": [
+        2026,
+        10,
+        25,
+        11,
+        45,
+        23,
+        921000000
+      ],
+      "end_time": [
+        2026,
+        10,
+        25,
+        21,
+        45,
+        23,
+        921000000
+      ],
+      "cancel_source": null,
+      "cancel_reason": null
+    },
+    {
+      "id": 2010,
+      "application_id": 1010,
+      "status": "CANCELLED",
+      "version": 1,
+      "start_time": [
+        2026,
+        10,
+        25,
+        15,
+        45,
+        23,
+        924000000
+      ],
+      "end_time": [
+        2026,
+        10,
+        25,
+        18,
+        45,
+        23,
+        924000000
+      ],
+      "cancel_source": "APPLICATION_STATUS",
+      "cancel_reason": "投递流程已结束，安排失效"
+    },
+    {
+      "id": 2024,
+      "application_id": 1024,
+      "status": "CANCELLED",
+      "version": 1,
+      "start_time": [
+        2026,
+        10,
+        25,
+        14,
+        45,
+        23,
+        926000000
+      ],
+      "end_time": [
+        2026,
+        10,
+        25,
+        17,
+        45,
+        23,
+        926000000
+      ],
+      "cancel_source": "COMPANY",
+      "cancel_reason": "测试近期排序"
+    },
+    {
+      "id": 2025,
+      "application_id": 1025,
+      "status": "SCHEDULED",
+      "version": 0,
+      "start_time": [
+        2026,
+        10,
+        25,
+        16,
+        55,
+        23,
+        928000000
+      ],
+      "end_time": [
+        2026,
+        10,
+        25,
+        17,
+        55,
+        23,
+        928000000
+      ],
+      "cancel_source": null,
+      "cancel_reason": null
+    },
+    {
+      "id": 2026,
+      "application_id": 1026,
+      "status": "SCHEDULED",
+      "version": 0,
+      "start_time": [
+        2026,
+        10,
+        25,
+        16,
+        55,
+        23,
+        928000000
+      ],
+      "end_time": [
+        2026,
+        10,
+        25,
+        17,
+        55,
+        23,
+        928000000
+      ],
+      "cancel_source": null,
+      "cancel_reason": null
+    },
+    {
+      "id": 2030,
+      "application_id": 1030,
+      "status": "SCHEDULED",
+      "version": 0,
+      "start_time": [
+        2026,
+        10,
+        25,
+        16,
+        50,
+        23,
+        933000000
+      ],
+      "end_time": [
+        2026,
+        10,
+        25,
+        17,
+        50,
+        23,
+        933000000
+      ],
+      "cancel_source": null,
+      "cancel_reason": null
+    },
+    {
+      "id": 20170,
+      "application_id": 1017,
+      "status": "SCHEDULED",
+      "version": 0,
+      "start_time": [
+        2026,
+        10,
+        22,
+        16,
+        45,
+        23,
+        936000000
+      ],
+      "end_time": [
+        2026,
+        10,
+        22,
+        17,
+        45,
+        23,
+        936000000
+      ],
+      "cancel_source": null,
+      "cancel_reason": null
+    },
+    {
+      "id": 20171,
+      "application_id": 1017,
+      "status": "CANCELLED",
+      "version": 0,
+      "start_time": [
+        2026,
+        10,
+        26,
+        16,
+        45,
+        23,
+        940000000
+      ],
+      "end_time": [
+        2026,
+        10,
+        26,
+        17,
+        45,
+        23,
+        940000000
+      ],
+      "cancel_source": "COMPANY",
+      "cancel_reason": "旧取消"
+    },
+    {
+      "id": 20172,
+      "application_id": 1017,
+      "status": "CANCELLED",
+      "version": 1,
+      "start_time": [
+        2026,
+        10,
+        27,
+        16,
+        45,
+        23,
+        942000000
+      ],
+      "end_time": [
+        2026,
+        10,
+        27,
+        17,
+        45,
+        23,
+        942000000
+      ],
+      "cancel_source": "APPLICATION_STATUS",
+      "cancel_reason": "投递流程已结束，安排失效"
+    },
+    {
+      "id": 20173,
+      "application_id": 1017,
+      "status": "CANCELLED",
+      "version": 1,
+      "start_time": [
+        2026,
+        10,
+        25,
+        16,
+        15,
+        23,
+        946000000
+      ],
+      "end_time": [
+        2026,
+        10,
+        25,
+        18,
+        45,
+        23,
+        946000000
+      ],
+      "cancel_source": "APPLICATION_STATUS",
+      "cancel_reason": "投递流程已结束，安排失效"
+    },
+    {
+      "id": 20174,
+      "application_id": 1001,
+      "status": "CANCELLED",
+      "version": 3,
+      "start_time": [
+        2026,
+        10,
+        26,
+        16,
+        49,
+        27,
+        820000000
+      ],
+      "end_time": [
+        2026,
+        10,
+        26,
+        17,
+        49,
+        27,
+        820000000
+      ],
+      "cancel_source": "COMPANY",
+      "cancel_reason": "企业沟通后取消"
+    },
+    {
+      "id": 20175,
+      "application_id": 1001,
+      "status": "CANCELLED",
+      "version": 1,
+      "start_time": [
+        2026,
+        10,
+        27,
+        16,
+        49,
+        42,
+        364000000
+      ],
+      "end_time": [
+        2026,
+        10,
+        27,
+        17,
+        49,
+        42,
+        364000000
+      ],
+      "cancel_source": "APPLICATION_STATUS",
+      "cancel_reason": "投递流程已结束，安排失效"
+    },
+    {
+      "id": 20176,
+      "application_id": 1009,
+      "status": "CANCELLED",
+      "version": 2,
+      "start_time": [
+        2026,
+        10,
+        27,
+        16,
+        49,
+        50,
+        269000000
+      ],
+      "end_time": [
+        2026,
+        10,
+        27,
+        17,
+        49,
+        50,
+        269000000
+      ],
+      "cancel_source": "COMPANY",
+      "cancel_reason": "企业沟通后取消"
+    },
+    {
+      "id": 20177,
+      "application_id": 1003,
+      "status": "SCHEDULED",
+      "version": 0,
+      "start_time": [
+        2026,
+        10,
+        26,
+        16,
+        49,
+        58,
+        109000000
+      ],
+      "end_time": [
+        2026,
+        10,
+        26,
+        17,
+        49,
+        58,
+        109000000
+      ],
+      "cancel_source": null,
+      "cancel_reason": null
+    },
+    {
+      "id": 20178,
+      "application_id": 1007,
+      "status": "SCHEDULED",
+      "version": 0,
+      "start_time": [
+        2026,
+        10,
+        26,
+        16,
+        50,
+        0,
+        367000000
+      ],
+      "end_time": [
+        2026,
+        10,
+        26,
+        17,
+        50,
+        0,
+        367000000
+      ],
+      "cancel_source": null,
+      "cancel_reason": null
+    },
+    {
+      "id": 20179,
+      "application_id": 1012,
+      "status": "SCHEDULED",
+      "version": 0,
+      "start_time": [
+        2026,
+        10,
+        26,
+        16,
+        50,
+        3,
+        694000000
+      ],
+      "end_time": [
+        2026,
+        10,
+        26,
+        17,
+        50,
+        3,
+        694000000
+      ],
+      "cancel_source": null,
+      "cancel_reason": null
+    },
+    {
+      "id": 20180,
+      "application_id": 1013,
+      "status": "SCHEDULED",
+      "version": 0,
+      "start_time": [
+        2026,
+        10,
+        26,
+        23,
+        30
+      ],
+      "end_time": [
+        2026,
+        10,
+        27,
+        0,
+        30
+      ],
+      "cancel_source": null,
+      "cancel_reason": null
+    },
+    {
+      "id": 20181,
+      "application_id": 1015,
+      "status": "SCHEDULED",
+      "version": 1,
+      "start_time": [
+        2026,
+        10,
+        27,
+        16,
+        53,
+        49,
+        100000000
+      ],
+      "end_time": [
+        2026,
+        10,
+        27,
+        17,
+        53,
+        49,
+        100000000
+      ],
+      "cancel_source": null,
+      "cancel_reason": null
+    },
+    {
+      "id": 20182,
+      "application_id": 1016,
+      "status": "CANCELLED",
+      "version": 1,
+      "start_time": [
+        2026,
+        10,
+        26,
+        16,
+        50,
+        12,
+        788000000
+      ],
+      "end_time": [
+        2026,
+        10,
+        26,
+        17,
+        50,
+        12,
+        788000000
+      ],
+      "cancel_source": "COMPANY",
+      "cancel_reason": "企业沟通后取消"
+    },
+    {
+      "id": 20183,
+      "application_id": 1019,
+      "status": "SCHEDULED",
+      "version": 1,
+      "start_time": [
+        2026,
+        10,
+        27,
+        16,
+        55,
+        34,
+        661000000
+      ],
+      "end_time": [
+        2026,
+        10,
+        27,
+        17,
+        55,
+        34,
+        661000000
+      ],
+      "cancel_source": null,
+      "cancel_reason": null
+    },
+    {
+      "id": 20184,
+      "application_id": 1020,
+      "status": "SCHEDULED",
+      "version": 1,
+      "start_time": [
+        2026,
+        10,
+        27,
+        16,
+        55,
+        38,
+        949000000
+      ],
+      "end_time": [
+        2026,
+        10,
+        27,
+        17,
+        55,
+        38,
+        949000000
+      ],
+      "cancel_source": null,
+      "cancel_reason": null
+    },
+    {
+      "id": 20185,
+      "application_id": 1022,
+      "status": "CANCELLED",
+      "version": 2,
+      "start_time": [
+        2026,
+        10,
+        27,
+        16,
+        55,
+        52,
+        726000000
+      ],
+      "end_time": [
+        2026,
+        10,
+        27,
+        17,
+        55,
+        52,
+        726000000
+      ],
+      "cancel_source": "APPLICATION_STATUS",
+      "cancel_reason": "投递流程已结束，安排失效"
+    },
+    {
+      "id": 20186,
+      "application_id": 1023,
+      "status": "CANCELLED",
+      "version": 1,
+      "start_time": [
+        2026,
+        10,
+        26,
+        16,
+        50,
+        17,
+        324000000
+      ],
+      "end_time": [
+        2026,
+        10,
+        26,
+        17,
+        50,
+        17,
+        324000000
+      ],
+      "cancel_source": "COMPANY",
+      "cancel_reason": "并发取消"
+    },
+    {
+      "id": 20187,
+      "application_id": 1028,
+      "status": "CANCELLED",
+      "version": 1,
+      "start_time": [
+        2026,
+        10,
+        26,
+        16,
+        50,
+        18,
+        464000000
+      ],
+      "end_time": [
+        2026,
+        10,
+        26,
+        17,
+        50,
+        18,
+        464000000
+      ],
+      "cancel_source": "APPLICATION_STATUS",
+      "cancel_reason": "投递流程已结束，安排失效"
+    },
+    {
+      "id": 20188,
+      "application_id": 1029,
+      "status": "CANCELLED",
+      "version": 1,
+      "start_time": [
+        2026,
+        10,
+        26,
+        16,
+        50,
+        19,
+        605000000
+      ],
+      "end_time": [
+        2026,
+        10,
+        26,
+        17,
+        50,
+        19,
+        605000000
+      ],
+      "cancel_source": "APPLICATION_STATUS",
+      "cancel_reason": "投递流程已结束，安排失效"
+    },
+    {
+      "id": 20190,
+      "application_id": 1014,
+      "status": "SCHEDULED",
+      "version": 0,
+      "start_time": [
+        2026,
+        10,
+        26,
+        16,
+        53,
+        47,
+        915000000
+      ],
+      "end_time": [
+        2026,
+        10,
+        26,
+        17,
+        53,
+        47,
+        915000000
+      ],
+      "cancel_source": null,
+      "cancel_reason": null
+    },
+    {
+      "id": 20191,
+      "application_id": 1018,
+      "status": "SCHEDULED",
+      "version": 0,
+      "start_time": [
+        2026,
+        10,
+        26,
+        16,
+        55,
+        30,
+        372000000
+      ],
+      "end_time": [
+        2026,
+        10,
+        26,
+        17,
+        55,
+        30,
+        372000000
+      ],
+      "cancel_source": null,
+      "cancel_reason": null
+    },
+    {
+      "id": 20192,
+      "application_id": 1021,
+      "status": "CANCELLED",
+      "version": 1,
+      "start_time": [
+        2026,
+        10,
+        26,
+        16,
+        55,
+        43,
+        243000000
+      ],
+      "end_time": [
+        2026,
+        10,
+        26,
+        17,
+        55,
+        43,
+        243000000
+      ],
+      "cancel_source": "APPLICATION_STATUS",
+      "cancel_reason": "投递流程已结束，安排失效"
+    }
+  ],
+  "eventFacts": [
+    {
+      "id": 1,
+      "application_id": 1001,
+      "event_type": "INTERVIEW_SCHEDULED",
+      "interview_id": 20174,
+      "from_status": null,
+      "to_status": null,
+      "actor_type": "COMPANY"
+    },
+    {
+      "id": 2,
+      "application_id": 1001,
+      "event_type": "INTERVIEW_RESCHEDULED",
+      "interview_id": 20174,
+      "from_status": null,
+      "to_status": null,
+      "actor_type": "COMPANY"
+    },
+    {
+      "id": 3,
+      "application_id": 1001,
+      "event_type": "INTERVIEW_RESCHEDULED",
+      "interview_id": 20174,
+      "from_status": null,
+      "to_status": null,
+      "actor_type": "COMPANY"
+    },
+    {
+      "id": 4,
+      "application_id": 1001,
+      "event_type": "INTERVIEW_CANCELLED",
+      "interview_id": 20174,
+      "from_status": null,
+      "to_status": null,
+      "actor_type": "COMPANY"
+    },
+    {
+      "id": 5,
+      "application_id": 1001,
+      "event_type": "INTERVIEW_SCHEDULED",
+      "interview_id": 20175,
+      "from_status": null,
+      "to_status": null,
+      "actor_type": "COMPANY"
+    },
+    {
+      "id": 6,
+      "application_id": 1001,
+      "event_type": "STATUS_CHANGED",
+      "interview_id": null,
+      "from_status": 2,
+      "to_status": 3,
+      "actor_type": "COMPANY"
+    },
+    {
+      "id": 7,
+      "application_id": 1001,
+      "event_type": "INTERVIEW_CANCELLED",
+      "interview_id": 20175,
+      "from_status": null,
+      "to_status": null,
+      "actor_type": "SYSTEM"
+    },
+    {
+      "id": 8,
+      "application_id": 1009,
+      "event_type": "INTERVIEW_SCHEDULED",
+      "interview_id": 20176,
+      "from_status": null,
+      "to_status": null,
+      "actor_type": "COMPANY"
+    },
+    {
+      "id": 9,
+      "application_id": 1009,
+      "event_type": "INTERVIEW_RESCHEDULED",
+      "interview_id": 20176,
+      "from_status": null,
+      "to_status": null,
+      "actor_type": "COMPANY"
+    },
+    {
+      "id": 10,
+      "application_id": 1009,
+      "event_type": "INTERVIEW_CANCELLED",
+      "interview_id": 20176,
+      "from_status": null,
+      "to_status": null,
+      "actor_type": "COMPANY"
+    },
+    {
+      "id": 11,
+      "application_id": 1002,
+      "event_type": "INTERVIEW_CANCELLED",
+      "interview_id": 2002,
+      "from_status": null,
+      "to_status": null,
+      "actor_type": "COMPANY"
+    },
+    {
+      "id": 12,
+      "application_id": 1003,
+      "event_type": "INTERVIEW_SCHEDULED",
+      "interview_id": 20177,
+      "from_status": null,
+      "to_status": null,
+      "actor_type": "COMPANY"
+    },
+    {
+      "id": 13,
+      "application_id": 1007,
+      "event_type": "INTERVIEW_SCHEDULED",
+      "interview_id": 20178,
+      "from_status": null,
+      "to_status": null,
+      "actor_type": "COMPANY"
+    },
+    {
+      "id": 14,
+      "application_id": 1012,
+      "event_type": "INTERVIEW_SCHEDULED",
+      "interview_id": 20179,
+      "from_status": null,
+      "to_status": null,
+      "actor_type": "COMPANY"
+    },
+    {
+      "id": 15,
+      "application_id": 1013,
+      "event_type": "INTERVIEW_SCHEDULED",
+      "interview_id": 20180,
+      "from_status": null,
+      "to_status": null,
+      "actor_type": "COMPANY"
+    },
+    {
+      "id": 16,
+      "application_id": 1010,
+      "event_type": "STATUS_CHANGED",
+      "interview_id": null,
+      "from_status": 2,
+      "to_status": 4,
+      "actor_type": "COMPANY"
+    },
+    {
+      "id": 17,
+      "application_id": 1010,
+      "event_type": "INTERVIEW_CANCELLED",
+      "interview_id": 2010,
+      "from_status": null,
+      "to_status": null,
+      "actor_type": "SYSTEM"
+    },
+    {
+      "id": 18,
+      "application_id": 1024,
+      "event_type": "INTERVIEW_CANCELLED",
+      "interview_id": 2024,
+      "from_status": null,
+      "to_status": null,
+      "actor_type": "COMPANY"
+    },
+    {
+      "id": 19,
+      "application_id": 1015,
+      "event_type": "INTERVIEW_SCHEDULED",
+      "interview_id": 20181,
+      "from_status": null,
+      "to_status": null,
+      "actor_type": "COMPANY"
+    },
+    {
+      "id": 20,
+      "application_id": 1016,
+      "event_type": "INTERVIEW_SCHEDULED",
+      "interview_id": 20182,
+      "from_status": null,
+      "to_status": null,
+      "actor_type": "COMPANY"
+    },
+    {
+      "id": 21,
+      "application_id": 1019,
+      "event_type": "INTERVIEW_SCHEDULED",
+      "interview_id": 20183,
+      "from_status": null,
+      "to_status": null,
+      "actor_type": "COMPANY"
+    },
+    {
+      "id": 22,
+      "application_id": 1020,
+      "event_type": "INTERVIEW_SCHEDULED",
+      "interview_id": 20184,
+      "from_status": null,
+      "to_status": null,
+      "actor_type": "COMPANY"
+    },
+    {
+      "id": 23,
+      "application_id": 1022,
+      "event_type": "INTERVIEW_SCHEDULED",
+      "interview_id": 20185,
+      "from_status": null,
+      "to_status": null,
+      "actor_type": "COMPANY"
+    },
+    {
+      "id": 24,
+      "application_id": 1023,
+      "event_type": "INTERVIEW_SCHEDULED",
+      "interview_id": 20186,
+      "from_status": null,
+      "to_status": null,
+      "actor_type": "COMPANY"
+    },
+    {
+      "id": 25,
+      "application_id": 1028,
+      "event_type": "INTERVIEW_SCHEDULED",
+      "interview_id": 20187,
+      "from_status": null,
+      "to_status": null,
+      "actor_type": "COMPANY"
+    },
+    {
+      "id": 26,
+      "application_id": 1029,
+      "event_type": "INTERVIEW_SCHEDULED",
+      "interview_id": 20188,
+      "from_status": null,
+      "to_status": null,
+      "actor_type": "COMPANY"
+    },
+    {
+      "id": 29,
+      "application_id": 1014,
+      "event_type": "INTERVIEW_SCHEDULED",
+      "interview_id": 20190,
+      "from_status": null,
+      "to_status": null,
+      "actor_type": "COMPANY"
+    },
+    {
+      "id": 30,
+      "application_id": 1015,
+      "event_type": "INTERVIEW_RESCHEDULED",
+      "interview_id": 20181,
+      "from_status": null,
+      "to_status": null,
+      "actor_type": "COMPANY"
+    },
+    {
+      "id": 31,
+      "application_id": 1016,
+      "event_type": "INTERVIEW_CANCELLED",
+      "interview_id": 20182,
+      "from_status": null,
+      "to_status": null,
+      "actor_type": "COMPANY"
+    },
+    {
+      "id": 32,
+      "application_id": 1017,
+      "event_type": "STATUS_CHANGED",
+      "interview_id": null,
+      "from_status": 2,
+      "to_status": 3,
+      "actor_type": "COMPANY"
+    },
+    {
+      "id": 33,
+      "application_id": 1017,
+      "event_type": "INTERVIEW_CANCELLED",
+      "interview_id": 20172,
+      "from_status": null,
+      "to_status": null,
+      "actor_type": "SYSTEM"
+    },
+    {
+      "id": 34,
+      "application_id": 1017,
+      "event_type": "INTERVIEW_CANCELLED",
+      "interview_id": 20173,
+      "from_status": null,
+      "to_status": null,
+      "actor_type": "SYSTEM"
+    },
+    {
+      "id": 35,
+      "application_id": 1018,
+      "event_type": "INTERVIEW_SCHEDULED",
+      "interview_id": 20191,
+      "from_status": null,
+      "to_status": null,
+      "actor_type": "COMPANY"
+    },
+    {
+      "id": 36,
+      "application_id": 1019,
+      "event_type": "INTERVIEW_RESCHEDULED",
+      "interview_id": 20183,
+      "from_status": null,
+      "to_status": null,
+      "actor_type": "COMPANY"
+    },
+    {
+      "id": 37,
+      "application_id": 1020,
+      "event_type": "INTERVIEW_RESCHEDULED",
+      "interview_id": 20184,
+      "from_status": null,
+      "to_status": null,
+      "actor_type": "COMPANY"
+    },
+    {
+      "id": 38,
+      "application_id": 1021,
+      "event_type": "INTERVIEW_SCHEDULED",
+      "interview_id": 20192,
+      "from_status": null,
+      "to_status": null,
+      "actor_type": "COMPANY"
+    },
+    {
+      "id": 39,
+      "application_id": 1021,
+      "event_type": "STATUS_CHANGED",
+      "interview_id": null,
+      "from_status": 2,
+      "to_status": 3,
+      "actor_type": "COMPANY"
+    },
+    {
+      "id": 40,
+      "application_id": 1021,
+      "event_type": "INTERVIEW_CANCELLED",
+      "interview_id": 20192,
+      "from_status": null,
+      "to_status": null,
+      "actor_type": "SYSTEM"
+    },
+    {
+      "id": 41,
+      "application_id": 1022,
+      "event_type": "INTERVIEW_RESCHEDULED",
+      "interview_id": 20185,
+      "from_status": null,
+      "to_status": null,
+      "actor_type": "COMPANY"
+    },
+    {
+      "id": 42,
+      "application_id": 1022,
+      "event_type": "STATUS_CHANGED",
+      "interview_id": null,
+      "from_status": 2,
+      "to_status": 3,
+      "actor_type": "COMPANY"
+    },
+    {
+      "id": 43,
+      "application_id": 1022,
+      "event_type": "INTERVIEW_CANCELLED",
+      "interview_id": 20185,
+      "from_status": null,
+      "to_status": null,
+      "actor_type": "SYSTEM"
+    },
+    {
+      "id": 44,
+      "application_id": 1023,
+      "event_type": "INTERVIEW_CANCELLED",
+      "interview_id": 20186,
+      "from_status": null,
+      "to_status": null,
+      "actor_type": "COMPANY"
+    },
+    {
+      "id": 45,
+      "application_id": 1023,
+      "event_type": "STATUS_CHANGED",
+      "interview_id": null,
+      "from_status": 2,
+      "to_status": 4,
+      "actor_type": "COMPANY"
+    },
+    {
+      "id": 46,
+      "application_id": 1027,
+      "event_type": "STATUS_CHANGED",
+      "interview_id": null,
+      "from_status": 2,
+      "to_status": 3,
+      "actor_type": "COMPANY"
+    },
+    {
+      "id": 47,
+      "application_id": 1028,
+      "event_type": "STATUS_CHANGED",
+      "interview_id": null,
+      "from_status": 2,
+      "to_status": 3,
+      "actor_type": "COMPANY"
+    },
+    {
+      "id": 48,
+      "application_id": 1028,
+      "event_type": "INTERVIEW_CANCELLED",
+      "interview_id": 20187,
+      "from_status": null,
+      "to_status": null,
+      "actor_type": "SYSTEM"
+    },
+    {
+      "id": 49,
+      "application_id": 1029,
+      "event_type": "STATUS_CHANGED",
+      "interview_id": null,
+      "from_status": 2,
+      "to_status": 4,
+      "actor_type": "COMPANY"
+    },
+    {
+      "id": 50,
+      "application_id": 1029,
+      "event_type": "INTERVIEW_CANCELLED",
+      "interview_id": 20188,
+      "from_status": null,
+      "to_status": null,
+      "actor_type": "SYSTEM"
+    }
+  ],
+  "applicationFacts": [
+    {
+      "id": 501,
+      "status": 0,
+      "history_recorded_from_start": false
+    },
+    {
+      "id": 502,
+      "status": 2,
+      "history_recorded_from_start": false
+    },
+    {
+      "id": 503,
+      "status": 0,
+      "history_recorded_from_start": false
+    },
+    {
+      "id": 504,
+      "status": 3,
+      "history_recorded_from_start": false
+    },
+    {
+      "id": 505,
+      "status": 4,
+      "history_recorded_from_start": false
+    },
+    {
+      "id": 506,
+      "status": 1,
+      "history_recorded_from_start": false
+    },
+    {
+      "id": 1001,
+      "status": 3,
+      "history_recorded_from_start": false
+    },
+    {
+      "id": 1002,
+      "status": 2,
+      "history_recorded_from_start": false
+    },
+    {
+      "id": 1003,
+      "status": 2,
+      "history_recorded_from_start": false
+    },
+    {
+      "id": 1004,
+      "status": 0,
+      "history_recorded_from_start": false
+    },
+    {
+      "id": 1005,
+      "status": 3,
+      "history_recorded_from_start": false
+    },
+    {
+      "id": 1006,
+      "status": 4,
+      "history_recorded_from_start": false
+    },
+    {
+      "id": 1007,
+      "status": 2,
+      "history_recorded_from_start": false
+    },
+    {
+      "id": 1008,
+      "status": 2,
+      "history_recorded_from_start": false
+    },
+    {
+      "id": 1009,
+      "status": 2,
+      "history_recorded_from_start": false
+    },
+    {
+      "id": 1010,
+      "status": 4,
+      "history_recorded_from_start": false
+    },
+    {
+      "id": 1011,
+      "status": 2,
+      "history_recorded_from_start": false
+    },
+    {
+      "id": 1012,
+      "status": 2,
+      "history_recorded_from_start": false
+    },
+    {
+      "id": 1013,
+      "status": 2,
+      "history_recorded_from_start": false
+    },
+    {
+      "id": 1014,
+      "status": 2,
+      "history_recorded_from_start": false
+    },
+    {
+      "id": 1015,
+      "status": 2,
+      "history_recorded_from_start": false
+    },
+    {
+      "id": 1016,
+      "status": 2,
+      "history_recorded_from_start": false
+    },
+    {
+      "id": 1017,
+      "status": 3,
+      "history_recorded_from_start": false
+    },
+    {
+      "id": 1018,
+      "status": 2,
+      "history_recorded_from_start": false
+    },
+    {
+      "id": 1019,
+      "status": 2,
+      "history_recorded_from_start": false
+    },
+    {
+      "id": 1020,
+      "status": 2,
+      "history_recorded_from_start": false
+    },
+    {
+      "id": 1021,
+      "status": 3,
+      "history_recorded_from_start": false
+    },
+    {
+      "id": 1022,
+      "status": 3,
+      "history_recorded_from_start": false
+    },
+    {
+      "id": 1023,
+      "status": 4,
+      "history_recorded_from_start": false
+    },
+    {
+      "id": 1024,
+      "status": 2,
+      "history_recorded_from_start": false
+    },
+    {
+      "id": 1025,
+      "status": 2,
+      "history_recorded_from_start": false
+    },
+    {
+      "id": 1026,
+      "status": 2,
+      "history_recorded_from_start": false
+    },
+    {
+      "id": 1027,
+      "status": 3,
+      "history_recorded_from_start": false
+    },
+    {
+      "id": 1028,
+      "status": 3,
+      "history_recorded_from_start": false
+    },
+    {
+      "id": 1029,
+      "status": 4,
+      "history_recorded_from_start": false
+    },
+    {
+      "id": 1030,
+      "status": 3,
+      "history_recorded_from_start": false
+    }
+  ],
+  "compatibility": {
+    "suite": "第三阶段持久回归在阶段四代码上复跑",
+    "isolatedDatabase": "smart_recruit_application_events_1792918713931",
+    "requests": 135,
+    "assertions": 230,
+    "groups": [
+      {
+        "stage": "A",
+        "requests": 101,
+        "assertions": 166,
+        "failedAssertions": 0,
+        "failedRequests": 0,
+        "duration": "113.88s"
+      },
+      {
+        "stage": "B",
+        "requests": 10,
+        "assertions": 18,
+        "failedAssertions": 0,
+        "failedRequests": 0,
+        "duration": "11.61s"
+      },
+      {
+        "stage": "C",
+        "requests": 10,
+        "assertions": 18,
+        "failedAssertions": 0,
+        "failedRequests": 0,
+        "duration": "11.53s"
+      },
+      {
+        "stage": "D",
+        "requests": 14,
+        "assertions": 28,
+        "failedAssertions": 0,
+        "failedRequests": 0,
+        "duration": "15.48s"
+      }
+    ],
+    "sourceUnchanged": true,
+    "sourceSha256": "112b2fd0f2690d6c1507b41a97787cda477a562f506b117ba68ebe3f5d8b0da6",
+    "applicationCount": 13,
+    "eventCount": 17,
+    "newHistoryCompleteCount": 7,
+    "interviewEvidenceVerified": true,
+    "remainingTriggers": [],
+    "serverStoppedAt": "2026-10-25T17:04:35"
+  },
+  "totalRequests": 359,
+  "totalAssertions": 624,
+  "allRegressionGuardsDisabled": true
+}

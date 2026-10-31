@@ -10,10 +10,12 @@ import com.recruit.smartrecruit.vo.JobRecruitmentProgressVO;
 import com.recruit.smartrecruit.vo.RecentApplicationVO;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Mapper
@@ -123,13 +125,25 @@ public interface ApplicationMapper {
     List<RecentApplicationVO> findRecentByJobId(@Param("jobId") Long jobId,
                                               @Param("limit") int limit);
 
-    // 状态修改读取原始投递，不依赖简历、账号等展示关联信息是否存在。
+    // 权限定位读取原始投递，不依赖简历、账号等展示关联信息是否存在。
     @Select("""
-            SELECT id, user_id, job_id, resume_id, status, has_interviewed, create_time, update_time
+            SELECT id, user_id, job_id, resume_id, status, has_interviewed,
+                history_recorded_from_start, create_time, update_time
             FROM job_application
             WHERE id=#{id}
             """)
     Application findById(@Param("id") Long id);
+
+    // 身份和岗位归属校验后锁定父投递；当前读不使用先前普通查询的状态快照。
+    @Select("""
+            SELECT id, user_id, job_id, resume_id, status, has_interviewed,
+                history_recorded_from_start, create_time, update_time
+            FROM job_application
+            WHERE id = #{id} AND job_id = #{jobId}
+            FOR UPDATE
+            """)
+    @Options(useCache = false, flushCache = Options.FlushCachePolicy.TRUE)
+    Application findByIdForUpdate(@Param("id") Long id, @Param("jobId") Long jobId);
 
     @Select("""
             SELECT *
@@ -145,17 +159,24 @@ public interface ApplicationMapper {
                 job_id,
                 resume_id,
                 status,
-                has_interviewed
+                has_interviewed,
+                history_recorded_from_start,
+                create_time,
+                update_time
             )VALUES
             (
                 #{userId},
                 #{jobId},
                 #{resumeId},
                 #{status},
-                FALSE
+                FALSE,
+                #{historyRecordedFromStart},
+                #{createTime},
+                #{updateTime}
             )
             """)
-    void apply(Application newApplication);
+    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
+    int apply(Application newApplication);
     @Select("""
         SELECT
             ja.id,
@@ -192,7 +213,8 @@ public interface ApplicationMapper {
                     OR status = #{interviewStatus.code} THEN TRUE
                 ELSE has_interviewed
             END,
-            status=#{targetStatus.code}
+            status=#{targetStatus.code},
+            update_time=#{updatedAt}
             WHERE id=#{id}
                 AND job_id=#{jobId}
                 AND status=#{expectedStatus.code}
@@ -201,7 +223,8 @@ public interface ApplicationMapper {
                      @Param("jobId") Long jobId,
                      @Param("expectedStatus") ApplicationStatus expectedStatus,
                      @Param("targetStatus") ApplicationStatus targetStatus,
-                     @Param("interviewStatus") ApplicationStatus interviewStatus);
+                     @Param("interviewStatus") ApplicationStatus interviewStatus,
+                     @Param("updatedAt") LocalDateTime updatedAt);
     @Select("""
         SELECT
             ja.id,
