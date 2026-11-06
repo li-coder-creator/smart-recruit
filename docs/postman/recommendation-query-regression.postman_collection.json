@@ -1,0 +1,4839 @@
+{
+  "info": {
+    "name": "推荐查询持久回归",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "所有用例已加入SmartRecruit API - Optimized Regression / 03 Job。仅隔离端口18091；全部业务请求只读；夹具数据由受保护的本地脚本建立。"
+  },
+  "item": [
+    {
+      "name": "A",
+      "item": [
+        {
+          "name": "001 登录回归身份1",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"rq_input_1\",\"password\":\"{{rqPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('rqToken1',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "002 核对身份1",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"身份角色\",()=>{pm.expect(b.data.id).eq(101);pm.expect(b.data.role).eq('JOB_SEEKER');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "003 获取推荐选项与默认规则",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/job/recommendations/options",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"选项不含演示默认偏好\",()=>{pm.expect(b.data.defaultExcludeApplied).eq(true);pm.expect(b.data.defaultExcludeExpired).eq(true);pm.expect(b.data.defaultStrictCity).eq(false);pm.expect(b.data.semanticEnabled).eq(false);pm.expect(b.data.salaryUnit).eq('元/月');pm.expect(b.data.directions.map(x=>x.code)).deep.eq(['BACKEND','FRONTEND']);pm.expect(b.data.presets).lengthOf(3);pm.expect(b.data.presets[0].weights.SKILL).eq(35);pm.expect(b.data.cities.some(x=>x.code==='XIAN')).eq(true);pm.expect(b.data.versions.embeddingModelVersion).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "004 获取所选简历默认上下文",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/job/recommendations/context?resumeId=901",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"来自真实所选简历\",()=>{pm.expect(b.data.resumeId).eq(901);pm.expect(b.data.preferences.directionCode).eq('BACKEND');pm.expect(b.data.preferences.cityCode).eq('SHANGHAI');pm.expect(b.data.preferences.salaryMax).eq(20000);pm.expect(b.data.actualFormalMonths).eq(0);pm.expect(b.data.highestEducation).eq('BACHELOR');pm.expect(b.data.skills).lengthOf(3);pm.expect(b.data.asOfDate).eq(pm.environment.get('rqAsOfDate'));pm.expect(b.data).not.have.property('phone');pm.expect(b.data).not.have.property('email');});pm.collectionVariables.set('rqDefaultContext',JSON.stringify(b.data));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "005 默认分页无需演示偏好",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"默认分页和总数\",()=>{pm.expect(b.data.page).eq(1);pm.expect(b.data.size).eq(10);pm.expect(b.data.items).lengthOf(10);pm.expect(b.data.total).eq(19);pm.expect(b.data.excludeApplied).eq(true);pm.expect(b.data.excludeExpired).eq(true);pm.expect(b.data.items[0].jobId).eq(1999);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "006 全局推荐资格过滤与可解释分数",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"size\":100}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"全局结果与手算\",()=>{pm.expect(b.data.total).eq(19);pm.expect(b.data.items).lengthOf(19);const ids=b.data.items.map(x=>x.jobId);for(const id of [1009,1011,1012,1013,1014,1015,1016,1017,1018,1019,1021])pm.expect(ids).not.include(id);pm.expect(b.data.items[0].jobId).eq(1999);pm.expect(b.data.items.find(x=>x.jobId===1002).totalScore).eq(70.5);pm.expect(b.data.items.find(x=>x.jobId===1003).totalScore).eq(69);pm.expect(b.data.items.find(x=>x.jobId===1004).totalScore).eq(51.75);pm.expect(b.data.items.find(x=>x.jobId===1003).excludedWeight).eq(25);pm.expect(b.data.items.find(x=>x.jobId===1004).dataCoverage).eq(75);pm.expect(b.data.items.every(x=>x.applied===false&&x.expired===false)).eq(true);pm.expect(b.data.items.every(x=>x.companyId===201)).eq(true);pm.expect(b.data.items.find(x=>x.jobId===1002).applied).eq(false);pm.expect(b.data.items.at(-1).totalScore).eq(null);pm.expect(b.data.items[0]).not.have.property('unroundedScore');});pm.collectionVariables.set('rqFullIds',JSON.stringify(b.data.items.map(x=>x.jobId)));pm.test(\"来源版本与逐项证据\",()=>{const x=b.data.items.find(x=>x.jobId===1022);pm.expect(x.requiredAbilitiesSource).eq('STRUCTURED');pm.expect(x.requiredAbilitiesVersion).eq(7);pm.expect(x.abilityMatches).lengthOf(2);pm.expect(x.abilityMatches[0].requirements).lengthOf(2);pm.expect(x.abilityMatches[0].candidateEvidence.rawText).eq('Java');pm.expect(x.totalScore).eq(82.5);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "007 三种状态与空能力不可回退",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"size\":100}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"UNKNOWN和不可比较\",()=>{pm.expect(b.data.items.find(x=>x.jobId===1002).dimensions.find(x=>x.dimension==='EDUCATION').score).eq(0);pm.expect(b.data.items.find(x=>x.jobId===1002).dimensions.find(x=>x.dimension==='EDUCATION').meetsRequirement).eq(false);pm.expect(b.data.items.find(x=>x.jobId===1003).dimensions.find(x=>x.dimension==='SALARY').state).eq('NOT_APPLICABLE');pm.expect(b.data.items.find(x=>x.jobId===1004).dimensions.find(x=>x.dimension==='SALARY').state).eq('UNKNOWN');pm.expect(b.data.items.find(x=>x.jobId===1004).dimensions.find(x=>x.dimension==='SALARY').effectiveWeightRatio).eq(0.25);for(const id of [1005,1006,1007]){const x=b.data.items.find(x=>x.jobId===id);pm.expect(x.totalScore).eq(null);pm.expect(x.scoreReason).eq('CORE_SKILLS_UNKNOWN');}pm.expect(b.data.items.find(x=>x.jobId===1007).abilityMatches[0].reason).eq('SEMANTIC_NOT_CONFIGURED');pm.expect(b.data.items.find(x=>x.jobId===1006).abilityMatches).deep.eq([]);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "008 默认排除截止但截止当天保留",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"size\":100}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"边界日\",()=>{const today=b.data.items.find(x=>x.jobId===1010);pm.expect(today.deadline).eq(pm.environment.get('rqAsOfDate'));pm.expect(today.expired).eq(false);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "009 关闭已投递排除按用户而非简历判断",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"size\":100,\"excludeApplied\":false}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"已拒绝及其它简历投递仍标记\",()=>{pm.expect(b.data.total).eq(20);pm.expect(b.data.items.find(x=>x.jobId===1011).applied).eq(true);pm.expect(b.data.items.some(x=>x.jobId===1012)).eq(false);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "010 关闭过期排除但继续排除已投递",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"size\":100,\"excludeExpired\":false}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"开关独立\",()=>{pm.expect(b.data.total).eq(20);pm.expect(b.data.items.find(x=>x.jobId===1009).expired).eq(true);pm.expect(b.data.items.some(x=>x.jobId===1012)).eq(false);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "011 同时关闭两个排除开关",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"size\":100,\"excludeApplied\":false,\"excludeExpired\":false}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"全部可选历史\",()=>{pm.expect(b.data.total).eq(22);const x=b.data.items.find(x=>x.jobId===1012);pm.expect(x.applied).eq(true);pm.expect(x.expired).eq(true);for(const id of [1013,1014,1015,1016,1017])pm.expect(b.data.items.map(x=>x.jobId)).not.include(id);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "012 严格城市识别英文与中文别名",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"size\":100,\"strictCity\":true,\"preferences\":{\"city\":\"上海市\"}}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"同城结果\",()=>{pm.expect(b.data.total).eq(18);pm.expect(b.data.items.every(x=>x.city==='上海')).eq(true);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "013 期望深圳只保留深圳岗位",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"size\":100,\"strictCity\":true,\"preferences\":{\"city\":\"Shenzhen\"}}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"同城100\",()=>{pm.expect(b.data.total).eq(1);pm.expect(b.data.items[0].jobId).eq(1008);pm.expect(b.data.items[0].totalScore).eq(100);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "014 城市代码来自options可直接回传",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"size\":100,\"strictCity\":true,\"preferences\":{\"city\":\"XIAN\"}}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"合法无结果\",()=>{pm.expect(b.data.total).eq(0);pm.expect(b.data.items).deep.eq([]);pm.expect(b.data.appliedPreferences.cityCode).eq('XIAN');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "015 明确覆盖方向优先于默认后端文本",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"size\":100,\"preferences\":{\"directionCode\":\"FRONTEND\"}}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"前端方向\",()=>{pm.expect(b.data.total).eq(1);pm.expect(b.data.items[0].jobId).eq(1018);pm.expect(b.data.appliedPreferences.directionCode).eq('FRONTEND');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "016 只按月薪上限排序",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"size\":100,\"sort\":\"SALARY_DESC\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"非月薪与面议不混排金额\",()=>{pm.expect(b.data.items[0].jobId).eq(1028);pm.expect(b.data.items[1].jobId).eq(1027);const ids=b.data.items.map(x=>x.jobId);pm.expect(ids.indexOf(1023)).greaterThan(ids.indexOf(1001));pm.expect(ids.indexOf(1024)).greaterThan(ids.indexOf(1001));});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "017 全局排序后第一页",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"size\":1,\"page\":1}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"全局第一\",()=>{pm.expect(b.data.total).eq(19);pm.expect(b.data.items.map(x=>x.jobId)).deep.eq(JSON.parse(pm.collectionVariables.get('rqFullIds')).slice(0,1));});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "018 全局排序后第二页",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"size\":3,\"page\":2}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"与全局切片一致\",()=>{pm.expect(b.data.items.map(x=>x.jobId)).deep.eq(JSON.parse(pm.collectionVariables.get('rqFullIds')).slice(3,6));});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "019 页码超过总数仍成功空页",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"size\":100,\"page\":2147483647}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"无整数溢出\",()=>{pm.expect(b.data.total).eq(19);pm.expect(b.data.items).deep.eq([]);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "020 薪资优先预设",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"size\":100,\"preset\":\"SALARY_FIRST\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"请求权重\",()=>{pm.expect(b.data.requestedWeights.SALARY).eq(70);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "021 同城优先预设",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"size\":100,\"preset\":\"CITY_FIRST\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"请求权重\",()=>{pm.expect(b.data.requestedWeights.CITY).eq(60);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "022 自定义相对权重无需凑成100",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"size\":100,\"weights\":{\"skill\":1,\"salary\":1,\"city\":1,\"experience\":1,\"education\":1}}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"归一化\",()=>{pm.expect(b.data.items.find(x=>x.jobId===1002).totalScore).eq(61);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "023 显式忽略技能仍保留技能未知事实",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"size\":100,\"weights\":{\"skill\":0,\"salary\":100,\"city\":0,\"experience\":0,\"education\":0}}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"核心技能忽略\",()=>{const x=b.data.items.find(x=>x.jobId===1007);pm.expect(x.totalScore).eq(100);pm.expect(x.dimensions.find(x=>x.dimension==='SKILL').state).eq('UNKNOWN');pm.expect(x.dimensions.find(x=>x.dimension==='SKILL').ignored).eq(true);const day=b.data.items.find(x=>x.jobId===1003);pm.expect(day.totalScore).eq(null);pm.expect(day.scoreReason).eq('NO_COMPARABLE_DIMENSIONS');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "024 仅实习且确认NONE正式工龄0",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":904,\"size\":100}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"经验55\",()=>{pm.expect(b.data.items.find(x=>x.jobId===1002).dimensions.find(x=>x.dimension==='EXPERIENCE').score).eq(55);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "025 正式经历合并18个月及在读硕士",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":905,\"size\":100}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"经验学历实证\",()=>{pm.expect(b.data.items.find(x=>x.jobId===1029).dimensions.find(x=>x.dimension==='EXPERIENCE').score).eq(32.5);pm.expect(b.data.items.find(x=>x.jobId===1029).dimensions.find(x=>x.dimension==='EDUCATION').score).eq(100);pm.expect(b.data.items.find(x=>x.jobId===1029).totalScore).eq(93.25);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "026 没有默认偏好上下文不填演示值",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/job/recommendations/context?resumeId=903",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"缺失保持缺失\",()=>{pm.expect(b.data.directionRequired).eq(true);pm.expect(b.data.preferences.directionCode).eq(null);pm.expect(b.data.preferences.city).eq(null);pm.expect(b.data.preferences.salaryMax).eq(null);pm.expect(b.data.actualFormalMonths).eq(null);pm.expect(b.data.highestEducation).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "027 空简历选择明确方向后允许返回未知评分",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":903,\"size\":100,\"preferences\":{\"directionCode\":\"BACKEND\"}}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"不冒充零能力或满分\",()=>{pm.expect(b.data.total).eq(19);pm.expect(b.data.items.every(x=>x.totalScore===null)).eq(true);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "028 旧意向薪资矛盾进入UNKNOWN而不污染总请求",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":906,\"size\":100}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"不误排除分母\",()=>{pm.expect(b.data.items.find(x=>x.jobId===1002).dimensions.find(x=>x.dimension==='SALARY').state).eq('UNKNOWN');pm.expect(b.data.items.find(x=>x.jobId===1002).totalScore).eq(51.75);});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "B",
+      "item": [
+        {
+          "name": "029 登录回归身份1",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"rq_input_1\",\"password\":\"{{rqPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('rqToken1',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "030 核对身份1",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"身份角色\",()=>{pm.expect(b.data.id).eq(101);pm.expect(b.data.role).eq('JOB_SEEKER');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "031 拒绝非法请求 0",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "032 拒绝非法请求 1",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":null}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "033 拒绝非法请求 2",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":0}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "034 拒绝非法请求 3",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":-1}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "035 拒绝非法请求 4",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":\"901\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "036 拒绝非法请求 5",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901.5}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "037 拒绝非法请求 6",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"page\":0}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "038 拒绝非法请求 7",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"page\":null}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "039 拒绝非法请求 8",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"page\":1.5}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "040 拒绝非法请求 9",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"page\":\"1\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "041 拒绝非法请求 10",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"size\":0}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "042 拒绝非法请求 11",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"size\":101}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "043 拒绝非法请求 12",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"size\":2147483648}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "044 拒绝非法请求 13",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"sort\":\"NEWEST\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "045 拒绝非法请求 14",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"sort\":0}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "046 拒绝非法请求 15",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"sort\":null}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "047 拒绝非法请求 16",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"preset\":\"BAD\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "048 拒绝非法请求 17",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"preset\":0}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "049 拒绝非法请求 18",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"strictCity\":null}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "050 拒绝非法请求 19",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"strictCity\":\"false\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "051 拒绝非法请求 20",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"excludeApplied\":null}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "052 拒绝非法请求 21",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"excludeApplied\":1}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "053 拒绝非法请求 22",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"excludeExpired\":null}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "054 拒绝非法请求 23",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"excludeExpired\":\"true\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "055 拒绝非法请求 24",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"weights\":{\"skill\":0,\"salary\":0,\"city\":0,\"experience\":0,\"education\":0}}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "056 拒绝非法请求 25",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"weights\":{\"skill\":35}}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "057 拒绝非法请求 26",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"weights\":{\"skill\":-1,\"salary\":1,\"city\":1,\"experience\":1,\"education\":1}}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "058 拒绝非法请求 27",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"weights\":{\"skill\":101,\"salary\":0,\"city\":0,\"experience\":0,\"education\":0}}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "059 拒绝非法请求 28",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"weights\":{\"skill\":35.5,\"salary\":25,\"city\":20,\"experience\":10,\"education\":10}}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "060 拒绝非法请求 29",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"weights\":{\"skill\":\"35\",\"salary\":25,\"city\":20,\"experience\":10,\"education\":10}}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "061 拒绝非法请求 30",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"weights\":{\"skill\":35,\"salary\":25,\"city\":20,\"experience\":10,\"education\":10,\"extra\":1}}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "062 拒绝非法请求 31",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"preset\":\"BALANCED\",\"weights\":{\"skill\":1,\"salary\":1,\"city\":1,\"experience\":1,\"education\":1}}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "063 拒绝非法请求 32",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"preferences\":{\"directionCode\":\"OTHER\"}}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "064 拒绝非法请求 33",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"preferences\":{\"directionCode\":0}}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "065 拒绝非法请求 34",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"preferences\":{\"directionCode\":null}}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "066 拒绝非法请求 35",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"preferences\":{\"salaryMax\":0}}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "067 拒绝非法请求 36",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"preferences\":{\"salaryMax\":-1}}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "068 拒绝非法请求 37",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"preferences\":{\"salaryMax\":\"20000\"}}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "069 拒绝非法请求 38",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"preferences\":{\"salaryMax\":1.5}}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "070 拒绝非法请求 39",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"preferences\":{\"salaryMin\":30000,\"salaryMax\":20000}}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "071 拒绝非法请求 40",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"preferences\":{\"city\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\"}}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "072 拒绝非法请求 41",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"strictCity\":true,\"preferences\":{\"city\":null}}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "073 拒绝非法请求 42",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"strictCity\":true,\"preferences\":{\"city\":\"华东\"}}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "074 拒绝非法请求 43",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"preferences\":{\"id\":1}}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "075 拒绝非法请求 44",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"userId\":102}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "076 拒绝非法请求 45",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"status\":0}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "077 拒绝非法请求 46",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"asOfDate\":\"2020-01-01\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "078 拒绝非法请求 47",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":903}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "079 拒绝非法上下文ID",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/job/recommendations/context",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "080 拒绝非法上下文ID",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/job/recommendations/context?resumeId=0",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "081 拒绝非法上下文ID",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/job/recommendations/context?resumeId=-1",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "082 拒绝非法上下文ID",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/job/recommendations/context?resumeId=abc",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "083 不存在简历不泄露其它资料",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":999999,\"size\":100}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "C",
+      "item": [
+        {
+          "name": "084 登录回归身份1",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"rq_input_1\",\"password\":\"{{rqPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('rqToken1',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "085 核对身份1",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"身份角色\",()=>{pm.expect(b.data.id).eq(101);pm.expect(b.data.role).eq('JOB_SEEKER');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "086 登录回归身份2",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"rq_input_2\",\"password\":\"{{rqPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('rqToken2',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "087 核对身份2",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken2}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"身份角色\",()=>{pm.expect(b.data.id).eq(102);pm.expect(b.data.role).eq('JOB_SEEKER');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "088 登录回归身份3",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"rq_input_3\",\"password\":\"{{rqPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('rqToken3',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "089 核对身份3",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken3}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"身份角色\",()=>{pm.expect(b.data.id).eq(103);pm.expect(b.data.role).eq('COMPANY');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "090 登录回归身份4",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"rq_input_4\",\"password\":\"{{rqPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('rqToken4',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "091 核对身份4",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken4}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"身份角色\",()=>{pm.expect(b.data.id).eq(104);pm.expect(b.data.role).eq('ADMIN');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "092 他人简历不能作为推荐依据",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":902,\"size\":100}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "093 他人简历上下文不可读",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/job/recommendations/context?resumeId=902",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "094 求职者只能推荐自己的简历",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken2}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"size\":100}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "095 另一个求职者自己的简历可查询",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken2}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":902,\"size\":100}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"已投递标记隔离\",()=>{pm.expect(b.data.items.some(x=>x.jobId===1002)).eq(false);pm.expect(b.data.items.some(x=>x.jobId===1011)).eq(true);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "096 非求职者不能读选项",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/job/recommendations/options",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken3}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "097 非求职者不能读上下文",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/job/recommendations/context?resumeId=901",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken3}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "098 非求职者不能查询",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken3}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"size\":100}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "099 非求职者不能读选项",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/job/recommendations/options",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken4}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "100 非求职者不能读上下文",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/job/recommendations/context?resumeId=901",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken4}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "101 非求职者不能查询",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken4}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"size\":100}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "102 匿名不能读选项",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/job/recommendations/options",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": []
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('未登录HTTP401',()=>pm.expect(pm.response.code).eq(401));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "103 匿名不能读上下文",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/job/recommendations/context?resumeId=901",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": []
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('未登录HTTP401',()=>pm.expect(pm.response.code).eq(401));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "104 匿名不能查询",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"size\":100}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('未登录HTTP401',()=>pm.expect(pm.response.code).eq(401));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "D",
+      "item": [
+        {
+          "name": "105 登录回归身份1",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"rq_input_1\",\"password\":\"{{rqPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('rqToken1',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "106 核对身份1",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"身份角色\",()=>{pm.expect(b.data.id).eq(101);pm.expect(b.data.role).eq('JOB_SEEKER');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "107 保存原始求职意向",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/resume/901/preference",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('rqBeforePreference',JSON.stringify(b.data));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "108 保存原始上下文",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/job/recommendations/context?resumeId=901",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('rqBeforeContext',JSON.stringify(b.data));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "109 本次覆盖城市方向薪资不写回",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"size\":100,\"preferences\":{\"directionCode\":\"FRONTEND\",\"city\":\"深圳\",\"salaryMin\":30000,\"salaryMax\":40000}}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "110 显式null清空本次城市和薪资",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"size\":100,\"preferences\":{\"city\":null,\"salaryMax\":null}}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"本次未知保留权重\",()=>{pm.expect(b.data.appliedPreferences.city).eq(null);pm.expect(b.data.appliedPreferences.salaryMax).eq(null);pm.expect(b.data.items.find(x=>x.jobId===1002).dimensions.find(x=>x.dimension==='CITY').state).eq('UNKNOWN');pm.expect(b.data.items.find(x=>x.jobId===1002).dimensions.find(x=>x.dimension==='SALARY').state).eq('UNKNOWN');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "111 覆盖后默认上下文不变",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/job/recommendations/context?resumeId=901",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"失败后全部业务字段未变\",()=>{pm.expect(b.data).deep.eq(JSON.parse(pm.collectionVariables.get('rqBeforeContext')))});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "112 覆盖后数据库求职意向不变",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/resume/901/preference",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"失败后全部业务字段未变\",()=>{pm.expect(b.data).deep.eq(JSON.parse(pm.collectionVariables.get('rqBeforePreference')))});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "113 多次相同查询结果稳定",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"size\":100}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('rqRepeated',JSON.stringify(b.data));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "114 重复查询逐项一致",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/job/recommendations",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"resumeId\":901,\"size\":100}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"失败后全部业务字段未变\",()=>{pm.expect(b.data).deep.eq(JSON.parse(pm.collectionVariables.get('rqRepeated')))});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "115 同时查询不产生共享可变状态",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/job/recommendations/context?resumeId=901",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runRecommendationQueryRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18091'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});let done=0;const values=[];for(let i=0;i<2;i++)pm.sendRequest({url:pm.environment.get('rqHost')+'/job/recommendations',method:'POST',header:{Authorization:'Bearer '+pm.collectionVariables.get('rqToken1'),'Content-Type':'application/json'},body:{mode:'raw',raw:JSON.stringify({resumeId:901,size:100})}},(err,res)=>{pm.test('并发只读请求成功',()=>{pm.expect(err).eq(null);pm.expect(res.code).eq(200);pm.expect(res.json().code).eq(200);});if(!err)values.push(res.json().data);if(++done===2)pm.test('并发结果一致',()=>pm.expect(values[0]).deep.eq(values[1]));});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

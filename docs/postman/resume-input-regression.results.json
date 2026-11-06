@@ -1,0 +1,29 @@
+{
+  "date": "2026-11-01",
+  "collectionName": "SmartRecruit API - Optimized Regression",
+  "persistentRequests": 133,
+  "totalHttpRequests": 137,
+  "totalAssertions": 181,
+  "phases": {
+    "A": {"requests": 115, "assertions": 146, "failedRequests": 0, "failedAssertions": 0},
+    "B": {"requests": 7, "assertions": 11, "failedRequests": 0, "failedAssertions": 0},
+    "C": {"requests": 5, "assertions": 7, "failedRequests": 0, "failedAssertions": 0},
+    "D": {"requests": 10, "assertions": 17, "failedRequests": 0, "failedAssertions": 0}
+  },
+  "unitContractTests": 11,
+  "audit": {
+    "fixtureTriggersRemoved": true,
+    "noneDeclarationConsistent": true,
+    "sourceUnchanged": true,
+    "sourceSha256": "e59930d9da0a40319c9706d5a9de269c7fb245a28695b66edbe2b682fcefa00e"
+  },
+  "cleanup": {"postmanGuardsDisabled": true, "isolatedServiceStopped": true},
+  "earlierAttempt": {
+    "phase": "A",
+    "requests": 13,
+    "assertions": 19,
+    "failedRequests": 1,
+    "failedAssertions": 0,
+    "reason": "Transport interruption; complete rerun passed. Excluded from passing-run totals."
+  }
+}

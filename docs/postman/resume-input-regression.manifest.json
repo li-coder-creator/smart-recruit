@@ -1,0 +1,22 @@
+{
+  "mainCollectionId": "56227183-00855bc5-e68c-4aab-bdc2-faffe0f70f82",
+  "folderId": "af308108-9cde-2960-d17f-fe36fee3e958",
+  "runners": {
+    "A": "56227183-39789e33-7830-48ae-922c-fe9bc479b452",
+    "B": "56227183-7b437e87-ce36-4854-819b-f2e6706e513c",
+    "C": "56227183-371f8359-e243-4daa-8f2d-fbcec499ea5e",
+    "D": "56227183-a1ee2288-4291-41f6-a9ce-21f78087e892"
+  },
+  "folders": {
+    "A": "39cf5ed3-531a-87fb-293c-f2d58e4eb095",
+    "B": "0a89fd64-3f28-6212-1805-1e2e343b0f22",
+    "C": "d56691f3-d561-f19e-abf9-03b078a1cded",
+    "D": "c181182d-8fb6-b12a-d04b-13e97a4107cf"
+  },
+  "requestsByStage": {
+    "A": 115,
+    "B": 7,
+    "C": 5,
+    "D": 6
+  }
+}

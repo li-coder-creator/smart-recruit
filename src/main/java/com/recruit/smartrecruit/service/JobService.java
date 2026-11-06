@@ -1,20 +1,21 @@
 package com.recruit.smartrecruit.service;
 
 import com.recruit.smartrecruit.common.PageResult;
-import com.recruit.smartrecruit.dto.JobSaveDTO;
+import com.recruit.smartrecruit.dto.JobContentSaveDTO;
 import com.recruit.smartrecruit.entity.Job;
 import com.recruit.smartrecruit.entity.enums.JobListFilter;
+import com.recruit.smartrecruit.entity.enums.JobBrowseSort;
 import com.recruit.smartrecruit.vo.*;
 import jakarta.validation.Valid;
 
 import java.util.List;
 
 public interface JobService {
-    void add(JobSaveDTO jobSaveDTO, Long userId);
+    void add(JobContentSaveDTO jobSaveDTO, Long userId);
 
-    void saveDraft(JobSaveDTO jobSaveDTO, Long userId);
+    void saveDraft(JobContentSaveDTO jobSaveDTO, Long userId);
 
-    void update(JobSaveDTO jobSaveDTO,Long id, Long userId);
+    void update(JobContentSaveDTO jobSaveDTO,Long id, Long userId);
 
     void publishDraft(long id, Long userId);
 
@@ -26,13 +27,13 @@ public interface JobService {
 
     void delete(long id, Long userId);
 
-    PageResult<JobListVO> findJob(Long userId, int pageNum, int pageSize ,String keyword);
+    PageResult<JobListVO> findJob(Long userId, int pageNum, int pageSize, String keyword, JobBrowseSort sort);
 
     PageResult<CompanyJobListVO> findCompanyJob(Long userId, int pageNum, int pageSize ,String keyword, JobListFilter filter);
 
-    JobDetailVO findById(long id, Long userId);
+    JobContentDetailVO findById(long id, Long userId);
 
-    JobDetailVO findByCompanyId(long id, Long userId);
+    JobContentDetailVO findByCompanyId(long id, Long userId);
 
     CompanyJobOverviewVO companyOverview(Long userId);
 

@@ -1,0 +1,106 @@
+{
+  "date": "2026-11-01",
+  "collectionName": "SmartRecruit API - Optimized Regression",
+  "folder": "03 Job / 推荐查询回归 2026-11-01",
+  "persistentRequests": 115,
+  "totalHttpRequests": 117,
+  "totalAssertions": 157,
+  "phases": {
+    "A": {
+      "requests": 28,
+      "assertions": 56,
+      "failedRequests": 0,
+      "failedAssertions": 0,
+      "persistentRequests": 28
+    },
+    "B": {
+      "requests": 55,
+      "assertions": 56,
+      "failedRequests": 0,
+      "failedAssertions": 0,
+      "persistentRequests": 55
+    },
+    "C": {
+      "requests": 21,
+      "assertions": 26,
+      "failedRequests": 0,
+      "failedAssertions": 0,
+      "persistentRequests": 21
+    },
+    "D": {
+      "requests": 13,
+      "assertions": 19,
+      "failedRequests": 0,
+      "failedAssertions": 0,
+      "persistentRequests": 11
+    }
+  },
+  "unitTests": 170,
+  "newQueryUnitTests": 42,
+  "suites": [
+    {
+      "name": "com.recruit.smartrecruit.recommendation.FeatureNormalizerTest",
+      "tests": 40,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "com.recruit.smartrecruit.recommendation.SkillMatcherTest",
+      "tests": 39,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "com.recruit.smartrecruit.recommendation.RecommendationCalculatorTest",
+      "tests": 28,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "com.recruit.smartrecruit.RecommendationInputContractTest",
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "com.recruit.smartrecruit.JobAbilityContentPolicyTest",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "com.recruit.smartrecruit.recommendation.RecommendationQueryContractTest",
+      "tests": 33,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "com.recruit.smartrecruit.recommendation.RecommendationQueryServiceTest",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "audit": {
+    "noTestTriggers": true,
+    "fixtureSha256": "fb89ea1c386d7fc1c806cd66ad5b56017539c0123a5a266bfff4e2e03891feaa",
+    "sourceUnchanged": true,
+    "sourceSha256": "e59930d9da0a40319c9706d5a9de269c7fb245a28695b66edbe2b682fcefa00e",
+    "fixtureBusinessDataUnchanged": true
+  },
+  "cleanup": {
+    "postmanExecutionGuardsVerifiedOff": true,
+    "ownedServerStopped": true,
+    "ownedRedisKeysCleaned": true
+  },
+  "semanticEnabled": false,
+  "modelVersion": null,
+  "calibrationVersion": null
+}

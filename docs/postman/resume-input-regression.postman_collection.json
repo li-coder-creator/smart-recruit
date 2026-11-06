@@ -1,0 +1,5425 @@
+{
+  "info": {
+    "name": "推荐输入接入持久回归",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "所有用例已加入SmartRecruit API - Optimized Regression / 04 Resume。仅隔离端口18089；B前开启故障、B后解除；D前开启延迟、D后清理。"
+  },
+  "item": [
+    {
+      "name": "A",
+      "item": [
+        {
+          "name": "001 登录隔离身份1",
+          "request": {
+            "method": "POST",
+            "url": "{{rsHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"rs_input_1\",\"password\":\"{{rsPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('rsToken1',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "002 核对身份1",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"ID与角色\",()=>{pm.expect(b.data.id).eq(101);pm.expect(b.data.role).eq('JOB_SEEKER');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "003 登录隔离身份2",
+          "request": {
+            "method": "POST",
+            "url": "{{rsHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"rs_input_2\",\"password\":\"{{rsPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('rsToken2',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "004 核对身份2",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken2}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"ID与角色\",()=>{pm.expect(b.data.id).eq(102);pm.expect(b.data.role).eq('JOB_SEEKER');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "005 登录隔离身份3",
+          "request": {
+            "method": "POST",
+            "url": "{{rsHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"rs_input_3\",\"password\":\"{{rsPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('rsToken3',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "006 核对身份3",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken3}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"ID与角色\",()=>{pm.expect(b.data.id).eq(103);pm.expect(b.data.role).eq('COMPANY');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "007 登录隔离身份4",
+          "request": {
+            "method": "POST",
+            "url": "{{rsHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"rs_input_4\",\"password\":\"{{rsPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('rsToken4',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "008 核对身份4",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken4}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"ID与角色\",()=>{pm.expect(b.data.id).eq(104);pm.expect(b.data.role).eq('ADMIN');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "009 创建含身份与零经验声明的简历",
+          "request": {
+            "method": "POST",
+            "url": "{{rsHost}}/resume",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"title\":\"推荐输入回归\",\"careerStage\":\"NEW_GRAD\",\"formalExperienceStatus\":\"NONE\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('rsMain',b.data);pm.test(\"返回自增主键\",()=>{pm.expect(b.data).a(\"number\");});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "010 重读完整简历",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/resume/{{rsMain}}/detail",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"完整层级与声明\",()=>{pm.expect(b.data.resume.careerStage).eq('NEW_GRAD');pm.expect(b.data.resume.formalExperienceStatus).eq('NONE');pm.expect(b.data.experiences).deep.eq([]);pm.expect(b.data.skills).deep.eq([]);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "011 旧基础表单省略新字段",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/{{rsMain}}/basic",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"title\":\"推荐输入回归\",\"phone\":null}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "012 重读基础资料声明未丢失",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/resume/{{rsMain}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"省略保留\",()=>{pm.expect(b.data.careerStage).eq('NEW_GRAD');pm.expect(b.data.formalExperienceStatus).eq('NONE');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "013 NONE允许保存实习",
+          "request": {
+            "method": "POST",
+            "url": "{{rsHost}}/resume/{{rsMain}}/experience",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"companyName\":\"回归企业\",\"position\":\"后端实习\",\"experienceType\":\"INTERNSHIP\",\"startDate\":\"2026-01-01\",\"endDate\":\"2026-06-30\",\"isCurrent\":false,\"description\":\"完成接口开发\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "014 实习类型与false正确返回",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/resume/{{rsMain}}/experience",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"一条实习\",()=>{pm.expect(b.data).lengthOf(1);pm.expect(b.data[0].experienceType).eq('INTERNSHIP');pm.expect(b.data[0].isCurrent).eq(false);});pm.collectionVariables.set('rsIntern',b.data[0].id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "015 重读完整简历",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/resume/{{rsMain}}/detail",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('beforeNoneConflict',JSON.stringify(b.data));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "016 NONE拒绝正式经历",
+          "request": {
+            "method": "POST",
+            "url": "{{rsHost}}/resume/{{rsMain}}/experience",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"companyName\":\"回归企业\",\"position\":\"后端开发\",\"experienceType\":\"FORMAL\",\"startDate\":\"2026-01-01\",\"endDate\":\"2026-06-30\",\"isCurrent\":false,\"description\":\"完成接口开发\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "017 重读完整简历",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/resume/{{rsMain}}/detail",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"失败后全部业务字段未变\",()=>{pm.expect(b.data).deep.eq(JSON.parse(pm.collectionVariables.get('beforeNoneConflict')))});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "018 NONE拒绝旧请求的未分类经历",
+          "request": {
+            "method": "POST",
+            "url": "{{rsHost}}/resume/{{rsMain}}/experience",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"companyName\":\"旧企业\",\"position\":\"旧职位\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "019 重读完整简历",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/resume/{{rsMain}}/detail",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"失败后全部业务字段未变\",()=>{pm.expect(b.data).deep.eq(JSON.parse(pm.collectionVariables.get('beforeNoneConflict')))});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "020 非法声明或归属字段拒绝",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/{{rsMain}}/basic",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"title\":\"推荐输入回归\",\"careerStage\":null}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "021 非法声明或归属字段拒绝",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/{{rsMain}}/basic",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"title\":\"推荐输入回归\",\"careerStage\":\"BAD\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "022 非法声明或归属字段拒绝",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/{{rsMain}}/basic",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"title\":\"推荐输入回归\",\"careerStage\":0}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "023 非法声明或归属字段拒绝",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/{{rsMain}}/basic",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"title\":\"推荐输入回归\",\"formalExperienceStatus\":null}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "024 非法声明或归属字段拒绝",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/{{rsMain}}/basic",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"title\":\"推荐输入回归\",\"formalExperienceStatus\":\"BAD\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "025 非法声明或归属字段拒绝",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/{{rsMain}}/basic",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"title\":\"推荐输入回归\",\"userId\":102}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "026 重读完整简历",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/resume/{{rsMain}}/detail",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"失败后全部业务字段未变\",()=>{pm.expect(b.data).deep.eq(JSON.parse(pm.collectionVariables.get('beforeNoneConflict')))});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "027 明确重置声明为未知",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/{{rsMain}}/basic",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"title\":\"推荐输入回归\",\"careerStage\":\"UNKNOWN\",\"formalExperienceStatus\":\"UNKNOWN\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "028 添加正式经历并自动确认有经历",
+          "request": {
+            "method": "POST",
+            "url": "{{rsHost}}/resume/{{rsMain}}/experience",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"companyName\":\"回归企业\",\"position\":\"后端开发\",\"experienceType\":\"FORMAL\",\"startDate\":\"2026-01-01\",\"endDate\":\"2026-06-30\",\"isCurrent\":false,\"description\":\"完成接口开发\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "029 读取正式经历ID",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/resume/{{rsMain}}/experience",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});const e=b.data.find(x=>x.experienceType==='FORMAL');pm.test('正式经历存在',()=>pm.expect(e).an('object'));pm.collectionVariables.set('rsFormal',e.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "030 重读完整简历",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/resume/{{rsMain}}/detail",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"正式记录更新声明\",()=>{pm.expect(b.data.resume.formalExperienceStatus).eq('HAS_EXPERIENCE');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "031 旧经历表单保留新字段和未传日期",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/experience/{{rsFormal}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"companyName\":\"回归企业\",\"position\":\"后端开发\",\"description\":\"旧表单更新\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "032 读取旧表单更新后的经历",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/resume/{{rsMain}}/experience",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"类型日期false仍在\",()=>{const e=b.data.find(x=>x.id==pm.collectionVariables.get('rsFormal'));pm.expect(e.experienceType).eq('FORMAL');pm.expect(e.isCurrent).eq(false);pm.expect(e.startDate).eq('2026-01-01');pm.expect(e.endDate).eq('2026-06-30');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "033 重读完整简历",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/resume/{{rsMain}}/detail",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('beforeDateErrors',JSON.stringify(b.data));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "034 拒绝类型和日期非法组合",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/experience/{{rsFormal}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"companyName\":\"回归企业\",\"position\":\"后端开发\",\"experienceType\":\"FORMAL\",\"startDate\":\"2026-01-01\",\"endDate\":\"2026-06-30\",\"isCurrent\":true,\"description\":\"完成接口开发\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "035 拒绝类型和日期非法组合",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/experience/{{rsFormal}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"companyName\":\"回归企业\",\"position\":\"后端开发\",\"experienceType\":\"FORMAL\",\"startDate\":\"2026-01-01\",\"endDate\":\"2026-06-30\",\"isCurrent\":null,\"description\":\"完成接口开发\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "036 拒绝类型和日期非法组合",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/experience/{{rsFormal}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"companyName\":\"回归企业\",\"position\":\"后端开发\",\"experienceType\":\"FORMAL\",\"startDate\":null,\"endDate\":\"2026-06-30\",\"isCurrent\":false,\"description\":\"完成接口开发\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "037 拒绝类型和日期非法组合",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/experience/{{rsFormal}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"companyName\":\"回归企业\",\"position\":\"后端开发\",\"experienceType\":\"FORMAL\",\"startDate\":\"2099-01-01\",\"endDate\":\"2099-02-01\",\"isCurrent\":false,\"description\":\"完成接口开发\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "038 拒绝类型和日期非法组合",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/experience/{{rsFormal}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"companyName\":\"回归企业\",\"position\":\"后端开发\",\"experienceType\":\"FORMAL\",\"startDate\":\"2026-01-01\",\"endDate\":\"2025-01-01\",\"isCurrent\":false,\"description\":\"完成接口开发\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "039 拒绝类型和日期非法组合",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/experience/{{rsFormal}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"companyName\":\"回归企业\",\"position\":\"后端开发\",\"experienceType\":\"FORMAL\",\"startDate\":\"2026-01-01\",\"endDate\":\"2099-01-01\",\"isCurrent\":false,\"description\":\"完成接口开发\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "040 拒绝类型和日期非法组合",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/experience/{{rsFormal}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"companyName\":\"回归企业\",\"position\":\"后端开发\",\"experienceType\":null,\"startDate\":\"2026-01-01\",\"endDate\":\"2026-06-30\",\"isCurrent\":false,\"description\":\"完成接口开发\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "041 拒绝类型和日期非法组合",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/experience/{{rsFormal}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"companyName\":\"回归企业\",\"position\":\"后端开发\",\"experienceType\":\"BAD\",\"startDate\":\"2026-01-01\",\"endDate\":\"2026-06-30\",\"isCurrent\":false,\"description\":\"完成接口开发\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "042 拒绝类型和日期非法组合",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/experience/{{rsFormal}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"companyName\":\"回归企业\",\"position\":\"后端开发\",\"experienceType\":\"FORMAL\",\"startDate\":\"2026-01-01\",\"endDate\":null,\"isCurrent\":false,\"description\":\"完成接口开发\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "043 重读完整简历",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/resume/{{rsMain}}/detail",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"失败后全部业务字段未变\",()=>{pm.expect(b.data).deep.eq(JSON.parse(pm.collectionVariables.get('beforeDateErrors')))});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "044 改为至今须显式清空结束日期",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/experience/{{rsFormal}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"companyName\":\"回归企业\",\"position\":\"后端开发\",\"experienceType\":\"FORMAL\",\"startDate\":\"2026-01-01\",\"endDate\":null,\"isCurrent\":true,\"description\":\"完成接口开发\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "045 至今与空结束日期重读",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/resume/{{rsMain}}/experience",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"至今字段\",()=>{const e=b.data.find(x=>x.id==pm.collectionVariables.get('rsFormal'));pm.expect(e.isCurrent).eq(true);pm.expect(e.endDate).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "046 将最后正式经历改为实习",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/experience/{{rsFormal}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"companyName\":\"回归企业\",\"position\":\"后端实习\",\"experienceType\":\"INTERNSHIP\",\"startDate\":\"2026-01-01\",\"endDate\":\"2026-06-30\",\"isCurrent\":false,\"description\":\"完成接口开发\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "047 重读完整简历",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/resume/{{rsMain}}/detail",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"失去最后正式记录后为未知\",()=>{pm.expect(b.data.resume.formalExperienceStatus).eq('UNKNOWN');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "048 只有实习可再次确认NONE",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/{{rsMain}}/basic",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"title\":\"推荐输入回归\",\"formalExperienceStatus\":\"NONE\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "049 已有实习不能改为正式以绕过声明",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/experience/{{rsIntern}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"companyName\":\"回归企业\",\"position\":\"后端开发\",\"experienceType\":\"FORMAL\",\"startDate\":\"2026-01-01\",\"endDate\":\"2026-06-30\",\"isCurrent\":false,\"description\":\"完成接口开发\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "050 新增自由文本技能及程度",
+          "request": {
+            "method": "POST",
+            "url": "{{rsHost}}/resume/{{rsMain}}/skill",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"skillName\":\"熟悉Java\",\"description\":\"能按规范编写过程文件\",\"proficiency\":\"FAMILIAR\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "051 读取技能原文与程度",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/resume/{{rsMain}}/skill",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"原文和程度\",()=>{pm.expect(b.data).lengthOf(1);pm.expect(b.data[0].skillName).eq('熟悉Java');pm.expect(b.data[0].description).eq('能按规范编写过程文件');pm.expect(b.data[0].proficiency).eq('FAMILIAR');});pm.collectionVariables.set('rsSkill',b.data[0].id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "052 旧技能表单保留程度",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/skill/{{rsSkill}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"skillName\":\"熟悉Java\",\"description\":\"旧表单更新\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "053 读取保留程度",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/resume/{{rsMain}}/skill",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"仍熟悉\",()=>{pm.expect(b.data[0].proficiency).eq('FAMILIAR');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "054 显式清空程度",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/skill/{{rsSkill}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"skillName\":\"熟悉Java\",\"proficiency\":null}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "055 读取已清空程度",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/resume/{{rsMain}}/skill",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"程度null\",()=>{pm.expect(b.data[0].proficiency).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "056 重读完整简历",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/resume/{{rsMain}}/detail",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('beforeSkillErrors',JSON.stringify(b.data));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "057 拒绝技能矛盾或越界参数",
+          "request": {
+            "method": "POST",
+            "url": "{{rsHost}}/resume/{{rsMain}}/skill",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"skillName\":\"不会Java\",\"proficiency\":\"EXPERT\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "058 拒绝技能矛盾或越界参数",
+          "request": {
+            "method": "POST",
+            "url": "{{rsHost}}/resume/{{rsMain}}/skill",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"skillName\":\"Java\",\"proficiency\":\"BAD\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "059 拒绝技能矛盾或越界参数",
+          "request": {
+            "method": "POST",
+            "url": "{{rsHost}}/resume/{{rsMain}}/skill",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"skillName\":\"Java\",\"proficiency\":0}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "060 拒绝技能矛盾或越界参数",
+          "request": {
+            "method": "POST",
+            "url": "{{rsHost}}/resume/{{rsMain}}/skill",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"skillName\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "061 拒绝技能矛盾或越界参数",
+          "request": {
+            "method": "POST",
+            "url": "{{rsHost}}/resume/{{rsMain}}/skill",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"skillName\":\"Java\",\"description\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "062 拒绝技能矛盾或越界参数",
+          "request": {
+            "method": "POST",
+            "url": "{{rsHost}}/resume/{{rsMain}}/skill",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"skillName\":\"Java\",\"resumeId\":910}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "063 重读完整简历",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/resume/{{rsMain}}/detail",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"失败后全部业务字段未变\",()=>{pm.expect(b.data).deep.eq(JSON.parse(pm.collectionVariables.get('beforeSkillErrors')))});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "064 通用能力可以保存",
+          "request": {
+            "method": "POST",
+            "url": "{{rsHost}}/resume/{{rsMain}}/skill",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"skillName\":\"跨部门沟通\",\"description\":\"协调产品和研发推进需求\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "065 兼容前端id字段的求职意向保存",
+          "request": {
+            "method": "POST",
+            "url": "{{rsHost}}/resume/{{rsMain}}/preference",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"id\":null,\"expectedPosition\":\"后端开发\",\"expectedCity\":\"上海\",\"salaryMin\":10000,\"salaryMax\":20000,\"directionCode\":\"BACKEND\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "066 意向重读并取得路径ID",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/resume/{{rsMain}}/preference",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"方向保存\",()=>{pm.expect(b.data.directionCode).eq('BACKEND');});pm.collectionVariables.set('rsPref',b.data.id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "067 旧意向表单同职位保留方向且忽略体内id",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/preference/{{rsPref}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"id\":999999,\"expectedPosition\":\"后端开发\",\"expectedCity\":\"上海\",\"salaryMin\":10000,\"salaryMax\":20000}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "068 验证方向保留且目标未变",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/resume/{{rsMain}}/preference",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"正确目标和方向\",()=>{pm.expect(b.data.id).eq(Number(pm.collectionVariables.get('rsPref')));pm.expect(b.data.directionCode).eq('BACKEND');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "069 旧客户端改变职位清除过期方向",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/preference/{{rsPref}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"expectedPosition\":\"研发工程师\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "070 宽泛职位没有被猜成后端",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/resume/{{rsMain}}/preference",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"未知方向\",()=>{pm.expect(b.data.directionCode).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "071 宽泛职位允许明确选择方向",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/preference/{{rsPref}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"expectedPosition\":\"研发工程师\",\"directionCode\":\"BACKEND\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "072 明确清空意向方向",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/preference/{{rsPref}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"expectedPosition\":\"研发工程师\",\"directionCode\":null}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "073 方向清空并保存意向快照",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/resume/{{rsMain}}/preference",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"方向null\",()=>{pm.expect(b.data.directionCode).eq(null);});pm.collectionVariables.set('prefBeforeErrors',JSON.stringify(b.data));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "074 拒绝意向矛盾或非法归属",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/preference/{{rsPref}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"expectedPosition\":\"前端开发\",\"directionCode\":\"BACKEND\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "075 拒绝意向矛盾或非法归属",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/preference/{{rsPref}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"expectedPosition\":\"研发工程师\",\"salaryMin\":20000,\"salaryMax\":10000}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "076 拒绝意向矛盾或非法归属",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/preference/{{rsPref}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"expectedPosition\":\"研发工程师\",\"directionCode\":\"BAD\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "077 拒绝意向矛盾或非法归属",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/preference/{{rsPref}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"expectedPosition\":\"研发工程师\",\"resumeId\":910}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "078 意向失败后重读未变",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/resume/{{rsMain}}/preference",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"失败后全部业务字段未变\",()=>{pm.expect(b.data).deep.eq(JSON.parse(pm.collectionVariables.get('prefBeforeErrors')))});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "079 拒绝重复意向",
+          "request": {
+            "method": "POST",
+            "url": "{{rsHost}}/resume/{{rsMain}}/preference",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"expectedPosition\":\"后端开发\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "080 他人或角色不能修改基础资料",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/{{rsMain}}/basic",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken2}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"title\":\"越权修改\",\"formalExperienceStatus\":\"UNKNOWN\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "081 他人或角色不能添加经历",
+          "request": {
+            "method": "POST",
+            "url": "{{rsHost}}/resume/{{rsMain}}/experience",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken2}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"companyName\":\"回归企业\",\"position\":\"后端实习\",\"experienceType\":\"INTERNSHIP\",\"startDate\":\"2026-01-01\",\"endDate\":\"2026-06-30\",\"isCurrent\":false,\"description\":\"完成接口开发\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "082 他人或角色不能修改技能",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/skill/{{rsSkill}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken2}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"skillName\":\"越权\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "083 他人或角色不能修改意向",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/preference/{{rsPref}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken2}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"expectedPosition\":\"越权\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "084 他人或角色不能读完整详情",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/resume/{{rsMain}}/detail",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken2}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "085 他人或角色不能修改基础资料",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/{{rsMain}}/basic",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken3}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"title\":\"越权修改\",\"formalExperienceStatus\":\"UNKNOWN\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "086 他人或角色不能添加经历",
+          "request": {
+            "method": "POST",
+            "url": "{{rsHost}}/resume/{{rsMain}}/experience",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken3}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"companyName\":\"回归企业\",\"position\":\"后端实习\",\"experienceType\":\"INTERNSHIP\",\"startDate\":\"2026-01-01\",\"endDate\":\"2026-06-30\",\"isCurrent\":false,\"description\":\"完成接口开发\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "087 他人或角色不能修改技能",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/skill/{{rsSkill}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken3}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"skillName\":\"越权\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "088 他人或角色不能修改意向",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/preference/{{rsPref}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken3}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"expectedPosition\":\"越权\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "089 他人或角色不能读完整详情",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/resume/{{rsMain}}/detail",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken3}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "090 他人或角色不能修改基础资料",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/{{rsMain}}/basic",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken4}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"title\":\"越权修改\",\"formalExperienceStatus\":\"UNKNOWN\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "091 他人或角色不能添加经历",
+          "request": {
+            "method": "POST",
+            "url": "{{rsHost}}/resume/{{rsMain}}/experience",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken4}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"companyName\":\"回归企业\",\"position\":\"后端实习\",\"experienceType\":\"INTERNSHIP\",\"startDate\":\"2026-01-01\",\"endDate\":\"2026-06-30\",\"isCurrent\":false,\"description\":\"完成接口开发\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "092 他人或角色不能修改技能",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/skill/{{rsSkill}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken4}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"skillName\":\"越权\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "093 他人或角色不能修改意向",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/preference/{{rsPref}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken4}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"expectedPosition\":\"越权\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "094 他人或角色不能读完整详情",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/resume/{{rsMain}}/detail",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken4}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "095 未登录不能写简历",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/{{rsMain}}/basic",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"title\":\"越权\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('未登录HTTP401',()=>pm.expect(pm.response.code).eq(401));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "096 不存在经历拒绝",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/experience/999999",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"companyName\":\"无\",\"position\":\"无\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "097 不存在技能拒绝",
+          "request": {
+            "method": "DELETE",
+            "url": "{{rsHost}}/resume/skill/999999",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "098 不存在意向拒绝",
+          "request": {
+            "method": "DELETE",
+            "url": "{{rsHost}}/resume/preference/999999",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "099 旧请求创建简历",
+          "request": {
+            "method": "POST",
+            "url": "{{rsHost}}/resume",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"title\":\"旧表单简历\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('rsLegacy',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "100 旧创建默认未知",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/resume/{{rsLegacy}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"未知而非零经验\",()=>{pm.expect(b.data.careerStage).eq('UNKNOWN');pm.expect(b.data.formalExperienceStatus).eq('UNKNOWN');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "101 旧经历允许不完整信息",
+          "request": {
+            "method": "POST",
+            "url": "{{rsHost}}/resume/{{rsLegacy}}/experience",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"companyName\":\"旧企业\",\"position\":\"旧职位\",\"periodText\":\"至今\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "102 旧文本至今不推断boolean",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/resume/{{rsLegacy}}/experience",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"未知保留\",()=>{pm.expect(b.data[0].experienceType).eq('UNKNOWN');pm.expect(b.data[0].isCurrent).eq(null);});pm.collectionVariables.set('rsLegacyExp',b.data[0].id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "103 旧经历只更新描述",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/experience/{{rsLegacyExp}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"companyName\":\"旧企业\",\"position\":\"旧职位\",\"description\":\"丰富说明\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "104 未分类记录阻止NONE声明",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/{{rsLegacy}}/basic",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"title\":\"旧表单简历\",\"formalExperienceStatus\":\"NONE\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "105 确认旧经历为实习并补全日期",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/experience/{{rsLegacyExp}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"companyName\":\"回归企业\",\"position\":\"后端实习\",\"experienceType\":\"INTERNSHIP\",\"startDate\":\"2026-01-01\",\"endDate\":\"2026-06-30\",\"isCurrent\":false,\"description\":\"完成接口开发\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "106 仅实习可以确认NONE",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/{{rsLegacy}}/basic",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"title\":\"旧表单简历\",\"formalExperienceStatus\":\"NONE\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "107 声明HAS但未补全记录",
+          "request": {
+            "method": "PUT",
+            "url": "{{rsHost}}/resume/{{rsLegacy}}/basic",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"title\":\"旧表单简历\",\"formalExperienceStatus\":\"HAS_EXPERIENCE\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "108 新增实习不清掉已有HAS申报",
+          "request": {
+            "method": "POST",
+            "url": "{{rsHost}}/resume/{{rsLegacy}}/experience",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"companyName\":\"回归企业\",\"position\":\"后端实习\",\"experienceType\":\"INTERNSHIP\",\"startDate\":\"2026-01-01\",\"endDate\":\"2026-06-30\",\"isCurrent\":false,\"description\":\"完成接口开发\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "109 确认HAS申报仍在",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/resume/{{rsLegacy}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"申报有但未填正式记录\",()=>{pm.expect(b.data.formalExperienceStatus).eq('HAS_EXPERIENCE');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "110 删除意向",
+          "request": {
+            "method": "DELETE",
+            "url": "{{rsHost}}/resume/preference/{{rsPref}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "111 意向为空仍返回成功null",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/resume/{{rsMain}}/preference",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"无意向\",()=>{pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "112 删除技能",
+          "request": {
+            "method": "DELETE",
+            "url": "{{rsHost}}/resume/skill/{{rsSkill}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "113 删除简历清理子表",
+          "request": {
+            "method": "DELETE",
+            "url": "{{rsHost}}/resume/{{rsLegacy}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "114 删除后不能读取",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/resume/{{rsLegacy}}",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "115 简历列表原分页结构兼容",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/resume?pageNum=1&pageSize=10",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"分页items\",()=>{pm.expect(b.data.items).an('array');pm.expect(b.data.total).a('number');});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "B",
+      "item": [
+        {
+          "name": "116 登录隔离身份1",
+          "request": {
+            "method": "POST",
+            "url": "{{rsHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"rs_input_1\",\"password\":\"{{rsPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('rsToken1',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "117 核对身份1",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"ID与角色\",()=>{pm.expect(b.data.id).eq(101);pm.expect(b.data.role).eq('JOB_SEEKER');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "118 保存故障前详情",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/resume/903/detail",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('faultBefore',JSON.stringify(b.data));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "119 完成度失败导致新增技能回滚",
+          "request": {
+            "method": "POST",
+            "url": "{{rsHost}}/resume/903/skill",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"skillName\":\"Java\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});pm.test(\"真实DB故障非业务成功\",()=>{pm.expect(b.message).include('系统异常');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "120 技能失败后全部详情不变",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/resume/903/detail",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"失败后全部业务字段未变\",()=>{pm.expect(b.data).deep.eq(JSON.parse(pm.collectionVariables.get('faultBefore')))});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "121 完成度失败导致正式经历及声明一起回滚",
+          "request": {
+            "method": "POST",
+            "url": "{{rsHost}}/resume/903/experience",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"companyName\":\"回归企业\",\"position\":\"后端开发\",\"experienceType\":\"FORMAL\",\"startDate\":\"2026-01-01\",\"endDate\":\"2026-06-30\",\"isCurrent\":false,\"description\":\"完成接口开发\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "122 经历和HAS更新都回滚",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/resume/903/detail",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"失败后全部业务字段未变\",()=>{pm.expect(b.data).deep.eq(JSON.parse(pm.collectionVariables.get('faultBefore')))});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "C",
+      "item": [
+        {
+          "name": "123 登录隔离身份1",
+          "request": {
+            "method": "POST",
+            "url": "{{rsHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"rs_input_1\",\"password\":\"{{rsPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('rsToken1',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "124 核对身份1",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"ID与角色\",()=>{pm.expect(b.data.id).eq(101);pm.expect(b.data.role).eq('JOB_SEEKER');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "125 解除故障后技能可保存",
+          "request": {
+            "method": "POST",
+            "url": "{{rsHost}}/resume/903/skill",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"skillName\":\"Java\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "126 解除故障后经历可保存",
+          "request": {
+            "method": "POST",
+            "url": "{{rsHost}}/resume/903/experience",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"companyName\":\"回归企业\",\"position\":\"后端开发\",\"experienceType\":\"FORMAL\",\"startDate\":\"2026-01-01\",\"endDate\":\"2026-06-30\",\"isCurrent\":false,\"description\":\"完成接口开发\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "127 恢复后重读声明与完成度",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/resume/903/detail",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"恢复数据完整\",()=>{pm.expect(b.data.resume.formalExperienceStatus).eq('HAS_EXPERIENCE');pm.expect(b.data.resume.completionRate).eq(20);pm.expect(b.data.skills).lengthOf(1);pm.expect(b.data.experiences).lengthOf(1);});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "D",
+      "item": [
+        {
+          "name": "128 登录隔离身份1",
+          "request": {
+            "method": "POST",
+            "url": "{{rsHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"rs_input_1\",\"password\":\"{{rsPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('rsToken1',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "129 核对身份1",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"ID与角色\",()=>{pm.expect(b.data.id).eq(101);pm.expect(b.data.role).eq('JOB_SEEKER');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "130 正式经历与NONE并发竞争",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/resume/902/detail",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});let done=0;const results=[];const send=(method,url,body,index)=>setTimeout(()=>{const started=Date.now();pm.sendRequest({url:pm.environment.get('rsHost')+url,method,header:{Authorization:'Bearer '+pm.collectionVariables.get('rsToken1'),'Content-Type':'application/json'},...(body?{body:{mode:'raw',raw:JSON.stringify(body)}}:{})},(err,res)=>{pm.test('并发请求可达',()=>pm.expect(err).eq(null));if(!err)results.push({code:res.json().code,started,ended:Date.now()});if(++done===2){pm.test('一次成功一次拒绝',()=>pm.expect(results.map(x=>x.code).sort()).deep.eq([200,500]));pm.test('请求实际重叠',()=>pm.expect(Math.max(...results.map(x=>x.started))).below(Math.min(...results.map(x=>x.ended))));console.log('RS_RACE='+JSON.stringify(results));}});},index*100);send('POST','/resume/902/experience',{\"companyName\":\"回归企业\",\"position\":\"后端开发\",\"experienceType\":\"FORMAL\",\"startDate\":\"2026-01-01\",\"endDate\":\"2026-06-30\",\"isCurrent\":false,\"description\":\"完成接口开发\"},0);send('PUT','/resume/902/basic',{title:'并发简历',formalExperienceStatus:'NONE'},1);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "131 并发后声明与正式经历一致",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/resume/902/detail",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"FORMAL赢得父锁后NONE拒绝\",()=>{pm.expect(b.data.resume.formalExperienceStatus).eq('HAS_EXPERIENCE');pm.expect(b.data.experiences).lengthOf(1);pm.expect(b.data.experiences[0].experienceType).eq('FORMAL');});pm.collectionVariables.set('rsRaceExp',b.data.experiences[0].id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "132 同一经历并发删除",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/resume/902/detail",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});let done=0;const results=[];const send=(method,url,body,index)=>setTimeout(()=>{const started=Date.now();pm.sendRequest({url:pm.environment.get('rsHost')+url,method,header:{Authorization:'Bearer '+pm.collectionVariables.get('rsToken1'),'Content-Type':'application/json'},...(body?{body:{mode:'raw',raw:JSON.stringify(body)}}:{})},(err,res)=>{pm.test('并发请求可达',()=>pm.expect(err).eq(null));if(!err)results.push({code:res.json().code,started,ended:Date.now()});if(++done===2){pm.test('一次成功一次拒绝',()=>pm.expect(results.map(x=>x.code).sort()).deep.eq([200,500]));pm.test('请求实际重叠',()=>pm.expect(Math.max(...results.map(x=>x.started))).below(Math.min(...results.map(x=>x.ended))));console.log('RS_RACE='+JSON.stringify(results));}});},index*100);const url='/resume/experience/'+pm.collectionVariables.get('rsRaceExp');send('DELETE',url,null,0);send('DELETE',url,null,1);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "133 删除后未知而非NONE且没有残留",
+          "request": {
+            "method": "GET",
+            "url": "{{rsHost}}/resume/902/detail",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rsToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runResumeInputRegression')!=='true'||pm.environment.get('rsFixtureReady')!=='true'||pm.environment.get('rsHost')!=='http://127.0.0.1:18089'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"最后正式经历已删\",()=>{pm.expect(b.data.experiences).deep.eq([]);pm.expect(b.data.resume.formalExperienceStatus).eq('UNKNOWN');});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

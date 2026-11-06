@@ -1,0 +1,55 @@
+{
+  "date": "2026-11-01",
+  "stage": "recommendation-deterministic-calculator",
+  "newCalculatorTests": 107,
+  "existingContractAndPolicyTests": 21,
+  "totalTests": 128,
+  "testFramework": "JUnit 5 / Maven Surefire",
+  "suites": [
+    {
+      "name": "com.recruit.smartrecruit.recommendation.FeatureNormalizerTest",
+      "tests": 40,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "com.recruit.smartrecruit.recommendation.SkillMatcherTest",
+      "tests": 39,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "com.recruit.smartrecruit.recommendation.RecommendationCalculatorTest",
+      "tests": 28,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "com.recruit.smartrecruit.RecommendationInputContractTest",
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "com.recruit.smartrecruit.JobAbilityContentPolicyTest",
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "scope": {
+    "newHttpRoutes": false,
+    "postmanRunInThisStage": false,
+    "databaseOrRedisConnectionRequired": false,
+    "externalModelCalled": false,
+    "semanticProvider": "disabled",
+    "modelVersion": null,
+    "calibrationVersion": null
+  },
+  "build": "SUCCESS"
+}

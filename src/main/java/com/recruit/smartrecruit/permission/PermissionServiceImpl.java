@@ -62,6 +62,16 @@ public class PermissionServiceImpl implements PermissionService{
     }
 
     @Override
+    public void requireApprovedJobCompany(Long companyId) {
+        // 当前读避免复用详情缓存中的审核状态；投递事务持有共享锁直至提交，
+        // 企业审核状态的并发更新必须等待本次投递完成。
+        Company company = companyId == null ? null : companyMapper.findCompanyByIdForShare(companyId);
+        if (company == null || company.getStatus() != CompanyStatus.APPROVED) {
+            throw new BusinessException("岗位所属企业未通过审核，岗位暂不可访问或投递");
+        }
+    }
+
+    @Override
     public User requireAdmin(Long userId) {
         //角色判断
         User user=getUser(userId);

@@ -1,0 +1,28 @@
+{
+  "normalizationVersion": "normalization-v1",
+  "aliasVersion": "skill-alias-v1",
+  "extractorVersion": "conservative-extractor-v1",
+  "cities": {
+    "SHANGHAI": ["上海", "上海市", "Shanghai"],
+    "SHENZHEN": ["深圳", "深圳市", "Shenzhen"],
+    "DONGGUAN": ["东莞", "东莞市", "Dongguan"],
+    "BEIJING": ["北京", "北京市", "Beijing"],
+    "GUANGZHOU": ["广州", "广州市", "Guangzhou"],
+    "HANGZHOU": ["杭州", "杭州市", "Hangzhou"],
+    "NANJING": ["南京", "南京市", "Nanjing"],
+    "SUZHOU": ["苏州", "苏州市", "Suzhou"],
+    "CHENGDU": ["成都", "成都市", "Chengdu"],
+    "WUHAN": ["武汉", "武汉市", "Wuhan"],
+    "XIAN": ["西安", "西安市", "Xi'an"]
+  },
+  "directions": {"后端开发": "BACKEND", "前端开发": "FRONTEND"},
+  "skills": {
+    "java": ["java"], "javascript": ["javascript", "js"],
+    "typescript": ["typescript", "ts"], "python": ["python"],
+    "spring boot": ["spring boot", "springboot"], "mysql": ["mysql"],
+    "redis": ["redis"], "postgresql": ["postgresql", "postgres"],
+    "vue 3": ["vue 3", "vue3"], "c++": ["c++"], "c#": ["c#"]
+  },
+  "independentSkills": ["java", "javascript", "typescript", "python", "spring boot", "mysql", "redis", "postgresql", "vue 3", "c++", "c#"],
+  "unresolvedSkillPairs": [["java", "spring boot"], ["javascript", "typescript"], ["javascript", "vue 3"], ["typescript", "vue 3"]]
+}

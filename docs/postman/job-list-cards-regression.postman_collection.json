@@ -1,0 +1,1357 @@
+{
+  "info": {
+    "name": "普通岗位卡片持久回归",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "所有用例已加入SmartRecruit API - Optimized Regression / 03 Job。仅隔离端口18092；全部业务请求只读；夹具数据由受保护的本地脚本建立。"
+  },
+  "item": [
+    {
+      "name": "A",
+      "item": [
+        {
+          "name": "001 登录隔离身份1",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"rq_input_1\",\"password\":\"{{rqPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runJobListCardsRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18092'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('rqToken1',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "002 核对身份1",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runJobListCardsRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18092'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"身份角色\",()=>{pm.expect(b.data.id).eq(101);pm.expect(b.data.role).eq('JOB_SEEKER');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "003 新增字段与旧字段契约",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/job?size=100",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runJobListCardsRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18092'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"27个招聘中岗位且不重复\",()=>{pm.expect(b.data.total).eq(27);pm.expect(b.data.items).lengthOf(27);pm.expect(new Set(b.data.items.map(x=>x.id)).size).eq(27);pm.expect(b.data.items.every(x=>x.status===0)).eq(true);});pm.test(\"企业及完整卡片字段\",()=>{const x=b.data.items.find(x=>x.id===1001);pm.expect(x.companyId).eq(201);pm.expect(x.companyName).eq('已审核回归企业');pm.expect(x.companyLogo).eq('https://example.invalid/job-card-logo.png');pm.expect(x.summary).eq('岗位卡片简介');pm.expect(x.benefits).eq('弹性工作、带薪年假');pm.expect(x.requiredSkills).eq('Java');pm.expect(x.preferredSkills).eq('Docker');pm.expect(x.directionCode).eq('BACKEND');pm.expect(x.requiredAbilitiesSource).eq('LEGACY_TEXT');pm.expect(x.requiredAbilitiesVersion).eq(0);pm.expect(x.publishedAt).eq('2026-10-01T10:00:00');pm.expect(x.deadline).eq('2026-12-31');pm.expect(x.team).eq('平台组');pm.expect(x.salaryUnit).eq('MONTH');pm.expect(x.negotiable).eq(false);pm.expect(x).include.all.keys('id','title','category','employment','status','city','experience','education','salaryMin','salaryMax','updateTime');});pm.collectionVariables.set('jcAll',JSON.stringify(b.data));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "004 缺失字段及原文不伪造",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/job?size=100",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runJobListCardsRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18092'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"空值真实返回\",()=>{const x=b.data.items.find(x=>x.id===1016);pm.expect(x.companyId).eq(202);pm.expect(x.companyLogo).eq(null);const y=b.data.items.find(x=>x.id===1020);pm.expect(y.publishedAt).eq(null);pm.expect(y.deadline).eq(null);pm.expect(y.category).eq(null);pm.expect(b.data.items.find(x=>x.id===1005).requiredSkills).eq(null);pm.expect(b.data.items.find(x=>x.id===1007).requiredSkills).eq('跨部门沟通');pm.expect(b.data.items.find(x=>x.id===1019).directionCode).eq(null);});pm.test(\"结构化展示投影原样返回且不放大行数\",()=>{const x=b.data.items.find(x=>x.id===1022);pm.expect(x.requiredSkills).eq(['Java','Redis','Java'].join(String.fromCharCode(10)));pm.expect(x.requiredAbilitiesSource).eq('STRUCTURED');pm.expect(x.requiredAbilitiesVersion).eq(7);pm.expect(b.data.items.filter(x=>x.id===1022)).lengthOf(1);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "005 月年日薪及面议",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/job?size=100",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runJobListCardsRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18092'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"单位和空薪资保留\",()=>{pm.expect(b.data.items.find(x=>x.id===1003).salaryUnit).eq('DAY');pm.expect(b.data.items.find(x=>x.id===1023).salaryUnit).eq('YEAR');pm.expect(b.data.items.find(x=>x.id===1024).negotiable).eq(true);pm.expect(b.data.items.find(x=>x.id===1024).salaryMin).eq(null);pm.expect(b.data.items.find(x=>x.id===1004).salaryMax).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "006 第1页稳定切片",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/job?page=1&size=7",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runJobListCardsRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18092'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"分页总数和全量切片一致\",()=>{const all=JSON.parse(pm.collectionVariables.get('jcAll'));pm.expect(b.data.total).eq(all.total);pm.expect(b.data.items).deep.eq(all.items.slice(0,7));});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "007 第2页稳定切片",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/job?page=2&size=7",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runJobListCardsRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18092'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"分页总数和全量切片一致\",()=>{const all=JSON.parse(pm.collectionVariables.get('jcAll'));pm.expect(b.data.total).eq(all.total);pm.expect(b.data.items).deep.eq(all.items.slice(7,14));});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "008 第3页稳定切片",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/job?page=3&size=7",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runJobListCardsRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18092'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"分页总数和全量切片一致\",()=>{const all=JSON.parse(pm.collectionVariables.get('jcAll'));pm.expect(b.data.total).eq(all.total);pm.expect(b.data.items).deep.eq(all.items.slice(14,21));});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "009 第4页稳定切片",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/job?page=4&size=7",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runJobListCardsRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18092'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"分页总数和全量切片一致\",()=>{const all=JSON.parse(pm.collectionVariables.get('jcAll'));pm.expect(b.data.total).eq(all.total);pm.expect(b.data.items).deep.eq(all.items.slice(21,28));});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "010 超出末页",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/job?page=100&size=10",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runJobListCardsRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18092'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"空items保留total\",()=>{pm.expect(b.data.total).eq(27);pm.expect(b.data.items).deep.eq([]);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "011 默认分页",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/job",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runJobListCardsRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18092'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"默认10条\",()=>{pm.expect(b.data.total).eq(27);pm.expect(b.data.items).lengthOf(10);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "012 原搜索标题",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/job?size=100&keyword=1999",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runJobListCardsRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18092'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"搜索命中\",()=>{pm.expect(b.data.items.map(x=>x.id)).deep.eq([1999]);pm.expect(b.data.total).eq(1);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "013 原搜索部门",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/job?size=100&keyword=%E5%B9%B3%E5%8F%B0%E7%BB%84",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runJobListCardsRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18092'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"搜索命中\",()=>{pm.expect(b.data.items.map(x=>x.id)).deep.eq([1001]);pm.expect(b.data.total).eq(1);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "014 原搜索城市",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/job?size=100&keyword=%E6%B7%B1%E5%9C%B3",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runJobListCardsRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18092'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"搜索命中\",()=>{pm.expect(b.data.items.map(x=>x.id)).deep.eq([1008]);pm.expect(b.data.total).eq(1);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "015 原搜索类别",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/job?size=100&keyword=%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runJobListCardsRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18092'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"搜索命中\",()=>{pm.expect(b.data.items.map(x=>x.id)).deep.eq([1021,1018]);pm.expect(b.data.total).eq(2);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "016 搜索词trim",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/job?size=100&keyword=%20%201999%20%20",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runJobListCardsRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18092'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"trim有效\",()=>{pm.expect(b.data.items.map(x=>x.id)).deep.eq([1999]);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "017 无命中搜索",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/job?keyword=NO_SUCH_JOB",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runJobListCardsRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18092'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"空列表\",()=>{pm.expect(b.data.total).eq(0);pm.expect(b.data.items).deep.eq([]);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "018 企业主页岗位共享字段",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/company/201/jobs?pageSize=100",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runJobListCardsRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18092'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"25个本企业在招岗位且字段一致\",()=>{const all=JSON.parse(pm.collectionVariables.get('jcAll'));pm.expect(b.data.total).eq(25);pm.expect(b.data.items).deep.eq(all.items.filter(x=>x.companyId===201));});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "019 企业主页分页",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/company/201/jobs?page=2&pageSize=7",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runJobListCardsRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18092'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"企业岗位分页\",()=>{const all=JSON.parse(pm.collectionVariables.get('jcAll'));pm.expect(b.data.total).eq(25);pm.expect(b.data.items).deep.eq(all.items.filter(x=>x.companyId===201).slice(7,14));});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "020 未通过企业主页拒绝",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/company/202/jobs",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runJobListCardsRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18092'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "021 非法分页page=0",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/job?page=0",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runJobListCardsRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18092'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "022 非法分页size=0",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/job?size=0",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runJobListCardsRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18092'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "023 非法分页size=101",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/job?size=101",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runJobListCardsRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18092'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "024 登录隔离身份2",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"rq_input_2\",\"password\":\"{{rqPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runJobListCardsRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18092'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('rqToken2',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "025 核对身份2",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken2}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runJobListCardsRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18092'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"身份角色\",()=>{pm.expect(b.data.id).eq(102);pm.expect(b.data.role).eq('JOB_SEEKER');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "026 另一求职者可读取一致卡片",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/job?size=100",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken2}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runJobListCardsRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18092'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"失败后全部业务字段未变\",()=>{pm.expect(b.data).deep.eq(JSON.parse(pm.collectionVariables.get('jcAll')))});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "027 登录隔离身份3",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"rq_input_3\",\"password\":\"{{rqPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runJobListCardsRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18092'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('rqToken3',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "028 核对身份3",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken3}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runJobListCardsRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18092'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"身份角色\",()=>{pm.expect(b.data.id).eq(103);pm.expect(b.data.role).eq('COMPANY');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "029 企业管理继承字段和招聘计数",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/job/company?size=100",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken3}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runJobListCardsRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18092'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"仅本公司28岗含草稿\",()=>{pm.expect(b.data.total).eq(28);pm.expect(b.data.items.every(x=>x.companyId===201)).eq(true);pm.expect(b.data.items.find(x=>x.id===1015).status).eq(3);const all=JSON.parse(pm.collectionVariables.get('jcAll'));const x=b.data.items.find(x=>x.id===1001);const {applicationCount,pendingApplicationCount,currentInterviewApplicationCount,...card}=x;pm.expect(card).deep.eq(all.items.find(x=>x.id===1001));pm.expect(applicationCount).eq(0);const applied=b.data.items.find(x=>x.id===1012);pm.expect(applied.applicationCount).eq(1);pm.expect(applied.pendingApplicationCount).eq(1);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "030 企业管理状态筛选",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/job/company?filter=DRAFT",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken3}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runJobListCardsRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18092'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"草稿归属筛选\",()=>{pm.expect(b.data.total).eq(1);pm.expect(b.data.items[0].id).eq(1015);pm.expect(b.data.items[0].companyName).eq('已审核回归企业');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "031 企业不可访问求职者列表",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/job",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken3}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runJobListCardsRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18092'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "032 登录隔离身份4",
+          "request": {
+            "method": "POST",
+            "url": "{{rqHost}}/user/login",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"username\":\"rq_input_4\",\"password\":\"{{rqPassword}}\"}"
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runJobListCardsRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18092'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.collectionVariables.set('rqToken4',b.data);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "033 核对身份4",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/user/info",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken4}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runJobListCardsRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18092'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"身份角色\",()=>{pm.expect(b.data.id).eq(104);pm.expect(b.data.role).eq('ADMIN');});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "034 管理员不可访问求职者列表",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/job",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken4}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runJobListCardsRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18092'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "035 匿名访问被拒绝",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/job",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": []
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runJobListCardsRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18092'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('未登录HTTP401',()=>pm.expect(pm.response.code).eq(401));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "036 求职者不可访问企业管理列表",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/job/company",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runJobListCardsRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18092'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('业务拒绝且无成功数据',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(500);pm.expect(b.data).eq(null);});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "037 重复查询保持业务数据",
+          "request": {
+            "method": "GET",
+            "url": "{{rqHost}}/job?size=100",
+            "auth": {
+              "type": "noauth"
+            },
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{rqToken1}}"
+              }
+            ]
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if(pm.environment.get('runJobListCardsRegression')!=='true'||pm.environment.get('rqFixtureReady')!=='true'||pm.environment.get('rqHost')!=='http://127.0.0.1:18092'){pm.execution.skipRequest();}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b=pm.response.json();pm.test('HTTP200与业务200',()=>{pm.expect(pm.response.code).eq(200);pm.expect(b.code).eq(200);});pm.test(\"失败后全部业务字段未变\",()=>{pm.expect(b.data).deep.eq(JSON.parse(pm.collectionVariables.get('jcAll')))});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

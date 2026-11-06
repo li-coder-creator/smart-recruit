@@ -2,6 +2,10 @@ package com.recruit.smartrecruit.mapper;
 
 import com.recruit.smartrecruit.entity.Job;
 import com.recruit.smartrecruit.entity.enums.JobStatus;
+import com.recruit.smartrecruit.entity.enums.CompanyStatus;
+import com.recruit.smartrecruit.entity.enums.JobBrowseSort;
+import com.recruit.smartrecruit.entity.enums.JobSalaryUnit;
+import com.recruit.smartrecruit.entity.enums.RequiredAbilitiesSource;
 import com.recruit.smartrecruit.vo.JobListVO;
 import com.recruit.smartrecruit.vo.CompanyJobListVO;
 import com.recruit.smartrecruit.vo.JobStatusCountVO;
@@ -13,13 +17,18 @@ import java.util.List;
 public interface JobMapper {
     // 企业主页专用：企业归属与招聘中状态同时限制在 SQL 中。
     @Select("""
-            SELECT id, title, category, team, employment, status, city,
-                   experience, education, salary_min, salary_max, salary_unit,
-                   negotiable, update_time
-            FROM job
-            WHERE company_id = #{companyId}
-              AND status = #{status.code}
-            ORDER BY update_time DESC, id DESC
+            SELECT j.id, j.title, j.category, j.team, j.employment, j.status, j.city,
+                   j.experience, j.education, j.salary_min, j.salary_max, j.salary_unit,
+                   j.negotiable, j.update_time, j.company_id,
+                   c.name AS company_name, c.logo AS company_logo,
+                   j.summary, j.benefits, j.required_skills, j.preferred_skills,
+                   j.direction_code, j.required_abilities_source, j.required_abilities_version,
+                   j.published_at, j.deadline
+            FROM job j
+            LEFT JOIN company c ON c.id = j.company_id
+            WHERE j.company_id = #{companyId}
+              AND j.status = #{status.code}
+            ORDER BY j.update_time DESC, j.id DESC
             """)
     List<JobListVO> findActiveJobsByCompany(@Param("companyId") Long companyId,
                                           @Param("status") JobStatus status);
@@ -65,6 +74,9 @@ public interface JobMapper {
                 requirements,
                 bonus,
                 required_skills,
+                direction_code,
+                required_abilities_source,
+                required_abilities_version,
                 preferred_skills,
                 benefits,
                 deadline,
@@ -92,6 +104,9 @@ public interface JobMapper {
                 #{requirements},
                 #{bonus},
                 #{requiredSkills},
+                #{directionCode},
+                #{requiredAbilitiesSource},
+                #{requiredAbilitiesVersion},
                 #{preferredSkills},
                 #{benefits},
                 #{deadline},
@@ -169,6 +184,9 @@ public interface JobMapper {
             requirements=#{newJob.requirements},
             bonus=#{newJob.bonus},
             required_skills=#{newJob.requiredSkills},
+            direction_code=#{newJob.directionCode},
+            required_abilities_source=#{newJob.requiredAbilitiesSource},
+            required_abilities_version=#{newJob.requiredAbilitiesVersion},
             preferred_skills=#{newJob.preferredSkills},
             benefits=#{newJob.benefits},
             deadline=#{newJob.deadline}
@@ -184,72 +202,89 @@ public interface JobMapper {
     int delete(@Param("id") Long id, @Param("draftStatus") JobStatus draftStatus);
 
 
+    // 企业关联为多对一，不联查能力子表，避免一岗多行破坏分页和总数。
     // 求职者浏览岗位：查询指定状态的岗位列表，支持关键字搜索，分页由 PageHelper 处理
     @Select("""
             <script>
             SELECT
-                id,
-                title,
-                category,
-                team,
-                employment,
-                status,
-                city,
-                experience,
-                education,
-                salary_min,
-                salary_max,
-                salary_unit,
-                negotiable,
-                update_time
-            FROM job
-            WHERE status=#{jobStatus.code}
+                j.id, j.title, j.category, j.team, j.employment, j.status, j.city,
+                j.experience, j.education, j.salary_min, j.salary_max, j.salary_unit,
+                j.negotiable, j.update_time, j.company_id,
+                c.name AS company_name, c.logo AS company_logo,
+                j.summary, j.benefits, j.required_skills, j.preferred_skills,
+                j.direction_code, j.required_abilities_source, j.required_abilities_version,
+                j.published_at, j.deadline
+            FROM job j
+            JOIN company c ON c.id = j.company_id
+            WHERE j.status=#{jobStatus.code}
+              AND c.status=#{companyStatus}
             <if test="normalizedKeyword != null and normalizedKeyword != ''">
                 AND (
-                    title LIKE CONCAT('%', #{normalizedKeyword}, '%')
-                    OR category LIKE CONCAT('%', #{normalizedKeyword}, '%')
-                    OR city LIKE CONCAT('%', #{normalizedKeyword}, '%')
-                    OR team LIKE CONCAT('%', #{normalizedKeyword}, '%')
+                    j.title LIKE CONCAT('%', #{normalizedKeyword}, '%')
+                    OR j.category LIKE CONCAT('%', #{normalizedKeyword}, '%')
+                    OR j.city LIKE CONCAT('%', #{normalizedKeyword}, '%')
+                    OR j.team LIKE CONCAT('%', #{normalizedKeyword}, '%')
+                    OR c.name LIKE CONCAT('%', #{normalizedKeyword}, '%')
+                    OR (j.required_abilities_source=#{legacySource}
+                        AND j.required_skills LIKE CONCAT('%', #{normalizedKeyword}, '%'))
+                    OR (j.required_abilities_source=#{structuredSource}
+                        AND EXISTS (
+                            SELECT 1 FROM job_required_ability a
+                            WHERE a.job_id=j.id
+                              AND (a.raw_text LIKE CONCAT('%', #{normalizedKeyword}, '%')
+                                   OR a.ability_name LIKE CONCAT('%', #{normalizedKeyword}, '%'))
+                        ))
+                    OR j.preferred_skills LIKE CONCAT('%', #{normalizedKeyword}, '%')
                 )
             </if>
-            ORDER BY update_time DESC, id DESC
+            <choose>
+                <when test="sort.name() == 'SALARY_DESC'">
+                    ORDER BY
+                        CASE WHEN j.salary_unit=#{monthlyUnit} AND j.negotiable=FALSE
+                                  AND j.salary_min &gt; 0 AND j.salary_max &gt;= j.salary_min
+                             THEN j.salary_max END DESC,
+                        j.update_time DESC, j.id DESC
+                </when>
+                <otherwise>
+                    ORDER BY j.update_time DESC, j.id DESC
+                </otherwise>
+            </choose>
             </script>
             """)
     List<JobListVO> findJob(@Param("normalizedKeyword") String normalizedKeyword,
-                            @Param("jobStatus") JobStatus jobStatus);
+                           @Param("jobStatus") JobStatus jobStatus,
+                           @Param("companyStatus") CompanyStatus companyStatus,
+                           @Param("sort") JobBrowseSort sort,
+                           @Param("monthlyUnit") JobSalaryUnit monthlyUnit,
+                           @Param("legacySource") RequiredAbilitiesSource legacySource,
+                           @Param("structuredSource") RequiredAbilitiesSource structuredSource);
 
     // 企业查看本公司岗位：按公司过滤，支持关键字搜索与状态筛选，分页由 PageHelper 处理
     @Select("""
             <script>
             SELECT
-                id,
-                title,
-                category,
-                team,
-                employment,
-                status,
-                city,
-                experience,
-                education,
-                salary_min,
-                salary_max,
-                salary_unit,
-                negotiable,
-                update_time
-            FROM job
-            WHERE company_id=#{companyId}
+                j.id, j.title, j.category, j.team, j.employment, j.status, j.city,
+                j.experience, j.education, j.salary_min, j.salary_max, j.salary_unit,
+                j.negotiable, j.update_time, j.company_id,
+                c.name AS company_name, c.logo AS company_logo,
+                j.summary, j.benefits, j.required_skills, j.preferred_skills,
+                j.direction_code, j.required_abilities_source, j.required_abilities_version,
+                j.published_at, j.deadline
+            FROM job j
+            LEFT JOIN company c ON c.id = j.company_id
+            WHERE j.company_id=#{companyId}
             <if test="keyword != null and keyword != ''">
                 AND (
-                    title LIKE CONCAT('%', #{keyword}, '%')
-                    OR category LIKE CONCAT('%', #{keyword}, '%')
-                    OR city LIKE CONCAT('%', #{keyword}, '%')
-                    OR team LIKE CONCAT('%', #{keyword}, '%')
+                    j.title LIKE CONCAT('%', #{keyword}, '%')
+                    OR j.category LIKE CONCAT('%', #{keyword}, '%')
+                    OR j.city LIKE CONCAT('%', #{keyword}, '%')
+                    OR j.team LIKE CONCAT('%', #{keyword}, '%')
                 )
             </if>
             <if test="status != null">
-                AND status=#{status.code}
+                AND j.status=#{status.code}
             </if>
-            ORDER BY update_time DESC, id DESC
+            ORDER BY j.update_time DESC, j.id DESC
             </script>
             """)
     List<CompanyJobListVO> findCompanyJob(@Param("companyId") Long companyId,

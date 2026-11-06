@@ -1,0 +1,13 @@
+{
+  "mainCollectionId": "56227183-00855bc5-e68c-4aab-bdc2-faffe0f70f82",
+  "folderId": "8ee02c7a-2843-fe70-2e39-3237ed5a2eeb",
+  "runners": {
+    "A": "56227183-07bfe6eb-9b9d-4558-89e8-0db8c6814899"
+  },
+  "folders": {
+    "A": "85be6ab7-6566-ddb3-8888-6cda5420a9bd"
+  },
+  "requestsByStage": {
+    "A": 76
+  }
+}

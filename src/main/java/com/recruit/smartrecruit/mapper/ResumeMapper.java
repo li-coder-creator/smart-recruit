@@ -31,7 +31,9 @@ public interface ResumeMapper {
             summary,
             is_default,
             is_favorite,
-            completion_rate
+            completion_rate,
+            career_stage,
+            formal_experience_status
         )
         VALUES
         (
@@ -48,7 +50,9 @@ public interface ResumeMapper {
             #{summary},
             #{isDefault},
             #{isFavorite},
-            #{completionRate}
+            #{completionRate},
+            #{careerStage},
+            #{formalExperienceStatus}
         )
         """)
     void add(Resumebasic resume);
@@ -171,6 +175,14 @@ public interface ResumeMapper {
             WHERE id= #{id}
             """)
     Resumebasic findById(Long id);
+
+    /** 声明和经历写入统一先锁父行，再重读子项。 */
+    @Select("SELECT * FROM resume WHERE id=#{id} AND user_id=#{userId} FOR UPDATE")
+    Resumebasic findOwnedByIdForUpdate(@Param("id") Long id, @Param("userId") Long userId);
+
+    @Update("UPDATE resume SET formal_experience_status=#{status} WHERE id=#{id} AND user_id=#{userId}")
+    int updateFormalExperienceStatus(@Param("id") Long id, @Param("userId") Long userId,
+            @Param("status") com.recruit.smartrecruit.entity.enums.FormalExperienceStatus status);
     //修改简历
     @Update("""
             UPDATE resume
@@ -186,7 +198,9 @@ public interface ResumeMapper {
             current_city=#{currentCity},
             politics_status=#{politicsStatus},
             headline=#{headline},
-            summary=#{summary}
+            summary=#{summary},
+            career_stage=#{careerStage},
+            formal_experience_status=#{formalExperienceStatus}
             WHERE id=#{id}
             """)
     void update(Resumebasic newResume);
@@ -209,7 +223,8 @@ public interface ResumeMapper {
                 salary_max,
                 salary_text,
                 available_date,
-                description
+                description,
+                direction_code
             ) VALUES
             (
                 #{resumeId},
@@ -219,7 +234,8 @@ public interface ResumeMapper {
                 #{jobPreference.salaryMax},
                 #{jobPreference.salaryText},
                 #{jobPreference.availableDate},
-                #{jobPreference.description}
+                #{jobPreference.description},
+                #{jobPreference.directionCode}
             )
             """)
     void addJobPreference(@Param("resumeId") Long resumeId, @Param("jobPreference") JobPreference jobPreference);
@@ -240,6 +256,9 @@ public interface ResumeMapper {
             """)
     JobPreference findJobPreferenceById(Long preferenceId);
 
+    @Select("SELECT * FROM job_preference WHERE id=#{id} FOR UPDATE")
+    JobPreference findJobPreferenceByIdForUpdate(Long id);
+
     //修改求职意向
     @Update("""
             UPDATE job_preference
@@ -250,7 +269,8 @@ public interface ResumeMapper {
             salary_max=#{jobPreference.salaryMax},
             salary_text=#{jobPreference.salaryText},
             available_date=#{jobPreference.availableDate},
-            description=#{jobPreference.description}
+            description=#{jobPreference.description},
+            direction_code=#{jobPreference.directionCode}
             WHERE id=#{preferenceId}
             """)
     void updateJobPreference(@Param("preferenceId") Long preferenceId, @Param("jobPreference") JobPreference jobPreference);
@@ -344,7 +364,9 @@ public interface ResumeMapper {
                 period_text,
                 description,
                 achievement,
-                sort_order
+                sort_order,
+                experience_type,
+                is_current
             ) VALUES
             (
                 #{resumeId},
@@ -355,7 +377,9 @@ public interface ResumeMapper {
                 #{experience.periodText},
                 #{experience.description},
                 #{experience.achievement},
-                #{experience.sortOrder}
+                #{experience.sortOrder},
+                #{experience.experienceType},
+                #{experience.isCurrent}
             )
             """)
     void addResumeExperience(@Param("resumeId") Long resumeId, @Param("experience") ResumeExperience resumeExperience);
@@ -372,6 +396,9 @@ public interface ResumeMapper {
             WHERE id = #{experienceId}
             """)
     ResumeExperience findExperienceById(Long experienceId);
+
+    @Select("SELECT * FROM resume_experience WHERE id=#{id} FOR UPDATE")
+    ResumeExperience findExperienceByIdForUpdate(Long id);
     @Update("""
             UPDATE resume_experience
             SET
@@ -382,7 +409,9 @@ public interface ResumeMapper {
             period_text=#{experience.periodText},
             description=#{experience.description},
             achievement=#{experience.achievement},
-            sort_order=#{experience.sortOrder}
+            sort_order=#{experience.sortOrder},
+            experience_type=#{experience.experienceType},
+            is_current=#{experience.isCurrent}
             WHERE id=#{experienceId}
             """
     )
@@ -469,13 +498,15 @@ public interface ResumeMapper {
             resume_id,
             skill_name,
             description,
-            sort_order
+            sort_order,
+            proficiency
         ) VALUES
         (
             #{resumeId},
             #{skill.skillName},
             #{skill.description},
-            #{skill.sortOrder}
+            #{skill.sortOrder},
+            #{skill.proficiency}
         )
         """)
     void addResumeSkill(@Param("resumeId") Long resumeId, @Param("skill") ResumeSkill skill);
@@ -494,7 +525,8 @@ public interface ResumeMapper {
             SET
             skill_name=#{skill.skillName},
             description=#{skill.description},
-            sort_order=#{skill.sortOrder}
+            sort_order=#{skill.sortOrder},
+            proficiency=#{skill.proficiency}
             WHERE id=#{skillId}
             """
     )
@@ -513,6 +545,9 @@ public interface ResumeMapper {
             """
     )
     ResumeSkill findSkillById(Long skillId);
+
+    @Select("SELECT * FROM resume_skill WHERE id=#{id} FOR UPDATE")
+    ResumeSkill findSkillByIdForUpdate(Long id);
 
     //简历证书
     @Insert("""

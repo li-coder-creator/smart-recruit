@@ -67,6 +67,7 @@ public class ApplicationServiceImpl implements ApplicationService {
         if (job.getStatus() != JobStatus.ACTIVE.getCode()) {
             throw new BusinessException("岗位当前不可投递");
         }
+        permissionService.requireApprovedJobCompany(job.getCompanyId());
         // 4. 查询简历
         Resumebasic resume = resumeMapper.findById(dto.getResumeId());
         // 5. 判断简历是否存在

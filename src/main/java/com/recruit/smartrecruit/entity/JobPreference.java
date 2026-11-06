@@ -1,6 +1,7 @@
 package com.recruit.smartrecruit.entity;
 
 import com.recruit.smartrecruit.constant.ResumeValidationConstants;
+import com.recruit.smartrecruit.entity.enums.JobDirection;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,4 +32,7 @@ public class JobPreference {
     private String description;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
+
+    /** 明确求职方向，null表示尚未确认。 */
+    private JobDirection directionCode;
 }

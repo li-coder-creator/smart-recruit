@@ -1,0 +1,25 @@
+{
+  "mainCollectionId": "56227183-00855bc5-e68c-4aab-bdc2-faffe0f70f82",
+  "folderId": "6bd82927-3b91-dadf-acee-684355f46664",
+  "runners": {
+    "A": "56227183-988d79e7-c73d-4734-bca2-da4cd3d5a69e",
+    "B": "56227183-adaab9f4-da73-4c56-aeef-92b77bcf77d9",
+    "C": "56227183-3fa68daf-43f3-44d7-b55a-04b20eb0c710",
+    "D": "56227183-db9c9faa-f135-413d-98b5-be978ee01a34",
+    "E": "56227183-af5033a7-3b98-48da-9b76-c0a3595e7c30"
+  },
+  "folders": {
+    "A": "88210c07-935d-35a0-b94e-de4fd8c676d3",
+    "B": "636d462f-fb6a-86d1-2169-8e0bf54c8d22",
+    "C": "61f5519f-65d9-15f5-e107-f0102f7228d5",
+    "D": "3788c41e-e7f8-0cc7-29e4-c4a61a13d484",
+    "E": "47d6a204-077b-d90b-44da-0228a5b21faf"
+  },
+  "requestsByStage": {
+    "A": 109,
+    "B": 9,
+    "C": 6,
+    "D": 4,
+    "E": 9
+  }
+}

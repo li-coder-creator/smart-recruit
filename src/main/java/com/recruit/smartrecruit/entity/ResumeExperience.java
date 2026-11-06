@@ -1,6 +1,7 @@
 package com.recruit.smartrecruit.entity;
 
 import com.recruit.smartrecruit.constant.ResumeValidationConstants;
+import com.recruit.smartrecruit.entity.enums.ExperienceType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -33,4 +34,10 @@ public class ResumeExperience {
     private Integer sortOrder;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
+
+    /** 实习和其他经历不计入正式工作月数。 */
+    private ExperienceType experienceType;
+
+    /** true至今、false已结束、null未确认；不能从endDate为空推断。 */
+    private Boolean isCurrent;
 }

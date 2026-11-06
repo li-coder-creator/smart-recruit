@@ -2,6 +2,7 @@ package com.recruit.smartrecruit.entity;
 
 
 import com.recruit.smartrecruit.constant.ResumeValidationConstants;
+import com.recruit.smartrecruit.entity.enums.AbilityProficiency;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,4 +24,7 @@ public class ResumeSkill {
     private Integer sortOrder;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
+
+    /** 可选的用户申报程度，不作为实际能力认证。 */
+    private AbilityProficiency proficiency;
 }

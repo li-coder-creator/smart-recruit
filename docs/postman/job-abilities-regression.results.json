@@ -1,0 +1,30 @@
+{
+  "date": "2026-11-01",
+  "collectionName": "SmartRecruit API - Optimized Regression",
+  "folder": "03 Job / 岗位能力接入回归 2026-11-01",
+  "persistentRequests": 137,
+  "totalHttpRequests": 139,
+  "totalAssertions": 191,
+  "phases": {
+    "A": {"persistentRequests": 109, "requests": 109, "assertions": 146, "failedRequests": 0, "failedAssertions": 0},
+    "B": {"persistentRequests": 9, "requests": 9, "assertions": 13, "failedRequests": 0, "failedAssertions": 0, "databaseRollbackVerified": true},
+    "C": {"persistentRequests": 6, "requests": 6, "assertions": 8, "failedRequests": 0, "failedAssertions": 0, "databaseRollbackVerified": true},
+    "D": {"persistentRequests": 4, "requests": 6, "assertions": 11, "failedRequests": 0, "failedAssertions": 0, "overlappingRequestsVerified": true},
+    "E": {"persistentRequests": 9, "requests": 9, "assertions": 13, "failedRequests": 0, "failedAssertions": 0}
+  },
+  "unitTests": {"RecommendationInputContractTest": 11, "JobAbilityContentPolicyTest": 10, "failures": 0, "errors": 0},
+  "audit": {
+    "sourceDatabase": "smart_recruit",
+    "sourceUnchanged": true,
+    "sourceSha256": "e59930d9da0a40319c9706d5a9de269c7fb245a28695b66edbe2b682fcefa00e",
+    "fixtureDatabase": "smart_recruit_job_abilities_1793519054874",
+    "fixtureTriggersRemoved": true,
+    "projectionsAndOrderingConsistent": true,
+    "noOrphanAbilities": true,
+    "postmanPersistenceVerified": true,
+    "postmanExecutionGuardsVerifiedOff": true,
+    "ownedServerStopped": true,
+    "ownedRedisKeysCleaned": true
+  },
+  "scope": "岗位推荐输入保存、详情、新旧来源兼容、事务、权限及并发；不包含推荐计算或语义匹配效果验收"
+}

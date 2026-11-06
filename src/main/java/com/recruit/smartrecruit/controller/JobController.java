@@ -3,9 +3,10 @@ package com.recruit.smartrecruit.controller;
 import com.recruit.smartrecruit.annotation.OperationLog;
 import com.recruit.smartrecruit.common.PageResult;
 import com.recruit.smartrecruit.common.Result;
-import com.recruit.smartrecruit.dto.JobSaveDTO;
+import com.recruit.smartrecruit.dto.JobContentSaveDTO;
 import com.recruit.smartrecruit.entity.Job;
 import com.recruit.smartrecruit.entity.enums.JobListFilter;
+import com.recruit.smartrecruit.entity.enums.JobBrowseSort;
 import com.recruit.smartrecruit.service.CompanyService;
 import com.recruit.smartrecruit.service.JobService;
 import com.recruit.smartrecruit.utils.ThreadLocalUtil;
@@ -30,7 +31,7 @@ public class JobController {
     //新建并发布岗位
     @OperationLog("发布岗位")
     @PostMapping
-    public Result<Void> addJob(@RequestBody @Valid JobSaveDTO jobSaveDTO){
+    public Result<Void> addJob(@RequestBody @Valid JobContentSaveDTO jobSaveDTO){
         Long userId = ThreadLocalUtil.getUserId();
         jobService.add(jobSaveDTO, userId);
         return Result.success();
@@ -38,7 +39,7 @@ public class JobController {
     //保存新草稿
     @OperationLog("保存新草稿")
     @PostMapping("/drafts")
-    public Result<Void> saveDraft(@RequestBody @Valid JobSaveDTO jobSaveDTO){
+    public Result<Void> saveDraft(@RequestBody @Valid JobContentSaveDTO jobSaveDTO){
         Long userId = ThreadLocalUtil.getUserId();
         jobService.saveDraft(jobSaveDTO, userId);
         return Result.success();
@@ -55,7 +56,7 @@ public class JobController {
     //修改岗位
     @OperationLog("修改岗位信息")
     @PutMapping("{id}")
-    public Result<Void> updateJob(@RequestBody @Valid JobSaveDTO jobSaveDTO,@PathVariable("id") long id){
+    public Result<Void> updateJob(@RequestBody @Valid JobContentSaveDTO jobSaveDTO,@PathVariable("id") long id){
         Long userId = ThreadLocalUtil.getUserId();
         jobService.update(jobSaveDTO, id, userId);
         return Result.success();
@@ -101,18 +102,19 @@ public class JobController {
     @GetMapping()
     public Result<PageResult<JobListVO>> listJob(@RequestParam(defaultValue = "1") Integer page,
                                                    @RequestParam(defaultValue = "10") Integer size,
-                                                   @RequestParam(required = false) String keyword
+                                                   @RequestParam(required = false) String keyword,
+                                                   @RequestParam(defaultValue = "UPDATED_DESC") JobBrowseSort sort
                                      ){
         Long userId = ThreadLocalUtil.getUserId();
-        PageResult<JobListVO> jobs=jobService.findJob(userId, page, size, keyword);
+        PageResult<JobListVO> jobs=jobService.findJob(userId, page, size, keyword, sort);
         return Result.success(jobs);
     }
     //查询岗位详情
     @OperationLog("查询岗位详情")
     @GetMapping("{id}")
-    public Result<JobDetailVO> infoActiveJob(@PathVariable("id") long id){
+    public Result<JobContentDetailVO> infoActiveJob(@PathVariable("id") long id){
         Long userId = ThreadLocalUtil.getUserId();
-        JobDetailVO job=jobService.findById(id, userId);
+        JobContentDetailVO job=jobService.findById(id, userId);
         return Result.success(job);
     }
 
@@ -132,9 +134,9 @@ public class JobController {
     //查询岗位详情
     @OperationLog("查询岗位详情")
     @GetMapping("/company/{id}")
-    public Result<JobDetailVO> infoJob(@PathVariable("id") long id){
+    public Result<JobContentDetailVO> infoJob(@PathVariable("id") long id){
         Long userId = ThreadLocalUtil.getUserId();
-        JobDetailVO job=jobService.findByCompanyId(id, userId);
+        JobContentDetailVO job=jobService.findByCompanyId(id, userId);
         return Result.success(job);
     }
 

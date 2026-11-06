@@ -3,13 +3,17 @@ package com.recruit.smartrecruit.controller;
 import com.recruit.smartrecruit.annotation.OperationLog;
 import com.recruit.smartrecruit.common.PageResult;
 import com.recruit.smartrecruit.common.Result;
-import com.recruit.smartrecruit.dto.ResumeBasicUpdateDTO;
-import com.recruit.smartrecruit.dto.ResumeCreateDTO;
+import com.recruit.smartrecruit.dto.*;
 import com.recruit.smartrecruit.entity.*;
 import com.recruit.smartrecruit.entity.enums.ResumeListFilter;
 import com.recruit.smartrecruit.service.ResumeService;
 import com.recruit.smartrecruit.utils.ThreadLocalUtil;
 import com.recruit.smartrecruit.vo.ResumeDetailVO;
+import com.recruit.smartrecruit.vo.ResumeBasicVO;
+import com.recruit.smartrecruit.vo.ResumeExperienceVO;
+import com.recruit.smartrecruit.vo.ResumeSkillVO;
+import com.recruit.smartrecruit.vo.JobPreferenceVO;
+import com.recruit.smartrecruit.vo.ResumeProfileDetailVO;
 import com.recruit.smartrecruit.vo.ResumeFavoriteUpdateDTO;
 import com.recruit.smartrecruit.vo.ResumeListVO;
 import jakarta.validation.Valid;
@@ -27,7 +31,7 @@ public class ResumeController {
     //添加简历
     @OperationLog("添加简历")
     @PostMapping()
-    public Result<Long> addResumebasic(@RequestBody @Valid ResumeCreateDTO resumebasic) {
+    public Result<Long> addResumebasic(@RequestBody @Valid ResumeProfileCreateDTO resumebasic) {
         //获取当前登录用户
         Long userId = ThreadLocalUtil.getUserId();
         Long resumeId = resumeService.add(resumebasic, userId);
@@ -46,15 +50,15 @@ public class ResumeController {
     }
     //查询简历详情
     @GetMapping("{id}")
-    public Result<Resumebasic> info(@PathVariable("id") Long id){
+    public Result<ResumeBasicVO> info(@PathVariable("id") Long id){
         Long userId = ThreadLocalUtil.getUserId();
         Resumebasic resumebasic=resumeService.findById(id,userId);
-        return Result.success(resumebasic);
+        return Result.success(new ResumeBasicVO(resumebasic));
     }
     //修改简历
     @OperationLog("修改简历")
     @PutMapping("{id}/basic")
-    public Result<Void> updateResumebasic(@RequestBody @Valid ResumeBasicUpdateDTO newResume, @PathVariable("id") Long resumeId){
+    public Result<Void> updateResumebasic(@RequestBody @Valid ResumeProfileUpdateDTO newResume, @PathVariable("id") Long resumeId){
         //获取当前登录用户
         Long userId = ThreadLocalUtil.getUserId();
         resumeService.update(newResume,userId,resumeId);
@@ -73,7 +77,7 @@ public class ResumeController {
     //增加求职意向
     @OperationLog("添加求职意向")
     @PostMapping("{resumeId}/preference")
-    public Result<Void> addJobPreference(@PathVariable("resumeId") Long resumeId, @RequestBody @Valid JobPreference jobPreference){
+    public Result<Void> addJobPreference(@PathVariable("resumeId") Long resumeId, @RequestBody @Valid JobPreferenceSaveDTO jobPreference){
         Long userId = ThreadLocalUtil.getUserId();
         resumeService.addJobPreference(resumeId, jobPreference, userId);
         return Result.success();
@@ -81,16 +85,16 @@ public class ResumeController {
 
     //查看求职意向
     @GetMapping("{resumeId}/preference")
-    public Result<JobPreference> getJobPreference(@PathVariable("resumeId") Long resumeId){
+    public Result<JobPreferenceVO> getJobPreference(@PathVariable("resumeId") Long resumeId){
         Long userId = ThreadLocalUtil.getUserId();
         JobPreference jobPreference = resumeService.getJobPreference(resumeId, userId);
-        return Result.success(jobPreference);
+        return Result.success(jobPreference == null ? null : new JobPreferenceVO(jobPreference));
     }
 
     //修改求职意向
     @OperationLog("修改求职意向")
     @PutMapping("preference/{preferenceId}")
-    public Result<Void> updateJobPreference(@PathVariable("preferenceId") Long preferenceId, @RequestBody @Valid JobPreference jobPreference){
+    public Result<Void> updateJobPreference(@PathVariable("preferenceId") Long preferenceId, @RequestBody @Valid JobPreferenceSaveDTO jobPreference){
         Long userId = ThreadLocalUtil.getUserId();
         resumeService.updateJobPreference(preferenceId, jobPreference, userId);
         return Result.success();
@@ -143,22 +147,22 @@ public class ResumeController {
     //增加经历
     @OperationLog("添加经历")
     @PostMapping("{resumeId}/experience")
-    public Result<Void> addResumeExperience(@PathVariable("resumeId") Long resumeId , @RequestBody @Valid ResumeExperience experience){
+    public Result<Void> addResumeExperience(@PathVariable("resumeId") Long resumeId , @RequestBody @Valid ResumeExperienceSaveDTO experience){
         Long userId = ThreadLocalUtil.getUserId();
         resumeService.addResumeExperience(resumeId, experience, userId);
         return Result.success();
     }
     //查看经历
     @GetMapping("{resumeId}/experience")
-    public Result<List<ResumeExperience>> getResumeExperience(@PathVariable("resumeId") Long resumeId){
+    public Result<List<ResumeExperienceVO>> getResumeExperience(@PathVariable("resumeId") Long resumeId){
         Long userId = ThreadLocalUtil.getUserId();
         List<ResumeExperience> resumeExperience=resumeService.getResumeExperience(resumeId,userId);
-        return Result.success(resumeExperience);
+        return Result.success(resumeExperience.stream().map(ResumeExperienceVO::new).toList());
     }
     //修改经历
     @OperationLog("修改经历")
     @PutMapping("experience/{experienceId}")
-    public Result<Void> updateResumeExperience(@PathVariable("experienceId") Long experienceId , @RequestBody @Valid ResumeExperience experience){
+    public Result<Void> updateResumeExperience(@PathVariable("experienceId") Long experienceId , @RequestBody @Valid ResumeExperienceSaveDTO experience){
         Long userId = ThreadLocalUtil.getUserId();
         resumeService.updateResumeExperience(experienceId, experience, userId);
         return Result.success();
@@ -207,22 +211,22 @@ public class ResumeController {
     //添加技能
     @OperationLog("添加技能")
     @PostMapping("{resumeId}/skill")
-    public Result<Void> addResumeSkill(@PathVariable("resumeId") Long resumeId , @RequestBody @Valid ResumeSkill skill){
+    public Result<Void> addResumeSkill(@PathVariable("resumeId") Long resumeId , @RequestBody @Valid ResumeSkillSaveDTO skill){
         Long userId = ThreadLocalUtil.getUserId();
         resumeService.addResumeSkill(resumeId, skill, userId);
         return Result.success();
     }
     //查看技能
     @GetMapping("{resumeId}/skill")
-    public Result<List<ResumeSkill>> getResumeSkill(@PathVariable("resumeId") Long resumeId){
+    public Result<List<ResumeSkillVO>> getResumeSkill(@PathVariable("resumeId") Long resumeId){
         Long userId = ThreadLocalUtil.getUserId();
         List<ResumeSkill> resumeSkill=resumeService.getResumeSkill(resumeId,userId);
-        return Result.success(resumeSkill);
+        return Result.success(resumeSkill.stream().map(ResumeSkillVO::new).toList());
     }
     //修改技能
     @OperationLog("修改技能")
     @PutMapping("skill/{skillId}")
-    public Result<Void> updateResumeSkill(@PathVariable("skillId") Long skillId , @RequestBody @Valid ResumeSkill skill){
+    public Result<Void> updateResumeSkill(@PathVariable("skillId") Long skillId , @RequestBody @Valid ResumeSkillSaveDTO skill){
         Long userId = ThreadLocalUtil.getUserId();
         resumeService.updateResumeSkill(skillId, skill, userId);
         return Result.success();
@@ -302,10 +306,10 @@ public class ResumeController {
 
     //获取简历全部详情信息
     @GetMapping("{resumeId}/detail")
-    public Result<ResumeDetailVO> getResumeDetail(@PathVariable("resumeId") Long resumeId){
+    public Result<ResumeProfileDetailVO> getResumeDetail(@PathVariable("resumeId") Long resumeId){
         Long userId = ThreadLocalUtil.getUserId();
         ResumeDetailVO resumeDetailVO=resumeService.getResumeDetail(resumeId,userId);
-        return Result.success(resumeDetailVO);
+        return Result.success(new ResumeProfileDetailVO(resumeDetailVO));
     }
 
     //设置默认简历

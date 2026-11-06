@@ -4,11 +4,13 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.recruit.smartrecruit.common.PageResult;
 import com.recruit.smartrecruit.constant.ResumeConstants;
-import com.recruit.smartrecruit.dto.ResumeBasicUpdateDTO;
-import com.recruit.smartrecruit.dto.ResumeCreateDTO;
+import com.recruit.smartrecruit.dto.*;
 import com.recruit.smartrecruit.entity.*;
 import com.recruit.smartrecruit.entity.enums.ApplicationStatus;
 import com.recruit.smartrecruit.entity.enums.ResumeListFilter;
+import com.recruit.smartrecruit.entity.enums.ExperienceType;
+import com.recruit.smartrecruit.entity.enums.FormalExperienceStatus;
+import com.recruit.smartrecruit.entity.enums.JobDirection;
 import com.recruit.smartrecruit.exception.BusinessException;
 import com.recruit.smartrecruit.mapper.ResumeMapper;
 import com.recruit.smartrecruit.permission.PermissionService;
@@ -16,26 +18,34 @@ import com.recruit.smartrecruit.service.ResumeService;
 import com.recruit.smartrecruit.vo.ResumeDetailVO;
 import com.recruit.smartrecruit.vo.ResumeListVO;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 
 import java.net.URI;
 import java.time.LocalDate;
+import java.time.Clock;
+import java.util.Objects;
 import java.util.List;
 
 @Service
 public class ResumeServiceImpl implements ResumeService {
     private final ResumeMapper resumeMapper;
     private final PermissionService permissionService;
-    public ResumeServiceImpl(ResumeMapper resumeMapper, PermissionService permissionService) {
+    private final Clock clock;
+
+    public ResumeServiceImpl(ResumeMapper resumeMapper, PermissionService permissionService,
+                             @Qualifier("applicationClock") Clock clock) {
         this.resumeMapper = resumeMapper;
         this.permissionService = permissionService;
+        this.clock = clock;
     }
     //添加简历
     @Override
     @Transactional
-    public Long add(ResumeCreateDTO resumebasic, Long userId) {
+    public Long add(ResumeProfileCreateDTO resumebasic, Long userId) {
         permissionService.requireJobSeeker(userId);
         //DTO 转换为数据库实体
         Resumebasic resume = new Resumebasic();
@@ -52,6 +62,8 @@ public class ResumeServiceImpl implements ResumeService {
         if (resumebasic.getBirthday() != null) {
             resume.setBirthday(resumebasic.getBirthday());
         }
+        resume.setCareerStage(resumebasic.getCareerStage());
+        resume.setFormalExperienceStatus(resumebasic.getFormalExperienceStatus());
         resume.setUserId(userId);
         //设置只能由后端管理的初始值
         resume.setIsDefault(false);
@@ -105,9 +117,16 @@ public class ResumeServiceImpl implements ResumeService {
     }
     //修改简历
     @Override
-    @Transactional
-    public void update(ResumeBasicUpdateDTO newResume,Long userId,Long resumeId) {
-        Resumebasic resume = findById(resumeId, userId);
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public void update(ResumeProfileUpdateDTO newResume,Long userId,Long resumeId) {
+        Resumebasic resume = requireOwnedResumeForUpdate(resumeId, userId);
+        if (newResume.wasProvided("careerStage")) {
+            resume.setCareerStage(newResume.getCareerStage());
+        }
+        if (newResume.wasProvided("formalExperienceStatus")) {
+            validateNoneDeclaration(newResume.getFormalExperienceStatus(), resumeMapper.getResumeExperience(resumeId));
+            resume.setFormalExperienceStatus(newResume.getFormalExperienceStatus());
+        }
         // 只修改允许前端修改的基础信息
         resume.setTitle(newResume.getTitle());
         resume.setRealName(newResume.getRealName());
@@ -124,18 +143,9 @@ public class ResumeServiceImpl implements ResumeService {
     }
     //删除简历
     @Override
-    @Transactional
-    public void delete(Long id,Long userId) {
-        permissionService.requireJobSeeker(userId);
-        //从数据库拿到查询简历对应的实体
-        Resumebasic resume=resumeMapper.findById(id);
-        if (resume == null) {
-            throw new BusinessException("简历不存在");
-        }
-        //判断查询简历是当前用户的简历
-        if (!resume.getUserId().equals(userId)){
-            throw new BusinessException("无权限访问");
-        }
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public void delete(Long id, Long userId) {
+        requireOwnedResumeForUpdate(id, userId);
         //先级联删除简历关联的各子模块数据，避免产生孤儿数据
         resumeMapper.deleteJobPreferenceByResumeId(id);
         resumeMapper.deleteEducationByResumeId(id);
@@ -150,15 +160,16 @@ public class ResumeServiceImpl implements ResumeService {
 
     //添加求职意向
     @Override
-    @Transactional
-    public void addJobPreference(Long resumeId, JobPreference jobPreference, Long userId) {
-        findById(resumeId, userId);
-        JobPreference exist = resumeMapper.findJobPreferenceByResumeId(resumeId);
-        if (exist != null) {
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public void addJobPreference(Long resumeId, JobPreferenceSaveDTO dto, Long userId) {
+        requireOwnedResumeForUpdate(resumeId, userId);
+        if (resumeMapper.findJobPreferenceByResumeId(resumeId) != null) {
             throw new BusinessException("求职意向已存在");
         }
-        validateSalaryRange(jobPreference.getSalaryMin(), jobPreference.getSalaryMax());
-        resumeMapper.addJobPreference(resumeId, jobPreference);
+        JobPreference preference = new JobPreference();
+        applyPreference(dto, preference);
+        validateSalaryRange(preference.getSalaryMin(), preference.getSalaryMax());
+        resumeMapper.addJobPreference(resumeId, preference);
         refreshCompletionRate(resumeId, userId);
     }
     //获取求职意向
@@ -169,28 +180,29 @@ public class ResumeServiceImpl implements ResumeService {
     }
     //修改求职意向
     @Override
-    @Transactional
-    public void updateJobPreference(Long preferenceId, JobPreference jobPreference, Long userId) {
-        JobPreference exist = resumeMapper.findJobPreferenceById(preferenceId);
-        if (exist == null) {
-            throw new BusinessException("求职意向不存在");
-        }
-        findById(exist.getResumeId(), userId);
-        validateSalaryRange(jobPreference.getSalaryMin(), jobPreference.getSalaryMax());
-        resumeMapper.updateJobPreference(preferenceId, jobPreference);
-        refreshCompletionRate(exist.getResumeId(), userId);
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public void updateJobPreference(Long preferenceId, JobPreferenceSaveDTO dto, Long userId) {
+        JobPreference lookup = resumeMapper.findJobPreferenceById(preferenceId);
+        if (lookup == null) throw new BusinessException("求职意向不存在");
+        requireOwnedResumeForUpdate(lookup.getResumeId(), userId);
+        JobPreference current = resumeMapper.findJobPreferenceByIdForUpdate(preferenceId);
+        if (current == null) throw new BusinessException("求职意向不存在");
+        applyPreference(dto, current);
+        validateSalaryRange(current.getSalaryMin(), current.getSalaryMax());
+        resumeMapper.updateJobPreference(preferenceId, current);
+        refreshCompletionRate(current.getResumeId(), userId);
     }
     //删除求职意向
     @Override
-    @Transactional
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public void deleteJobPreference(Long preferenceId, Long userId) {
-        JobPreference exist = resumeMapper.findJobPreferenceById(preferenceId);
-        if (exist == null) {
-            throw new BusinessException("求职意向不存在");
-        }
-        findById(exist.getResumeId(), userId);
+        JobPreference lookup = resumeMapper.findJobPreferenceById(preferenceId);
+        if (lookup == null) throw new BusinessException("求职意向不存在");
+        requireOwnedResumeForUpdate(lookup.getResumeId(), userId);
+        JobPreference current = resumeMapper.findJobPreferenceByIdForUpdate(preferenceId);
+        if (current == null) throw new BusinessException("求职意向不存在");
         resumeMapper.deleteJobPreference(preferenceId);
-        refreshCompletionRate(exist.getResumeId(), userId);
+        refreshCompletionRate(current.getResumeId(), userId);
     }
 
     //添加简历教育经历
@@ -241,15 +253,15 @@ public class ResumeServiceImpl implements ResumeService {
 
     //添加简历工作经历
     @Override
-    @Transactional
-    public void addResumeExperience(Long resumeId, ResumeExperience experience, Long userId) {
-        findById(resumeId, userId);
-        //设置默认排序顺序
-        if (experience.getSortOrder() == null) {
-            experience.setSortOrder(ResumeConstants.DEFAULT_SORT_ORDER);
-        }
-        validateDateRange(experience.getStartDate(), experience.getEndDate(), "工作经历");
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public void addResumeExperience(Long resumeId, ResumeExperienceSaveDTO dto, Long userId) {
+        Resumebasic resume = requireOwnedResumeForUpdate(resumeId, userId);
+        ResumeExperience experience = new ResumeExperience();
+        experience.setExperienceType(ExperienceType.UNKNOWN);
+        applyExperience(dto, experience);
+        validateExperience(experience);
         resumeMapper.addResumeExperience(resumeId, experience);
+        reconcileExperienceDeclaration(resume, false);
         refreshCompletionRate(resumeId, userId);
     }
     //获取简历工作经历
@@ -260,31 +272,32 @@ public class ResumeServiceImpl implements ResumeService {
     }
     //修改简历工作经历
     @Override
-    @Transactional
-    public void updateResumeExperience(Long experienceId, ResumeExperience experience, Long userId) {
-        ResumeExperience exist = resumeMapper.findExperienceById(experienceId);
-        if (exist == null) {
-            throw new BusinessException("工作经历不存在");
-        }
-        findById(exist.getResumeId(), userId);
-        if (experience.getSortOrder() == null) {
-            experience.setSortOrder(exist.getSortOrder());
-        }
-        validateDateRange(experience.getStartDate(), experience.getEndDate(), "工作经历");
-        resumeMapper.updateResumeExperience(experienceId, experience);
-        refreshCompletionRate(exist.getResumeId(), userId);
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public void updateResumeExperience(Long experienceId, ResumeExperienceSaveDTO dto, Long userId) {
+        ResumeExperience lookup = resumeMapper.findExperienceById(experienceId);
+        if (lookup == null) throw new BusinessException("工作经历不存在");
+        Resumebasic resume = requireOwnedResumeForUpdate(lookup.getResumeId(), userId);
+        ResumeExperience current = resumeMapper.findExperienceByIdForUpdate(experienceId);
+        if (current == null) throw new BusinessException("工作经历不存在");
+        boolean wasFormal = current.getExperienceType() == ExperienceType.FORMAL;
+        applyExperience(dto, current);
+        validateExperience(current);
+        resumeMapper.updateResumeExperience(experienceId, current);
+        reconcileExperienceDeclaration(resume, wasFormal && current.getExperienceType() != ExperienceType.FORMAL);
+        refreshCompletionRate(current.getResumeId(), userId);
     }
     //删除简历工作经历
     @Override
-    @Transactional
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public void deleteResumeExperience(Long experienceId, Long userId) {
-        ResumeExperience exist = resumeMapper.findExperienceById(experienceId);
-        if (exist == null) {
-            throw new BusinessException("工作经历不存在");
-        }
-        findById(exist.getResumeId(), userId);
+        ResumeExperience lookup = resumeMapper.findExperienceById(experienceId);
+        if (lookup == null) throw new BusinessException("工作经历不存在");
+        Resumebasic resume = requireOwnedResumeForUpdate(lookup.getResumeId(), userId);
+        ResumeExperience current = resumeMapper.findExperienceByIdForUpdate(experienceId);
+        if (current == null) throw new BusinessException("工作经历不存在");
         resumeMapper.deleteResumeExperience(experienceId);
-        refreshCompletionRate(exist.getResumeId(), userId);
+        reconcileExperienceDeclaration(resume, current.getExperienceType() == ExperienceType.FORMAL);
+        refreshCompletionRate(current.getResumeId(), userId);
     }
 
     //添加简历项目经历
@@ -338,12 +351,11 @@ public class ResumeServiceImpl implements ResumeService {
     }
     //技能
     @Override
-    @Transactional
-    public void addResumeSkill(Long resumeId, ResumeSkill skill, Long userId) {
-        findById(resumeId, userId);
-        if(skill.getSortOrder() == null ){
-            skill.setSortOrder(ResumeConstants.DEFAULT_SORT_ORDER);
-        }
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public void addResumeSkill(Long resumeId, ResumeSkillSaveDTO dto, Long userId) {
+        requireOwnedResumeForUpdate(resumeId, userId);
+        ResumeSkill skill = new ResumeSkill();
+        applySkill(dto, skill);
         resumeMapper.addResumeSkill(resumeId, skill);
         refreshCompletionRate(resumeId, userId);
     }
@@ -353,31 +365,27 @@ public class ResumeServiceImpl implements ResumeService {
         return resumeMapper.getResumeSkill(resumeId);
     }
     @Override
-    @Transactional
-    public void updateResumeSkill(Long skillId, ResumeSkill skill, Long userId) {
-        ResumeSkill exist = resumeMapper.findSkillById(skillId);
-        if (exist == null) {
-            throw new BusinessException("技能不存在");
-        }
-        findById(exist.getResumeId(), userId);
-        if (skill.getSortOrder() == null) {
-            skill.setSortOrder(exist.getSortOrder());
-        }
-        resumeMapper.updateResumeSkill(skillId, skill);
-        refreshCompletionRate(exist.getResumeId(), userId);
-
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public void updateResumeSkill(Long skillId, ResumeSkillSaveDTO dto, Long userId) {
+        ResumeSkill lookup = resumeMapper.findSkillById(skillId);
+        if (lookup == null) throw new BusinessException("技能不存在");
+        requireOwnedResumeForUpdate(lookup.getResumeId(), userId);
+        ResumeSkill current = resumeMapper.findSkillByIdForUpdate(skillId);
+        if (current == null) throw new BusinessException("技能不存在");
+        applySkill(dto, current);
+        resumeMapper.updateResumeSkill(skillId, current);
+        refreshCompletionRate(current.getResumeId(), userId);
     }
     @Override
-    @Transactional
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public void deleteResumeSkill(Long skillId, Long userId) {
-        ResumeSkill exist = resumeMapper.findSkillById(skillId);
-        if (exist == null) {
-            throw new BusinessException("技能不存在");
-        }
-        findById(exist.getResumeId(), userId);
+        ResumeSkill lookup = resumeMapper.findSkillById(skillId);
+        if (lookup == null) throw new BusinessException("技能不存在");
+        requireOwnedResumeForUpdate(lookup.getResumeId(), userId);
+        ResumeSkill current = resumeMapper.findSkillByIdForUpdate(skillId);
+        if (current == null) throw new BusinessException("技能不存在");
         resumeMapper.deleteResumeSkill(skillId);
-        refreshCompletionRate(exist.getResumeId(), userId);
-
+        refreshCompletionRate(current.getResumeId(), userId);
     }
 
     //证书
@@ -457,6 +465,7 @@ public class ResumeServiceImpl implements ResumeService {
 
     //简历全部详情
     @Override
+    @Transactional(readOnly = true, isolation = Isolation.REPEATABLE_READ)
     public ResumeDetailVO getResumeDetail(Long resumeId, Long userId) {
         //校验简历存在且归属当前用户，同时拿到简历基本信息
         Resumebasic resume = findById(resumeId, userId);
@@ -540,6 +549,95 @@ public class ResumeServiceImpl implements ResumeService {
         if (StringUtils.hasText(resume.getSummary())) completionRate += ResumeConstants.COMPLETION_ITEM_SCORE;
 
         return Math.min(completionRate, ResumeConstants.COMPLETE_RATE);
+    }
+
+    private Resumebasic requireOwnedResumeForUpdate(Long id, Long userId) {
+        permissionService.requireJobSeeker(userId);
+        Resumebasic resume = resumeMapper.findOwnedByIdForUpdate(id, userId);
+        if (resume == null) throw new BusinessException("简历不存在或无权访问");
+        return resume;
+    }
+
+    private void validateNoneDeclaration(FormalExperienceStatus status, List<ResumeExperience> experiences) {
+        if (status == FormalExperienceStatus.NONE && experiences.stream().anyMatch(item ->
+                item.getExperienceType() == ExperienceType.FORMAL || item.getExperienceType() == ExperienceType.UNKNOWN
+                        || item.getExperienceType() == null)) {
+            throw new BusinessException("存在正式或未分类经历，不能确认暂无正式工作经历");
+        }
+    }
+
+    private void reconcileExperienceDeclaration(Resumebasic resume, boolean removedFormal) {
+        List<ResumeExperience> experiences = resumeMapper.getResumeExperience(resume.getId());
+        validateNoneDeclaration(resume.getFormalExperienceStatus(), experiences);
+        boolean hasFormal = experiences.stream().anyMatch(item -> item.getExperienceType() == ExperienceType.FORMAL);
+        FormalExperienceStatus status = resume.getFormalExperienceStatus();
+        if (hasFormal && status == FormalExperienceStatus.UNKNOWN) status = FormalExperienceStatus.HAS_EXPERIENCE;
+        if (removedFormal && !hasFormal && status == FormalExperienceStatus.HAS_EXPERIENCE) status = FormalExperienceStatus.UNKNOWN;
+        if (status != resume.getFormalExperienceStatus()) {
+            if (resumeMapper.updateFormalExperienceStatus(resume.getId(), resume.getUserId(), status) != 1) {
+                throw new BusinessException("正式经历确认更新失败");
+            }
+            resume.setFormalExperienceStatus(status);
+        }
+    }
+
+    private void applyExperience(ResumeExperienceSaveDTO dto, ResumeExperience target) {
+        target.setCompanyName(dto.getCompanyName());
+        target.setPosition(dto.getPosition());
+        target.setPeriodText(dto.getPeriodText());
+        target.setDescription(dto.getDescription());
+        target.setAchievement(dto.getAchievement());
+        target.setSortOrder(dto.getSortOrder() != null ? dto.getSortOrder()
+                : target.getSortOrder() != null ? target.getSortOrder() : ResumeConstants.DEFAULT_SORT_ORDER);
+        if (dto.wasProvided("startDate")) target.setStartDate(dto.getStartDate());
+        if (dto.wasProvided("endDate")) target.setEndDate(dto.getEndDate());
+        if (dto.wasProvided("experienceType")) target.setExperienceType(dto.getExperienceType());
+        if (dto.wasProvided("isCurrent")) target.setIsCurrent(dto.getIsCurrent());
+    }
+
+    private void validateExperience(ResumeExperience experience) {
+        LocalDate start = experience.getStartDate(), end = experience.getEndDate();
+        validateDateRange(start, end, "工作经历");
+        if (Boolean.TRUE.equals(experience.getIsCurrent()) && end != null) {
+            throw new BusinessException("至今经历不能同时填写结束日期");
+        }
+        if (experience.getExperienceType() == ExperienceType.UNKNOWN) return;
+        LocalDate today = LocalDate.now(clock);
+        if (start == null || start.isAfter(today)) throw new BusinessException("已分类经历须填写不晚于今天的开始日期");
+        if (experience.getIsCurrent() == null) throw new BusinessException("已分类经历须明确是否至今");
+        if (Boolean.FALSE.equals(experience.getIsCurrent()) && (end == null || end.isAfter(today))) {
+            throw new BusinessException("已结束经历须填写不晚于今天的结束日期");
+        }
+    }
+
+    private void applySkill(ResumeSkillSaveDTO dto, ResumeSkill target) {
+        target.setSkillName(dto.getSkillName());
+        target.setDescription(dto.getDescription());
+        target.setSortOrder(dto.getSortOrder() != null ? dto.getSortOrder()
+                : target.getSortOrder() != null ? target.getSortOrder() : ResumeConstants.DEFAULT_SORT_ORDER);
+        if (dto.wasProvided("proficiency")) target.setProficiency(dto.getProficiency());
+        if (target.getProficiency() != null && target.getSkillName().strip().matches(
+                com.recruit.smartrecruit.constant.ResumeValidationConstants.NEGATED_ABILITY_NAME_PATTERN)) {
+            throw new BusinessException("技能否定描述与掌握程度矛盾，请确认后保存");
+        }
+    }
+
+    private void applyPreference(JobPreferenceSaveDTO dto, JobPreference target) {
+        JobDirection direction = dto.wasProvided("directionCode") ? dto.getDirectionCode()
+                : Objects.equals(target.getExpectedPosition(), dto.getExpectedPosition()) ? target.getDirectionCode() : null;
+        JobDirection exact = "后端开发".equals(dto.getExpectedPosition()) ? JobDirection.BACKEND
+                : "前端开发".equals(dto.getExpectedPosition()) ? JobDirection.FRONTEND : null;
+        if (direction != null && exact != null && direction != exact) {
+            throw new BusinessException("期望职位与方向代码矛盾");
+        }
+        target.setExpectedPosition(dto.getExpectedPosition());
+        target.setExpectedCity(dto.getExpectedCity());
+        target.setSalaryMin(dto.getSalaryMin());
+        target.setSalaryMax(dto.getSalaryMax());
+        target.setSalaryText(dto.getSalaryText());
+        target.setAvailableDate(dto.getAvailableDate());
+        target.setDescription(dto.getDescription());
+        target.setDirectionCode(direction);
     }
 
     private void validateDateRange(LocalDate startDate, LocalDate endDate, String sectionName) {

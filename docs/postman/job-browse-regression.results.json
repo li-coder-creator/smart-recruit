@@ -1,0 +1,31 @@
+{
+  "date": "2026-11-01",
+  "runner": "Postman MCP runCollection",
+  "mainCollection": "SmartRecruit API - Optimized Regression",
+  "mainCollectionId": "56227183-00855bc5-e68c-4aab-bdc2-faffe0f70f82",
+  "folder": "03 Job / 普通岗位查询回归 2026-11-01 / A 审核搜索排序与卡片回归",
+  "environmentId": "56227183-62b21383-9a1d-44d5-8dbd-de6602ea8a4e",
+  "isolationPort": 18093,
+  "persistentRequestsVerified": 76,
+  "finalRun": {
+    "totalRequests": 76,
+    "failedRequests": 0,
+    "totalAssertions": 139,
+    "failedAssertions": 0,
+    "totalIterations": 1,
+    "failedIterations": 0
+  },
+  "earlierRuns": [
+    {"requests": 3, "assertions": 5, "failedAssertions": 1, "reason": "Fixture ON UPDATE timestamp changed expected first item; fixture order repaired after verifying baseline data unchanged"},
+    {"requests": 19, "assertions": 38, "failedAssertions": 1, "reason": "Expected search set omitted two inherited Redis/MySQL fixture rows; main collection and runner assertions corrected"}
+  ],
+  "localTests": {"total": 181, "newThisStage": 11, "failures": 0, "errors": 0, "skipped": 0},
+  "httpCoverageLimit": "Two malicious SQL-string samples were not executed after the initial collection save returned Postman/Cloudflare HTTP403. Binding and fixed SQL branches were validated locally; ordinary and invalid-enum HTTP cases persisted and passed.",
+  "sourceUnchanged": true,
+  "sourceSha256": "e59930d9da0a40319c9706d5a9de269c7fb245a28695b66edbe2b682fcefa00e",
+  "fixtureBusinessDataUnchanged": true,
+  "fixtureSha256": "6f2fad11043399d20fa216b70774a6163ceacaeeeddcdf50f412a17318e6280a",
+  "guardsVerifiedOff": true,
+  "ownedServerStopped": true,
+  "dedicatedRedisCleaned": true
+}

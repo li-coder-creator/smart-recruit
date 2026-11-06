@@ -5,13 +5,19 @@ import com.github.pagehelper.PageInfo;
 import com.recruit.smartrecruit.common.PageResult;
 import com.recruit.smartrecruit.constant.JobConstants;
 import com.recruit.smartrecruit.constant.JobValidationConstants;
-import com.recruit.smartrecruit.dto.JobSaveDTO;
+import com.recruit.smartrecruit.dto.JobContentSaveDTO;
 import com.recruit.smartrecruit.dto.JobApplicationCountDTO;
 import com.recruit.smartrecruit.entity.Company;
 import com.recruit.smartrecruit.entity.Job;
 import com.recruit.smartrecruit.entity.JobActivity;
+import com.recruit.smartrecruit.entity.JobRequiredAbility;
+import com.recruit.smartrecruit.entity.enums.RequiredAbilitiesSource;
+import com.recruit.smartrecruit.mapper.JobRequiredAbilityMapper;
 import com.recruit.smartrecruit.entity.enums.ApplicationStatus;
 import com.recruit.smartrecruit.entity.enums.JobListFilter;
+import com.recruit.smartrecruit.entity.enums.JobBrowseSort;
+import com.recruit.smartrecruit.entity.enums.JobSalaryUnit;
+import com.recruit.smartrecruit.entity.enums.CompanyStatus;
 import com.recruit.smartrecruit.entity.enums.JobStatus;
 import com.recruit.smartrecruit.entity.enums.JobOperation;
 import com.recruit.smartrecruit.exception.BusinessException;
@@ -58,12 +64,15 @@ public class JobServiceImpl implements JobService {
     private final CompanyMapper companyMapper;
     private final ApplicationMapper applicationMapper;
     private final JobActivityMapper jobActivityMapper;
+    private final JobRequiredAbilityMapper abilityMapper;
+    private final JobAbilityContentPolicy contentPolicy;
+    private final JobContentSnapshotReader snapshotReader;
     private final String CACHE_NULL = "NOT_FOUND";
     // 岗位详情缓存 key 前缀（读写、失效统一使用，避免 key 不一致导致脏缓存）
-    private static final String JOB_DETAIL_CACHE_PREFIX = "job:detail:";
-    private static final String JOB_DETAIL_LOCK_PREFIX = "lock:job:detail:";
+    private static final String JOB_DETAIL_CACHE_PREFIX = "job:detail:content:v1:";
+    private static final String JOB_DETAIL_LOCK_PREFIX = "lock:job:detail:content:v1:";
 
-    public JobServiceImpl(JobMapper jobMapper, PermissionService permissionService, RedisTemplate<String, Object> redisTemplate, ScheduledExecutorService cacheDelayExecutor, CompanyMapper companyMapper, ApplicationMapper applicationMapper, JobActivityMapper jobActivityMapper) {
+    public JobServiceImpl(JobMapper jobMapper, PermissionService permissionService, RedisTemplate<String, Object> redisTemplate, ScheduledExecutorService cacheDelayExecutor, CompanyMapper companyMapper, ApplicationMapper applicationMapper, JobActivityMapper jobActivityMapper, JobRequiredAbilityMapper abilityMapper, JobAbilityContentPolicy contentPolicy, JobContentSnapshotReader snapshotReader) {
         this.jobMapper = jobMapper;
         this.permissionService = permissionService;
         this.redisTemplate = redisTemplate;
@@ -71,6 +80,9 @@ public class JobServiceImpl implements JobService {
         this.companyMapper = companyMapper;
         this.applicationMapper = applicationMapper;
         this.jobActivityMapper = jobActivityMapper;
+        this.abilityMapper = abilityMapper;
+        this.contentPolicy = contentPolicy;
+        this.snapshotReader = snapshotReader;
     }
 
     // 添加并发布岗位
@@ -120,34 +132,56 @@ public class JobServiceImpl implements JobService {
      }
     }
     @Override
-    @Transactional
-    public void add(JobSaveDTO jobSaveDTO , Long userId) {
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public void add(JobContentSaveDTO jobSaveDTO , Long userId) {
         Company company = permissionService.requireApprovedCompany(userId);
         Job job = new Job();
         // 设置公司ID
         job.setCompanyId(company.getId());
         //dto转entity
-        jobSaveDTO.applyTo(job);
+        contentPolicy.apply(jobSaveDTO, job);
         validateForPublish(job);
         // 设置岗位状态为招聘中
         job.setStatus(JobStatus.ACTIVE.getCode());
         job.setPublishedAt(LocalDateTime.now()) ;
         requireJobWriteSucceeded(jobMapper.add(job));
+        replaceRequiredAbilities(job, jobSaveDTO);
         recordJobActivity(job.getId(), userId, JobOperation.PUBLISH);
+        evictJobDetailCache(job.getId());
     }
     @Override
-    @Transactional
-    public void saveDraft(JobSaveDTO jobSaveDTO, Long userId) {
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public void saveDraft(JobContentSaveDTO jobSaveDTO, Long userId) {
         Company company = permissionService.requireApprovedCompany(userId);
         Job job = new Job();
         // 设置公司ID
         job.setCompanyId(company.getId());
         //dto转entity
-        jobSaveDTO.applyTo(job);
+        contentPolicy.apply(jobSaveDTO, job);
         // 设置岗位状态为草稿
         job.setStatus(JobStatus.DRAFT.getCode());
         requireJobWriteSucceeded(jobMapper.add(job));
+        replaceRequiredAbilities(job, jobSaveDTO);
         recordJobActivity(job.getId(), userId, JobOperation.CREATE_DRAFT);
+        evictJobDetailCache(job.getId());
+    }
+
+    /** 调用方事务覆盖主表、子表、版本和操作记录；所有已有岗位写操作共用父行锁。 */
+    private void replaceRequiredAbilities(Job job, JobContentSaveDTO dto) {
+        if (dto.getRequiredAbilities() == null) return;
+        abilityMapper.deleteByJobId(job.getId());
+        for (int index = 0; index < dto.getRequiredAbilities().size(); index++) {
+            var input = dto.getRequiredAbilities().get(index);
+            JobRequiredAbility ability = new JobRequiredAbility();
+            ability.setJobId(job.getId());
+            ability.setRawText(input.getRawText());
+            ability.setAbilityName(input.getAbilityName());
+            ability.setProficiency(input.getProficiency());
+            ability.setSortOrder(index);
+            if (abilityMapper.add(ability) != 1) {
+                throw new BusinessException("能力要求保存失败，操作已回滚");
+            }
+        }
     }
 
     /**
@@ -226,7 +260,7 @@ public class JobServiceImpl implements JobService {
         }
     }
 
-    @Transactional
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     @Override
     public void publishDraft(long id, Long userId) {
      Job job = requireOwnedJob(id, userId, "没有发布权限");
@@ -234,6 +268,10 @@ public class JobServiceImpl implements JobService {
       throw new BusinessException("已发布");
      }
      validateForPublish(job);
+     if (job.getRequiredAbilitiesSource() == RequiredAbilitiesSource.STRUCTURED
+             && abilityMapper.findByJobId(id).isEmpty()) {
+         throw new BusinessException("必备能力不能为空");
+     }
      // 发布：写入招聘中状态与发布时间（落库）
      LocalDateTime publishedAt = LocalDateTime.now();
      requireJobWriteSucceeded(jobMapper.publishJob(id, JobStatus.ACTIVE, publishedAt, job.getStatus()));
@@ -284,16 +322,17 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    @Transactional
-    public void update(JobSaveDTO jobSaveDTO,Long id, Long userId) {
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public void update(JobContentSaveDTO jobSaveDTO,Long id, Long userId) {
         Job job = requireOwnedJob(id, userId, "没有修改权限");
-        jobSaveDTO.applyTo(job);
+        contentPolicy.apply(jobSaveDTO, job);
         if (JobStatus.ACTIVE.getCode() == job.getStatus()
              || JobStatus.PAUSED.getCode() == job.getStatus()) {
       validateForPublish(job);
      }
      // 更新数据库
      requireJobWriteSucceeded(jobMapper.update(job));
+     replaceRequiredAbilities(job, jobSaveDTO);
      recordJobActivity(job.getId(), userId, JobOperation.UPDATE);
      // 失效详情缓存
      evictJobDetailCache(job.getId());
@@ -323,29 +362,36 @@ public class JobServiceImpl implements JobService {
      }
     }
     @Override
-    public PageResult<JobListVO> findJob(Long userId, int pageNum, int pageSize ,String keyword) {
+    public PageResult<JobListVO> findJob(Long userId, int pageNum, int pageSize, String keyword, JobBrowseSort sort) {
      permissionService.requireJobSeeker(userId);
      validatePage(pageNum, pageSize);
      //规范化关键字
      String normalizedKeyword = keyword == null ? "" : keyword.trim();
-     PageHelper.startPage(pageNum,pageSize);
-     List<JobListVO> jobListVOs = jobMapper.findJob(normalizedKeyword,
-                                                    JobStatus.ACTIVE);
-     PageInfo<JobListVO> pageInfo = new PageInfo<>(jobListVOs);
-     return new PageResult<>(pageInfo.getTotal(), pageInfo.getList()) ;
+     JobBrowseSort effectiveSort = sort == null ? JobBrowseSort.UPDATED_DESC : sort;
+     try {
+      PageHelper.startPage(pageNum,pageSize);
+      List<JobListVO> jobListVOs = jobMapper.findJob(normalizedKeyword, JobStatus.ACTIVE,
+              CompanyStatus.APPROVED, effectiveSort, JobSalaryUnit.MONTH,
+              RequiredAbilitiesSource.LEGACY_TEXT, RequiredAbilitiesSource.STRUCTURED);
+      PageInfo<JobListVO> pageInfo = new PageInfo<>(jobListVOs);
+      return new PageResult<>(pageInfo.getTotal(), pageInfo.getList());
+     } finally {
+      PageHelper.clearPage();
+     }
     }
 
     @Override
-    public JobDetailVO findById(long id, Long userId) {
+    public JobContentDetailVO findById(long id, Long userId) {
      permissionService.requireJobSeeker(userId);
-     JobDetailVO job = findById(id, 0);
+     JobContentDetailVO job = findById(id, 0);
      if (!job.getStatus().equals(JobStatus.ACTIVE.getCode() )) {
        throw new BusinessException("没有查看权限");
      }
+     permissionService.requireApprovedJobCompany(job.getCompanyId());
      return job;
     }
 
-    private JobDetailVO findById(long id, int retryCount) {
+    private JobContentDetailVO findById(long id, int retryCount) {
 
      final int MAX_RETRY = 3;
 
@@ -362,7 +408,7 @@ public class JobServiceImpl implements JobService {
       if (CACHE_NULL.equals(cache)) {
        throw new BusinessException("岗位不存在");
       }
-      return (JobDetailVO) cache;
+      return (JobContentDetailVO) cache;
      }
 
      // Redis 没有缓存，尝试获取互斥锁
@@ -379,11 +425,11 @@ public class JobServiceImpl implements JobService {
         if (CACHE_NULL.equals(cacheAgain)) {
          throw new BusinessException("岗位不存在");
         }
-        return (JobDetailVO) cacheAgain;
+        return (JobContentDetailVO) cacheAgain;
        }
 
        // Redis 还是没有，查询数据库
-       Job job = jobMapper.findById(id);
+       JobContentDetailVO job = snapshotReader.read(id);
 
        if (job == null) {
         // 缓存空值，防止缓存穿透
@@ -396,8 +442,8 @@ public class JobServiceImpl implements JobService {
 
         throw new BusinessException("岗位不存在");
        }
-       // 将查询结果转换为 JobDetailVO
-       JobDetailVO jobDetailVO = new JobDetailVO(job);
+       // 将查询结果转换为 JobContentDetailVO
+       JobContentDetailVO jobDetailVO = job;
 
        // 查询成功，写入 Redis
        redisTemplate.opsForValue().set(
@@ -480,8 +526,8 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public JobDetailVO findByCompanyId(long id, Long userId) {
-     JobDetailVO job = findById(id, 0);
+    public JobContentDetailVO findByCompanyId(long id, Long userId) {
+     JobContentDetailVO job = findById(id, 0);
      Company company = permissionService.requireCompany(userId);
      if (!job.getCompanyId().equals(company.getId())) {
       throw new BusinessException("没有查看权限");

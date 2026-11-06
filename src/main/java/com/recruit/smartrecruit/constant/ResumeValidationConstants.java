@@ -16,6 +16,8 @@ public final class ResumeValidationConstants {
     public static final int DETAIL_DESCRIPTION_MAX_LENGTH = 2000;
     public static final int URL_MAX_LENGTH = 2048;
     public static final int SORT_ORDER_MIN = 0;
+    /** 仅识别单条能力的明确否定，复杂句留给后续特征确认，不做contains猜测。 */
+    public static final String NEGATED_ABILITY_NAME_PATTERN = "^(不会|不懂|不了解)\\s*[^，,；;。\\n]+$";
 
     private ResumeValidationConstants() {
     }

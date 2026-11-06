@@ -1,6 +1,8 @@
 package com.recruit.smartrecruit.entity;
 
 import com.recruit.smartrecruit.entity.enums.JobSalaryUnit;
+import com.recruit.smartrecruit.entity.enums.JobDirection;
+import com.recruit.smartrecruit.entity.enums.RequiredAbilitiesSource;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -62,5 +64,14 @@ public class Job {
     private Integer status;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
+
+    /** 明确岗位方向，与自由填写的category分别表达。 */
+    private JobDirection directionCode;
+
+    /** 服务端维护的能力要求唯一来源。 */
+    private RequiredAbilitiesSource requiredAbilitiesSource;
+
+    /** 能力要求版本，仅由服务端递增。 */
+    private Long requiredAbilitiesVersion;
 
 }

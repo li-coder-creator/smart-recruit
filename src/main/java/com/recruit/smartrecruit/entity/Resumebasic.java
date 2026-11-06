@@ -1,5 +1,7 @@
 package com.recruit.smartrecruit.entity;
 
+import com.recruit.smartrecruit.entity.enums.CareerStage;
+import com.recruit.smartrecruit.entity.enums.FormalExperienceStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -48,5 +50,11 @@ public class Resumebasic {
     private Boolean isFavorite;
     // 简历完成度 0-100
     private Integer completionRate;
+
+    /** 用户申报求职阶段；旧数据UNKNOWN，不从毕业日期推断。 */
+    private CareerStage careerStage;
+
+    /** 正式工作经历确认，空经历列表不能自动解释为NONE。 */
+    private FormalExperienceStatus formalExperienceStatus;
 
 }
